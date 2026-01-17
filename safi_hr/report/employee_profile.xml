@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <template id="employee_profile_pdf">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="web.external_layout">
+                        <div class="page" style="font-family: 'aakar';font-size:18px">
+                            <h5 class="text-center"><strong>PROFILE</strong></h5>
+                            <table width="100%">
+                                <tr>
+                                    <td>Name</td>
+                                    <td><span t-esc="doc.name"/></td>
+                                    <td rowspan="7">
+                                        <img t-if="doc.image_1920" t-att-src="image_data_uri(doc.image_1920)" class="float-left"
+                                             alt="Logo" style="border-radius: 10px; padding:1px;border: 2px solid black;max-height:150px"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Designation</td>
+                                    <td><span t-esc="doc.job_id.name"/></td>
+                                </tr>
+                                <tr>
+                                    <td>Department</td>
+                                    <td><span t-esc="doc.department_id.name"/></td>
+                                </tr>
+                                <tr>
+                                    <td>Email</td>
+                                    <td><span t-esc="doc.work_email"/></td>
+                                </tr>
+                                <tr>
+                                    <td>Mobile</td>
+                                    <td><span t-esc="doc.work_phone"/></td>
+                                </tr>
+                                <tr>
+                                    <td>Gender</td>
+                                    <td><span t-esc="doc.gender"/></td>
+                                </tr>
+                            </table><br/>
+                            <h5 class="text-center">QUALIFICATIONS</h5>
+                            <table width="100%">
+                                <tr>
+                                    <th style="border:1px solid black;padding:5px">Name of Degree</th>
+                                    <th style="border:1px solid black;padding:5px">Subject</th>
+                                    <th style="border:1px solid black;padding:5px">University</th>
+                                </tr>
+                                <tr t-foreach="doc.env['hr.qualification'].search([('employee_id', '=', doc.id)], order='date DESC')" t-as="qualification">
+                                    <td style="border:1px solid black;padding:5px"><span t-esc="qualification.level_id.name"/> </td>
+                                    <td style="border:1px solid black;padding:5px"><span t-esc="qualification.programme_id.name"/> </td>
+                                    <td style="border:1px solid black;padding:5px"><span t-esc="qualification.university_id.name"/> </td>
+                                </tr>
+                            </table><br/>
+                            <h5 class="text-center">PUBLICATIONS</h5>
+                            <table width="100%">
+                                <tr>
+                                    <th style="border:1px solid black;padding:5px">Publication Type</th>
+                                    <th style="border:1px solid black;padding:5px">Title of <br/>Paper/Presentations</th>
+                                    <th style="border:1px solid black;padding:5px">Journal/Conf. <br/>/Seminar Name</th>
+                                    <th style="border:1px solid black;padding:5px">Year of <br/>/Publication/ <br/>Presentation</th>
+                                    <th style="border:1px solid black;padding:5px">ISSN No.</th>
+                                    <th style="border:1px solid black;padding:5px">Authorship</th>
+                                </tr>
+                                <tr t-foreach="doc.env['employee.publications'].search([('employee_id', '=', doc.id)])" t-as="publication">
+                                    <td style="border:1px solid black;padding:5px"><span t-esc="publication.presentation_type_id.name"/></td>
+                                    <td style="border:1px solid black;padding:5px"><span t-esc="publication.presentation_name"/></td>
+                                    <td style="border:1px solid black;padding:5px"><span t-esc="publication.journal_name"/></td>
+                                    <td style="border:1px solid black;padding:5px"><span t-esc="publication.year"/></td>
+                                    <td style="border:1px solid black;padding:5px"><span t-esc="publication.issn_no"/></td>
+                                    <td style="border:1px solid black;padding:5px"><span t-esc="publication.authorship"/></td>
+                                </tr>
+                            </table><br/>
+                            <h5 class="text-center">INSERVICE/ORIENTATION</h5>
+                            <table width="100%">
+                                <tr>
+                                    <th style="border:1px solid black;padding:5px">Inservice Course/<br/>Orientation Program</th>
+                                    <th style="border:1px solid black;padding:5px">Description</th>
+                                    <th style="border:1px solid black;padding:5px">University</th>
+                                    <th style="border:1px solid black;padding:5px">Period</th>
+                                </tr>
+                                <tr t-foreach="doc.env['employee.inservice'].search([('employee_id', '=', doc.id)])" t-as="inservice">
+                                    <td style="border:1px solid black;padding:5px"><span t-esc="inservice.inservice_course_id.name"/></td>
+                                    <td style="border:1px solid black;padding:5px"><span t-esc="inservice.name"/></td>
+                                    <td style="border:1px solid black;padding:5px"><span t-esc="inservice.department_id.name"/></td>
+                                    <td style="border:1px solid black;padding:5px"><span t-if="inservice.date_from" t-esc="inservice.date_from.strftime('%d/%m/%Y')"/> - <span t-if="inservice.date_to" t-esc="inservice.date_to.strftime('%d/%m/%Y')"/></td>
+                                </tr>
+                            </table><br/>
+                            <h5 class="text-center">COMMITTEE</h5>
+                            <table width="100%">
+                                <tr>
+                                    <th style="border:1px solid black;padding:5px">Committee</th>
+                                    <th style="border:1px solid black;padding:5px">Position</th>
+                                    <th style="border:1px solid black;padding:5px">Period</th>
+                                </tr>
+                                <tr t-foreach="doc.env['employee.committee'].search([('employee_id', '=', doc.id)])" t-as="committee">
+                                    <td style="border:1px solid black;padding:5px"><span t-esc="committee.committee_id.name"/></td>
+                                    <td style="border:1px solid black;padding:5px"><span t-esc="committee.position_id.name"/></td>
+                                    <td style="border:1px solid black;padding:5px"><span t-if="committee.from_date" t-esc="committee.from_date.strftime('%d/%m/%Y')"/> - <span t-if="committee.to_date" t-esc="committee.to_date.strftime('%d/%m/%Y')"/></td>
+                                </tr>
+                            </table><br/>
+                            <h5 class="text-center">RESOURCE PERSON/ INVITED TALK</h5>
+                            <table width="100%">
+                                <tr>
+                                    <th style="border:1px solid black;padding:5px">Date</th>
+                                    <th style="border:1px solid black;padding:5px">Title</th>
+                                    <th style="border:1px solid black;padding:5px">Organiser &amp; Address</th>
+                                </tr>
+                                <tr t-foreach="doc.env['employee.resource.person'].search([('employee_id', '=', doc.id)])" t-as="resource">
+                                    <td style="border:1px solid black;padding:5px"><span t-if="resource.date" t-esc="resource.date.strftime('%d/%m/%Y')"/></td>
+                                    <td style="border:1px solid black;padding:5px"><span t-esc="resource.title"/></td>
+                                    <td style="border:1px solid black;padding:5px"><span t-esc="resource.organiser"/></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

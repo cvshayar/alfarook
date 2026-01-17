@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+<!--        <record id="safi_periodic_collection_summary_form" model="ir.ui.view">-->
+<!--            <field name="name">safi.periodic.collection.summary.form</field>-->
+<!--            <field name="model">periodic.collection.summary</field>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <form string="SAFI Periodic Collection Summary">-->
+<!--                    <group>-->
+<!--                        <field name="from_date"/>-->
+<!--                        <field name="to_date"/>-->
+<!--                        <field name="batch_id" options="{'no_create': True, 'no_open': True, 'no_edit': True}"/>-->
+<!--                        <field name="fees_item_id" options="{'no_create': True, 'no_open': True, 'no_edit': True}"/>-->
+<!--                    </group>-->
+<!--                    <footer>-->
+<!--                        <button name="print_excel_report" string="Export" type="object"-->
+<!--                                class="btn-primary"/>-->
+<!--                        <button string="Cancel" class="btn-default" special="cancel"/>-->
+<!--                    </footer>-->
+<!--                </form>-->
+<!--            </field>-->
+<!--        </record>-->
+<!--        <record id="safi_periodic_collection_summary_action" model="ir.actions.act_window">-->
+<!--            <field name="name">Periodic Collection Summary</field>-->
+<!--            <field name="res_model">periodic.collection.summary</field>-->
+<!--            <field name="view_mode">form</field>-->
+<!--            <field name="target">new</field>-->
+<!--        </record>-->
+
+<!--        <menuitem name="Periodic Collection Summary"-->
+<!--                  action="safi_periodic_collection_summary_action"-->
+<!--                  id="safi_periodic_collection_summary_action"-->
+<!--                  parent="fee_report_menu"-->
+<!--                  sequence="3"/>-->
+    </data>
+</odoo>

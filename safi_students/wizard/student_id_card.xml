@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="id_card_form_view" model="ir.ui.view">
+            <field name="name">student.idcard.wizard.form</field>
+            <field name="model">student.idcard.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Student ID Card">
+                    <group>
+                        <field name="year"/>
+                        <field name="batch_id" options="{'no_create': True, 'no_open': True, 'no_edit': True}"
+                               domain="[('start_year', '=', year)]"/>
+                        <field name="print"/>
+                    </group>
+                    <notebook>
+                        <page string="Students">
+                            <group>
+                                <field name="student_ids"
+                                       options="{'no_create': True, 'no_open': True, 'no_edit': True}"
+                                       domain="[('batch_id', '=', batch_id)]"/>
+                            </group>
+                        </page>
+                    </notebook>
+                    <footer>
+                        <button name="print_id_card" type="object" string="Preview"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="student_id_card_act_window" model="ir.actions.act_window">
+            <field name="name">ID Card Print</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">student.idcard.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem name="ID Card"
+                  id="student_id_card_menu_action"
+                  action="student_id_card_act_window"
+                  groups="group_student_idcard_user"
+                  web_icon="safi_students,static/src/img/id_card.png"
+                  sequence="10"
+        />
+    </data>
+</odoo>

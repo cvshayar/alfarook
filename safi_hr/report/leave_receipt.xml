@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report
+                id="leave_report"
+                model="hr.leave"
+                report_type="qweb-pdf"
+                string="Leave Report(Teaching)"
+                name="safi_hr.leave_report_template"
+                file="safi_hr.leave_report_template"
+                menu="False"
+                print_report_name="'%s'%(object.employee_id.name)"
+        />
+
+        <template id="leave_report_template">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.html_container">
+                    <t t-call="web.external_layout">
+                        <!-- <t t-call="report.external_layout"> -->
+                        <div class="page" style="font-size:13px">
+                            <!--                        <h2 class="text-center">FAROOK COLLEGE, (Autonomous)</h2>-->
+                            <!--                        <h4 class="text-center">Farook College P.O. (Calicut)</h4>-->
+                            <t t-if="o.employee_id.user_id.has_group('safi_hr.group_employee_management')">
+                                <h6 class="text-center">Application for
+                                    <span t-field="o.holiday_status_id.name"/>
+                                </h6>
+                                <div class="text-right">Date :
+                                    <span t-esc="o.create_date.date().strftime('%d/%m/%Y')"/>
+                                </div>
+                                <div class="row">
+                                    <div class="col-5">1. Applicant Name</div>
+                                    <div class="col-7">:
+                                        <span t-field="o.employee_id.name"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-5">2. Designation</div>
+                                    <div class="col-7">:
+                                        <span t-field="o.employee_id.job_id.name"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-5">3. Department</div>
+                                    <div class="col-7">:
+                                        <span t-field="o.employee_id.department_id.name"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-5">4. Dates for which leave is applied</div>
+                                    <t t-if="o.request_date_from != o.request_date_to">
+                                        <div class="col-7">:
+                                            <span t-esc="o.request_date_from.strftime('%d/%m/%Y')"/>
+                                            to
+                                            <span t-esc="o.request_date_to.strftime('%d/%m/%Y')"/>
+                                            (<span t-esc="o.number_of_days_display"/>)
+                                        </div>
+                                    </t>
+                                    <t t-if="o.request_date_from == o.request_date_to">
+                                        <div class="col-7">:
+                                            <span t-esc="o.request_date_from.strftime('%d/%m/%Y')"/>
+                                            <t t-if="o.number_of_days_display == 0.5">
+                                                (<span t-esc="dict(o._fields['request_date_from_period'].selection).get(o.request_date_from_period)"/>)
+                                            </t>
+                                        </div>
+                                    </t>
+                                </div>
+                                <div class="row">
+                                    <div class="col-5">5. Reason for leave</div>
+                                    <div class="col-7">:
+                                        <span t-field="o.leave_reasons_id.name"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <t t-set="date" t-value="time.strftime('%Y-%m-%d')"/>
+                                    <div class="col-5">6. Number of days already availed of</div>
+                                    <div class="col-7">:
+    <!--                                    <span t-esc="sum(o.env['hr.leave'].search([('holiday_status_id','=',o.holiday_status_id.id),('employee_id','=',o.employee_id.id),('state','=','validate'),('request_date_to','&lt;',o.request_date_from)]).mapped('number_of_days_display'))"/>-->
+                                        <span t-esc="sum(o.env['hr.leave'].search([('holiday_status_id','=',o.holiday_status_id.id),('employee_id','=',o.employee_id.id),('state', '!=', 'refuse'),('request_date_to','&lt;',o.request_date_from)]).mapped('number_of_days_display'))"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-5">7. Details of work(work that has been arranged is to be tick
+                                        marked)
+                                    </div>
+                                    <!--                            <div class="col-7">: </div>-->
+                                </div>
+                                <table style="border:1px solid black;width:100%">
+                                    <tr style="border-bottom:1px solid black">
+                                        <th rowspan="2" style="border-right:1px solid black;vertical-align:middle"
+                                            class="text-center">Day &amp; Date
+                                        </th>
+                                        <th rowspan="2" style="border-right:1px solid black;vertical-align:middle"
+                                            class="text-center">Work in the F.N Session
+                                        </th>
+                                        <th rowspan="2" style="border-right:1px solid black;vertical-align:middle"
+                                            class="text-center">Work in the A.N Session
+                                        </th>
+                                        <th colspan="2" style="vertical-align:middle" class="text-center">Class to be
+                                            cancelled
+                                        </th>
+                                    </tr>
+                                    <tr style="border-bottom:1px solid black">
+                                        <th style="border-right:1px solid black;vertical-align:middle" class="text-center">
+                                            In F.N Session
+                                        </th>
+                                        <th style="border-right:1px solid black;vertical-align:middle" class="text-center">
+                                            In A.N Session
+                                        </th>
+                                    </tr>
+                                    <tr height="100">
+                                        <td class="text-center" rowspan="5" style="border-right:1px solid black">
+                                            <t t-if="o.request_date_from != o.request_date_to">
+                                                <span t-esc="o.request_date_from.strftime('%d/%m/%Y')"/>
+                                                <p>(<span t-esc="o.request_date_from.strftime('%A')"/>)
+                                                </p>
+                                                <br/>
+                                                To
+                                                <br/>
+                                                <br/>
+                                                <span t-esc="o.request_date_to.strftime('%d/%m/%Y')"/>
+                                                <p>(<span t-esc="o.request_date_to.strftime('%A')"/>)
+                                                </p>
+                                            </t>
+                                            <t t-if="o.request_date_from == o.request_date_to">
+                                                <span t-esc="o.request_date_from.strftime('%d/%m/%Y')"/>
+                                                <p>(<span t-esc="o.request_date_from.strftime('%A')"/>)
+                                                </p>
+                                            </t>
+                                        </td>
+                                        <td rowspan="5" style="border-right:1px solid black;padding:5px">
+                                            <p t-foreach="o.leave_line" t-as="each">
+                                                <t t-if="each['hour'] in ['1', '2', '3'] and each['is_cancel'] == False">
+                                                    H <span t-esc="each['hour']"/> : <span t-esc="each['staff']"/>
+                                                </t>
+                                            </p>
+                                        </td>
+                                        <td rowspan="5" style="border-right:1px solid black;padding:5px">
+                                            <p t-foreach="o.leave_line" t-as="each">
+                                                <t t-if="each['hour'] in ['4', '5'] and each['is_cancel'] == False">
+                                                    H <span t-esc="each['hour']"/> : <span t-esc="each['staff']"/>
+                                                </t>
+                                            </p>
+                                        </td>
+                                        <td rowspan="5" style="border-right:1px solid black;padding:5px">
+                                            <p t-foreach="o.leave_line" t-as="each">
+                                                <t t-if="each['hour'] in ['1', '2', '3'] and each['is_cancel'] == True">
+                                                    H <span t-esc="each['hour']"/>
+                                                </t>
+                                            </p>
+                                        </td>
+                                        <td rowspan="5" style="padding:5px">
+                                            <p t-foreach="o.leave_line" t-as="each">
+                                                <t t-if="each['hour'] in ['4', '5'] and each['is_cancel'] == True">
+                                                    H <span t-esc="each['hour']"/>
+                                                </t>
+                                            </p>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <br/>
+                                <div class="row">
+                                    <!--                                <div class="col-5">8. Remarks and Signature of HOD  <t t-if="o.state == 'validate1' or o.state == 'validate'"><div style="background-image:url('/fc_hr/static/src/img/verified sign.png');height:110px;width:85px;vertical-align:middle">shayar</div></t></div>-->
+                                    <div class="col-4">8. Remarks and Signature of HOD</div>
+                                    <div class="col-8">
+                                        <div t-if="o.state == 'validate1' or o.state == 'validate'">
+                                            <img t-att-src="'/safi_hr/static/src/img/verified sign.png'"
+                                                style="width:55px;height:60px;position: absolute;top: 50%;left: 2.5%;transform: translate(-50%, -50%);"/>
+                                            <div style="position: absolute;top: 50%;left: 0%;transform: translate(-50%, -50%);">
+                                                <t t-if="o.approve_date">
+                                                    <span t-esc="o.approve_date.strftime('%d/%m/%Y')"/>
+                                                </t>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="height:50px"/>
+                                <div class="row">
+                                    <div class="col-3"/>
+                                    <div class="col-5">Granted
+                                        <br/>
+                                        Principal
+                                    </div>
+                                    <div class="col-4">Signature of the Applicant</div>
+                                </div>
+                            </t>
+                            <t t-if="o.employee_id.user_id.has_group('safi_hr.group_employee_government')">
+                                <h6 class="text-center">കാഷ്വൽ ലീവ് അപേക്ഷാ ഫോറം</h6>
+                                <div class="text-right">Date :
+                                    <span t-esc="o.create_date.date().strftime('%d/%m/%Y')"/>
+                                </div>
+                                <div class="row">
+                                    <div class="col-5">1. അപേക്ഷകന്റെ പേര്</div>
+                                    <div class="col-7">:
+                                        <span t-field="o.employee_id.name"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-5">2. തസ്തിക</div>
+                                    <div class="col-7">:
+                                        <span t-field="o.employee_id.job_id.name"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-5">3. വകുപ്പ്</div>
+                                    <div class="col-7">:
+                                        <span t-field="o.employee_id.department_id.name"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-5">4. ലീവിന് അപേക്ഷിക്കുന്ന ദിവസങ്ങൾ</div>
+                                    <t t-if="o.request_date_from != o.request_date_to">
+                                        <div class="col-7">:
+                                            <span t-field="o.request_date_from"/>
+                                            to
+                                            <span t-field="o.request_date_to"/>
+                                            (<span t-esc="o.number_of_days_display"/>)
+                                        </div>
+                                    </t>
+                                    <t t-if="o.request_date_from == o.request_date_to">
+                                        <div class="col-7">:
+                                            <span t-field="o.request_date_from"/>
+                                            <t t-if="o.number_of_days_display == 0.5">
+                                                (<span t-esc="dict(o._fields['request_date_from_period'].selection).get(o.request_date_from_period)"/>)
+                                            </t>
+                                        </div>
+                                    </t>
+                                </div>
+                                <div class="row">
+                                    <div class="col-5">5. ലീവിന് അപേക്ഷിക്കാനുള്ള കാരണം</div>
+                                    <div class="col-7">:
+                                        <span t-field="o.leave_reasons_id.name"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <t t-set="date" t-value="time.strftime('%Y-%m-%d')"/>
+                                    <div class="col-5">6. ഇതുവരെ എടുത്ത ലീവിന്റെ എണ്ണം</div>
+                                    <div class="col-7">:
+    <!--                                    <span t-esc="sum(o.env['hr.leave'].search([('holiday_status_id','=',o.holiday_status_id.id),('employee_id','=',o.employee_id.id),('state','=','validate'),('request_date_to','&lt;',o.request_date_from)]).mapped('number_of_days_display'))"/>-->
+                                        <span t-esc="sum(o.env['hr.leave'].search([('holiday_status_id','=',o.holiday_status_id.id),('employee_id','=',o.employee_id.id),('request_date_to','&lt;',o.request_date_from)]).mapped('number_of_days_display'))"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-5">7. മുൻകൂട്ടി ലീവിന് അപേക്ഷിച്ചിട്ടില്ലെങ്കിൽ അതിനു കാരണം</div>
+                                    <div class="col-7">:</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4">8. വകുപ്പതിപന്റെ ശുപാർശ</div>
+                                    <div class="col-8">
+                                        <div t-if="o.state == 'validate1' or o.state == 'validate'">
+                                            <img t-att-src="'/safi_hr/static/src/img/verified sign.png'"
+                                                style="width:55px;height:60px;position: absolute;top: 50%;left: 2.5%;transform: translate(-50%, -50%);"/>
+                                            <div style="position: absolute;top: 50%;left: 0%;transform: translate(-50%, -50%);">
+                                                <t t-if="o.approve_date">
+                                                    <span t-esc="o.approve_date.strftime('%d/%m/%Y')"/>
+                                                </t>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="height:50px"/>
+                                <div class="row">
+                                    <div class="col-3"/>
+                                    <div class="col-5">Granted
+                                        <br/>
+                                        Principal
+                                    </div>
+                                    <div class="col-4">Signature of the Applicant</div>
+                                </div>
+                            </t>
+                            <!--
+                            Build your report here!
+                            Do it in awesome way ;)
+                            -->
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>ID Card</title>
+    </head>
+    <html>
+
+        <!--<head>-->
+        <!--    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>-->
+        <!--    <title>ID Card Printing</title>-->
+        <!--</head>-->
+        <body align="center">
+            <div style="height:15px"/>
+            {% for student in students %}
+            {% if page in ['front', 'both'] %}
+            <table style="font-family: FreeSerif" width="200" align="center" border="0" cellpadding="0"
+                   cellspacing="5">
+                <tr>
+                    <td width="100%" align="center">
+                        <table width="100%" height="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                                <td colspan="2" height="50%" align="center">
+                                    <br/>
+                                    <font size="+3" style="font-weight: bold;">
+                                        <strong>FAROOK COLLEGE</strong>
+                                    </font>
+                                    <br/>
+                                    <font size="+2" style="font-weight: bold;">[AUTONOMOUS]</font>
+                                </td>
+                            </tr>
+                            <tr style="height:2px"/>
+                            <tr>
+                                <td height="50%" align="center">
+                                    <img src="/safi_students/static/src/img/fclogo.jpg" width="100" height="100"/>
+                                </td>
+                                <td height="50%" align="left">
+                                    <font size="+1" style="font-weight: bold;">PO. Farook College ,
+                                        <br/>
+                                        Kozhikode -673 632
+                                        <br/>
+                                        PH: 0495-2440660,61
+                                        <br/>
+                                        www.farookcollege.ac.in
+                                        <br/>
+                                        mail@farookcollege.ac.in
+                                    </font>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr style="height:2px"/>
+                <tr>
+                    <td align="center">
+                        <img src="/safi_students/static/src/img/idbar.jpg"/>
+                    </td>
+                </tr>
+                <!--    <tr style="height:5px"/>-->
+                <tr>
+                    <td height="165" align="center">
+                        <img src="/report/barcode/?type=Code128&amp;value={{ student['student']['admission_number'] }}&amp;width=600&amp;height=100"
+                             style="width:300px;height:50px" class="text-center"/>
+                        <br/>
+                        <font style="font-family:Tahoma, Geneva, sans-serif" size="+2">
+                            <strong class="text-center">
+                                {{ student['student']['admission_number'] }}
+                            </strong>
+                            <br/>
+                            {% if student['image'] != '' %}
+                            <img src="data:image/png;base64,{{ student['image'] }}" height="190"
+                                 width="147">
+                            {% else %}
+                            <img src="/safi_students/static/src/img/icon_faculty.png" height="190" width="147"/>
+                            {% endif %}
+                            <br/>
+                        </font>
+
+                        <font style="font-family:Tahoma, Geneva, sans-serif" size="+1">
+                            <strong>
+                                {{ student['student']['name'] }}
+                            </strong>
+                        </font>
+
+                        <font style="font-family:Tahoma, Geneva, sans-serif" size="+1">
+                            <strong>
+                                <br/>
+                                {{ student['student']['programme_id']['name'] }}
+                                <br/>
+                                {{student['student']['batch_id']['start_year']}}
+                                -
+                                {{ student['student']['batch_id']['start_year'] | int +
+                                (student['student']['programme_id']['duration'] | int/2) | int}}
+                            </strong>
+                        </font>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center">
+                        <img src="/safi_students/static/src/img/idbar.jpg"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td height="49" align="center">
+                        <table width="98%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                                <td>&#160;</td>
+                                <td align="right" valign="middle">
+                                    <p>
+                                        <img src="/safi_students/static/src/img/sign.jpg" height="40" width="85"/>
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <font size="+1">Student</font>
+                                </td>
+                                <td align="right">
+                                    <font size="+1">Principal</font>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+            <div style="page-break-before: always;"></div>
+            {% endif %}
+
+            {% if page in ['back', 'both'] %}
+            <table width="200" align="center" border="0" cellpadding="5" cellspacing="5">
+                <tr>
+                    <td width="100%" align="left" valign="top">
+                        {{ student['student']['admission_number'] }}
+                        <br/>
+                        <br/>
+                        <strong>Address (Permanent)</strong>
+                        <table width="100%" border="0" cellspacing="3" cellpadding="0">
+                            <tr>
+                                <td width="32%">
+                                    <strong>Name</strong>
+                                </td>
+                                <td width="68%">
+                                    {{ student['student']['name'] }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="vertical-align: top;">
+                                    <strong>Address</strong>
+                                </td>
+                                <td>
+                                    {{ student['student']['address'] }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Post</strong>
+                                </td>
+                                <td>
+                                    {% if student['student']['post'] %}
+                                    {{ student['student']['post'] }}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>City</strong>
+                                </td>
+                                <td>
+                                    {% if student['student']['city'] %}
+                                    {{ student['student']['city'] }}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>District</strong>
+                                </td>
+                                <td>
+                                    {% if student['student']['district_id']['name'] %}
+                                    {{ student['student']['district_id']['name'] }}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>PIN</strong>
+                                </td>
+                                <td>
+                                    {% if student['student']['pin'] %}
+                                    {{ student['student']['pin'] }}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center">
+                        <img src="/safi_students/static/src/img/idbar.jpg"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td height="195" align="left" valign="top">
+                        <p>
+                            <strong>Temporary (Hostel/Local)</strong>
+                        </p>
+                        <p>&#160;</p>
+                        <p>&#160;</p>
+                        <p>&#160;</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center">
+                        <img src="/safi_students/static/src/img/idbar.jpg"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td height="49" align="left" valign="bottom">
+                        <table width="100%" border="0" cellspacing="3" cellpadding="0">
+                            <tr>
+                                <td width="23%">
+                                    <strong>Blood</strong>
+                                </td>
+                                <td width="77%">
+                                    {% if student['student']['bloodgroup'] %}
+                                    {{ student['student']['bloodgroup'] }}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Mob</strong>
+                                </td>
+                                <td>
+                                    {% if student['student']['mobile'] %}
+                                    {{ student['student']['mobile'] }}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Resi</strong>
+                                </td>
+                                <td>
+                                    {% if student['student']['phone'] %}
+                                    {{ student['student']['phone'] }}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Email</strong>
+                                </td>
+                                <td>
+                                    {% if student['student']['email'] %}
+                                    {{ student['student']['email'] }}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        </table>
+                        <br/>
+                    </td>
+                </tr>
+            </table>
+            {% endif %}
+            <div style="page-break-before: always;"></div>
+            {% endfor %}
+            <h6></h6>
+        </body>
+    </html>
+</html>

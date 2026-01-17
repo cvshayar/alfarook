@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report
+                id="duty_leave_report_id"
+                model="hr.leave"
+                string="Duty Leave Letter"
+                name="safi_hr.duty_leave_report"
+                file="safi_hr.duty_leave_report"
+                menu="False"
+                print_report_name="'%s'%(object.employee_id.name)"
+                report_type="qweb-pdf"/>
+
+        <template id="duty_leave_report">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <p class="text-right">Date: <span t-esc="o.create_date.strftime('%d/%m/%Y')"/></p>
+                            <h6>To <br/><br/>The Principal <br/> <span t-esc="o.env.user.company_id.name"/></h6><br/>
+                            <h6>Sir, <br/><br/> Sub: Application for Duty Leave - regarding. <br/><br/></h6>
+                            <p>I have been invited as <span t-esc="o.leave_role_id.name"/> for <span t-esc="o.duty_type_id.name"/> at <span t-esc="o.venue"/>, <span t-esc="o.address"/>
+                                <t t-if="o.request_date_from == o.request_date_to">on <span t-esc="o.request_date_from.strftime('%d/%m/%Y')"/></t>
+                            <t t-if="o.request_date_from != o.request_date_to"> during <span t-esc="o.request_date_from.strftime('%d/%m/%Y')"/> to <span t-esc="o.request_date_to.strftime('%d/%m/%Y')"/></t>. Kindly grant me permission and duty leave for attending the same. </p>
+                            <h6>Yours faithfully,</h6><br/><br/><br/>
+                            <h6><span t-esc="o.employee_id.name"/><br/><span t-esc="o.employee_id.job_id.name"/><br/><span t-esc="o.employee_id.department_id.name"/> </h6>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <template id="duty_rejoin_pdf">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <p class="text-right">Date: <span t-esc="o.create_date.strftime('%d/%m/%Y')"/></p>
+                            <h6>To <br/><br/>The Principal <br/> Farook College</h6><br/>
+                            <h6>Sir, <br/><br/> Sub: Rejoining Letter. <br/><br/></h6>
+                            <p>I, hereby, report for regular duty with effect from FN of  <span t-esc="o.date.strftime('%d/%m/%Y')"/> after availing <span t-esc="o.leave_id.holiday_status_id.name[:-4]"/>
+                                <t t-if="o.leave_id.request_date_from == o.leave_id.request_date_to">on <span t-esc="o.leave_id.request_date_from.strftime('%d/%m/%Y')"/></t>
+                            <t t-if="o.leave_id.request_date_from != o.leave_id.request_date_to"> between <span t-esc="o.leave_id.request_date_from.strftime('%d/%m/%Y')"/> and <span t-esc="o.leave_id.request_date_to.strftime('%d/%m/%Y')"/></t>
+                             for <span t-esc="o.leave_id.duty_type_id.name"/>.
+                            Kindly permit me to join on duty as mentioned and issue necessary orders to this effect. Please find attached duty certificate(s) issued by competent authorities. </p>
+                            <h6>Yours faithfully,</h6><br/><br/><br/>
+                            <h6><span t-esc="o.employee_id.name"/><br/><span t-esc="o.employee_id.job_id.name"/><br/><span t-esc="o.employee_id.department_id.name"/> </h6>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

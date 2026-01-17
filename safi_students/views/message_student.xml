@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="email_student_form_view" model="ir.ui.view">
+            <field name="name">email.student.form</field>
+            <field name="model">email.student</field>
+            <field name="arch" type="xml">
+                <form string="Email Student">
+                    <header>
+                        <button name="send_email" class="btn-primary" type="object" string="Send Email" states="draft"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button class="oe_stat_button" name="student_view" type="object" icon="fa-list-ol"
+                                    string="Students"/>
+                        </div>
+                        <group>
+                            <field name="subject" attrs="{'readonly': [('state', '=', 'sent')]}"/>
+                            <field name="message" attrs="{'readonly': [('state', '=', 'sent')]}"/>
+                            <field name="attachment" widget="many2many_binary" attrs="{'readonly': [('state', '=', 'sent')]}"/>
+                            <field name="batch_year" attrs="{'readonly': [('state', '=', 'sent')]}"/>
+                            <field name="level" attrs="{'readonly': [('state', '=', 'sent')]}"/>
+                            <field name="batch_ids" options="{'no_create': True, 'no_open': True, 'no_edit': True}" attrs="{'readonly': [('state', '=', 'sent')]}"/>
+                            <field name="student_ids" options="{'no_create': True, 'no_open': True, 'no_edit': True}" domain="[('batch_id', 'in', batch_ids)]" attrs="{'readonly': [('state', '=', 'sent')]}"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="email_student_view_tree" model="ir.ui.view">
+            <field name="name">email.student.tree</field>
+            <field name="model">email.student</field>
+            <field name="arch" type="xml">
+                <tree string="email_student_tree">
+                    <field name="batch_year"/>
+                    <field name="level"/>
+                    <field name="subject"/>
+                    <field name="message"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="email_student_act_window" model="ir.actions.act_window">
+            <field name="name">Email Student</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">email.student</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click on create button
+                </p>
+            </field>
+        </record>
+
+        <record id="email_student_line_view_form" model="ir.ui.view">
+            <field name="name">email.student.line.view.form</field>
+            <field name="model">email.student.line</field>
+            <field name="arch" type="xml">
+                <form string="Employees">
+                    <sheet>
+                        <group>
+                            <field name="student_id"/>
+                            <field name="log_id"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="email_student_line_tree" model="ir.ui.view">
+            <field name="name">email.student.line.tree</field>
+            <field name="model">email.student.line</field>
+            <field name="arch" type="xml">
+                <tree string="Employees">
+                    <field name="student_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <menuitem name="Student Communication"
+                  id="message_student_menu_root"
+                  groups="base.group_system,safi_students.group_student_manager"
+                  web_icon="safi_students,static/src/img/sms_odoo.png"/>
+
+        <menuitem name="Send Email"
+                  id="email_student_action_menu"
+                  action="email_student_act_window"
+                  parent="message_student_menu_root"
+                  groups="base.group_system,safi_students.group_student_manager"
+                  sequence="5"
+                  />
+    
+    </data>
+</odoo>

@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <!--    Student group    -->
+        <record model="ir.module.category" id="module_student_groups">
+            <field name="name">Student</field>
+            <field name="description">Student</field>
+            <field name="sequence">110</field>
+        </record>
+
+        <record model="res.groups" id="group_student_user">
+            <field name="name">User</field>
+            <field name="category_id" ref="module_student_groups"/>
+        </record>
+        <record model="res.groups" id="group_student_manager">
+            <field name="name">Manager</field>
+            <field name="category_id" ref="module_student_groups"/>
+        </record>
+        <record model="res.groups" id="group_student_hod_user">
+            <field name="name">HOD</field>
+            <field name="category_id" ref="module_student_groups"/>
+        </record>
+        <record model="res.groups" id="group_student_adviser_user">
+            <field name="name">Adviser</field>
+            <field name="category_id" ref="module_student_groups"/>
+        </record>
+        <record model="res.groups" id="group_student_library_user">
+            <field name="name">Library</field>
+            <field name="category_id" ref="module_student_groups"/>
+        </record>
+        <record model="res.groups" id="group_student_idcard_user">
+            <field name="name">ID Card</field>
+            <field name="category_id" ref="module_student_groups"/>
+        </record>
+
+        <!--    Student Transfer Group    -->
+
+        <record model="ir.module.category" id="module_transfer_groups">
+            <field name="name">Transfer</field>
+            <field name="description">Transfer</field>
+            <field name="sequence">113</field>
+        </record>
+
+        <record model="res.groups" id="group_transfer_user">
+            <field name="name">User</field>
+            <field name="category_id" ref="module_transfer_groups"/>
+        </record>
+
+        <record model="res.groups" id="group_transfer_manager">
+            <field name="name">Manager</field>
+            <field name="category_id" ref="module_transfer_groups"/>
+        </record>
+
+                       <!--   Refund groups   -->
+
+        <record model="ir.module.category" id="module_refund_groups">
+            <field name="name">Refund Fee</field>
+            <field name="description">Refund Fee</field>
+            <field name="sequence">115</field>
+        </record>
+
+        <record model="res.groups" id="group_refund_user">
+            <field name="name">User</field>
+            <field name="category_id" ref="module_refund_groups"/>
+        </record>
+        <record model="res.groups" id="group_refund_manager">
+            <field name="name">Manager</field>
+            <field name="category_id" ref="module_refund_groups"/>
+        </record>
+
+                        <!--   Fee Collection groups   -->
+
+        <record model="ir.module.category" id="module_fee_groups">
+            <field name="name">Fee Collection</field>
+            <field name="description">Fee Collection</field>
+            <field name="sequence">116</field>
+        </record>
+
+        <record model="res.groups" id="group_fee_user">
+            <field name="name">User</field>
+            <field name="category_id" ref="module_fee_groups"/>
+        </record>
+        <record model="res.groups" id="group_fee_manager">
+            <field name="name">Manager</field>
+            <field name="category_id" ref="module_fee_groups"/>
+        </record>
+
+                        <!--   Self Finance/Aided group   -->
+
+        <record model="ir.module.category" id="module_aided_self_groups">
+            <field name="name">Aided / Self Finance</field>
+            <field name="description">Aided / Self Finance</field>
+            <field name="sequence">118</field>
+        </record>
+
+        <record model="res.groups" id="group_aided_user">
+            <field name="name">Aided</field>
+            <field name="category_id" ref="module_aided_self_groups"/>
+        </record>
+        <record model="res.groups" id="group_self_user">
+            <field name="name">Self Finance</field>
+            <field name="category_id" ref="module_aided_self_groups"/>
+        </record>
+
+                        <!--    TC groups    -->
+
+        <record model="ir.module.category" id="module_tc_groups">
+            <field name="name">Transfer certificate</field>
+            <field name="description">Transfer certificate</field>
+            <field name="sequence">114</field>
+        </record>
+
+        <record model="res.groups" id="group_tc_user">
+            <field name="name">User</field>
+            <field name="category_id" ref="module_tc_groups"/>
+        </record>
+        <record model="res.groups" id="group_tc_manager">
+            <field name="name">Manager</field>
+            <field name="category_id" ref="module_tc_groups"/>
+        </record>
+
+
+                            <!--   TC Clearance groups   -->
+
+        <record model="ir.module.category" id="module_tc_clearance_groups">
+            <field name="name">TC Clearance</field>
+            <field name="description">TC Clearance</field>
+            <field name="sequence">119</field>
+        </record>
+
+        <record model="res.groups" id="group_tc_clearance_user">
+            <field name="name">User</field>
+            <field name="category_id" ref="module_tc_clearance_groups"/>
+        </record>
+
+                        <!--    Scholarship group    -->
+
+        <record model="ir.module.category" id="module_scholarship_groups">
+            <field name="name">Scholarship</field>
+            <field name="description">Scholarship</field>
+            <field name="sequence">111</field>
+        </record>
+
+        <record model="res.groups" id="group_scholarship_user">
+            <field name="name">User</field>
+            <field name="category_id" ref="module_scholarship_groups"/>
+        </record>
+        <record model="res.groups" id="group_scholarship_manager">
+            <field name="name">Manager</field>
+            <field name="category_id" ref="module_scholarship_groups"/>
+        </record>
+
+                        <!--    Discipline group    -->
+
+        <record model="ir.module.category" id="module_discipline_groups">
+            <field name="name">Discipline</field>
+            <field name="description">Discipline</field>
+            <field name="sequence">112</field>
+        </record>
+
+        <record model="res.groups" id="group_discipline_user">
+            <field name="name">User</field>
+            <field name="category_id" ref="module_discipline_groups"/>
+        </record>
+        <record model="res.groups" id="group_discipline_manager">
+            <field name="name">Manager</field>
+            <field name="category_id" ref="module_discipline_groups"/>
+        </record>
+
+                        <!-- ID Card Group -->
+
+        <record model="ir.module.category" id="module_idcard_groups">
+            <field name="name">ID Card</field>
+            <field name="description">ID Card</field>
+            <field name="sequence">111</field>
+        </record>
+
+        <record model="res.groups" id="group_student_id_card">
+            <field name="name">Student</field>
+            <field name="category_id" ref="module_idcard_groups"/>
+        </record>
+
+        <record model="res.groups" id="group_employee_id_card">
+            <field name="name">Employee</field>
+            <field name="category_id" ref="module_idcard_groups"/>
+        </record>
+
+
+    </data>
+</odoo>

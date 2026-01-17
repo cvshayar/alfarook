@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="batch_fee_load_form_view" model="ir.ui.view">
+            <field name="name">batch.fee.load.form</field>
+            <field name="model">batch.fee.load</field>
+            <field name="arch" type="xml">
+                <form string="Batch Promote">
+                    <group>
+                        <field name="academic_year"/>
+                        <field name="batch_year"/>
+                        <field name="batch_ids" options="{'no_create': True, 'no_open': True, 'no_edit': True}" domain="[('start_year', '=', batch_year)]"/>
+                        <field name="semester_id" options="{'no_create': True, 'no_open': True, 'no_edit': True}"/>
+                        <field name="fee_category_ids" options="{'no_create': True, 'no_open': True, 'no_edit': True}"/>
+                    </group>
+                    <footer>
+                        <button name="loading_batch_fee" class="btn-primary" type="object" string="Generate"/>
+                        <button string="Cancel" class="btn-primary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="batch_fee_load_act_window" model="ir.actions.act_window">
+            <field name="name">Batch Fee Load</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">batch.fee.load</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="batch_fee_load_menu"
+                  name="Fee Loading"
+                  parent="fees_root"
+                  action="batch_fee_load_act_window"
+                  sequence="11"
+                  groups="base.group_system,safi_students.group_fee_manager"/>
+    
+    </data>
+</odoo>

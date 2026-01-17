@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="retired_list_wizard_form" model="ir.ui.view">
+            <field name="name">retired.list.report.form</field>
+            <field name="model">retired.list.report</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <group>
+                        <field name="year"/>
+                    </group>
+                    <footer>
+                        <button name="generate_report" string="Print" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="retired_list_wizard_action" model="ir.actions.act_window">
+            <field name="name">Retirement List</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">retired.list.report</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem
+                id="retired_list_menu"
+                name="Retirement List"
+                parent="safi_hr.employee_report_menu"
+                sequence="1"
+                action="retired_list_wizard_action"
+        />
+    </data>
+</odoo>

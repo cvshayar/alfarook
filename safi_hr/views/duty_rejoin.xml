@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="duty_rejoin_form_view" model="ir.ui.view">
+            <field name="name">duty.rejoin.form</field>
+            <field name="model">duty.rejoin</field>
+            <field name="arch" type="xml">
+                <form string="Duty Rejoin">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="employee_id" options="{'no_create': True, 'no_edit': True, 'no_open': True}" attrs="{'readonly': [('read_bool', '=', True)]}"/>
+                                <field name="date" attrs="{'readonly': [('read_bool', '=', True)]}"/>
+                                <field name="read_bool" invisible="1"/>
+                            </group>
+                            <group>
+                                <field name="leave_id" options="{'no_create': True, 'no_edit': True}" attrs="{'readonly': [('read_bool', '=', True)]}" required="1"/>
+                                <field name="duty_certificate_ids" widget="many2many_binary" attrs="{'readonly': [('read_bool', '=', True)]}"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="duty_rejoin_tree_view" model="ir.ui.view">
+            <field name="name">duty.rejoin.tree</field>
+            <field name="model">duty.rejoin</field>
+            <field name="arch" type="xml">
+                <tree string="Duty Rejoin">
+                    <field name="employee_id"/>
+                    <field name="date"/>
+                </tree>
+            </field>
+        </record>
+
+<!--        <record id="duty_rejoin_search_view" model="ir.ui.view">-->
+<!--            <field name="name">ProjectName.duty_rejoin.search</field>-->
+<!--            <field name="model">ProjectName.duty_rejoin</field>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <search string="ModelTitle">-->
+<!--                    <group expand="1" string="Group By">-->
+<!--                        <filter string="Example Field" name="example_field" domain="[]"-->
+<!--                                context="{'group_by':'example_field'}"/>-->
+<!--                    </group>-->
+<!--                </search>-->
+<!--            </field>-->
+<!--        </record>-->
+
+        <record id="duty_rejoin_act_window" model="ir.actions.act_window">
+            <field name="name">Duty Rejoin</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">duty.rejoin</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+
+                </p>
+            </field>
+        </record>
+
+        <menuitem name="Duty Rejoin" id="duty_rejoin_menu" parent="hr_holidays.menu_hr_holidays_root" action="duty_rejoin_act_window"/>
+
+    </data>
+</odoo>

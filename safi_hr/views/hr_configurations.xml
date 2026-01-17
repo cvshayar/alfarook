@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!--    Qualification Level    -->
+
+        <record id="qualification_level_form_view" model="ir.ui.view">
+            <field name="name">qualification.level.form</field>
+            <field name="model">qualification.level</field>
+            <field name="arch" type="xml">
+                <form string="Qualification Level">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="qualification_level_tree_view" model="ir.ui.view">
+            <field name="name">qualification.level.tree</field>
+            <field name="model">qualification.level</field>
+            <field name="arch" type="xml">
+                <tree string="Qualification Level">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="qualification_level_act_window" model="ir.actions.act_window">
+            <field name="name">Qualification Level</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">qualification.level</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click here to add new Qualification Level.
+                </p>
+            </field>
+        </record>
+
+        <!--    University    -->
+
+        <record id="university_university_form_view" model="ir.ui.view">
+            <field name="name">university.university.form</field>
+            <field name="model">university.university</field>
+            <field name="arch" type="xml">
+                <form string="University">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="university_university_tree_view" model="ir.ui.view">
+            <field name="name">university.university.tree</field>
+            <field name="model">university.university</field>
+            <field name="arch" type="xml">
+                <tree string="Qualification Level">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="university_university_act_window" model="ir.actions.act_window">
+            <field name="name">University</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">university.university</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click here to add new University.
+                </p>
+            </field>
+        </record>
+
+        <!--    University Programme    -->
+
+        <record id="employee_programme_form_view" model="ir.ui.view">
+            <field name="name">employee.programme.form</field>
+            <field name="model">employee.programme</field>
+            <field name="arch" type="xml">
+                <form string="Programme">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="employee_programme_tree_view" model="ir.ui.view">
+            <field name="name">employee.programme.tree</field>
+            <field name="model">employee.programme</field>
+            <field name="arch" type="xml">
+                <tree string="Programme">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="employee_programme_act_window" model="ir.actions.act_window">
+            <field name="name">Programme</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">employee.programme</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click here to add new Programme.
+                </p>
+            </field>
+        </record>
+
+        <!--    Inservice Course    -->
+
+        <record id="inservice_course_form_view" model="ir.ui.view">
+            <field name="name">inservice.course.form</field>
+            <field name="model">inservice.course</field>
+            <field name="arch" type="xml">
+                <form string="Inservice course">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="inservice_course_tree_view" model="ir.ui.view">
+            <field name="name">inservice.course.tree</field>
+            <field name="model">inservice.course</field>
+            <field name="arch" type="xml">
+                <tree string="Programme">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="inservice_course_act_window" model="ir.actions.act_window">
+            <field name="name">Inservice Course</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">inservice.course</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click here to add new Programme.
+                </p>
+            </field>
+        </record>
+
+        <!--    Presentation Type    -->
+
+        <record id="presentation_type_form_view" model="ir.ui.view">
+            <field name="name">presentation.type.form</field>
+            <field name="model">presentation.type</field>
+            <field name="arch" type="xml">
+                <form string="Presentation Type">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="presentation_type_tree_view" model="ir.ui.view">
+            <field name="name">presentation.type.tree</field>
+            <field name="model">presentation.type</field>
+            <field name="arch" type="xml">
+                <tree string="Presentation Type">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="presentation_type_act_window" model="ir.actions.act_window">
+            <field name="name">Presentation Type</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">presentation.type</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click here to add new Programme.
+                </p>
+            </field>
+        </record>
+
+        <!--    Committee    -->
+
+        <record id="committee_committee_form_view" model="ir.ui.view">
+            <field name="name">committee.committee.form</field>
+            <field name="model">committee.committee</field>
+            <field name="arch" type="xml">
+                <form string="Committee">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="committee_committee_tree_view" model="ir.ui.view">
+            <field name="name">committee.committee.tree</field>
+            <field name="model">committee.committee</field>
+            <field name="arch" type="xml">
+                <tree string="Presentation Type">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="committee_committee_act_window" model="ir.actions.act_window">
+            <field name="name">Committee</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">committee.committee</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click here to add new Committee.
+                </p>
+            </field>
+        </record>
+
+        <!--    Committee Position   -->
+
+        <record id="committee_position_form_view" model="ir.ui.view">
+            <field name="name">committee.position.form</field>
+            <field name="model">committee.position</field>
+            <field name="arch" type="xml">
+                <form string="Committee Position">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="committee_position_tree_view" model="ir.ui.view">
+            <field name="name">committee.position.tree</field>
+            <field name="model">committee.position</field>
+            <field name="arch" type="xml">
+                <tree string="Committee Position">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="committee_position_act_window" model="ir.actions.act_window">
+            <field name="name">Committee Position</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">committee.position</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click here to add new Committee Position.
+                </p>
+            </field>
+        </record>
+
+        <menuitem
+                name="Qualification Level"
+                id="qualification_level_menu"
+                parent="hr.menu_human_resources_configuration"
+                action="qualification_level_act_window"
+                groups="safi_hr.group_hr_super_manager"
+        />
+
+        <menuitem
+                name="University"
+                id="university_university_menu"
+                parent="hr.menu_human_resources_configuration"
+                action="university_university_act_window"
+                groups="safi_hr.group_hr_super_manager"
+        />
+
+        <menuitem
+                name="Programme"
+                id="employee_programme_menu"
+                parent="hr.menu_human_resources_configuration"
+                action="employee_programme_act_window"
+                groups="safi_hr.group_hr_super_manager"
+        />
+
+        <menuitem
+                name="Inservice Course"
+                id="inservice_course_menu"
+                parent="hr.menu_human_resources_configuration"
+                action="inservice_course_act_window"
+                groups="safi_hr.group_hr_super_manager"
+        />
+
+        <menuitem
+                name="Presentation/Publication Type"
+                id="presentation_type_menu"
+                parent="hr.menu_human_resources_configuration"
+                action="presentation_type_act_window"
+                groups="safi_hr.group_hr_super_manager"
+        />
+
+        <menuitem
+                name="Committee"
+                id="committee_committee_menu"
+                parent="hr.menu_human_resources_configuration"
+                action="committee_committee_act_window"
+                groups="safi_hr.group_hr_super_manager"
+        />
+
+        <menuitem
+                name="Committee Position"
+                id="committee_position_menu"
+                parent="hr.menu_human_resources_configuration"
+                action="committee_position_act_window"
+                groups="safi_hr.group_hr_super_manager"
+        />
+
+    </data>
+</odoo>

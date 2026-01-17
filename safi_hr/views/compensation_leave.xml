@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="compensation_leave_view_form" model="ir.ui.view">
+            <field name="name">compensation.leave.form</field>
+            <field name="model">compensation.leave</field>
+            <field name="arch" type="xml">
+                <form string="Compensation Leave">
+                    <header>
+                        <button name="confirm_compensation_leave" string="Confirm" class="oe_highlight" states="draft" type="object"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="name" force_save="1" readonly="1"/>
+                            <field name="employee_id" options="{'no_create': True, 'no_open': True, 'no_edit': True}" required="1" attrs="{'readonly': [('state', '=', 'confirm')]}"/>
+                            <field name="from_date" required="1" attrs="{'readonly': [('state', '=', 'confirm')]}"/>
+                            <field name="to_date" required="1" attrs="{'readonly': [('state', '=', 'confirm')]}"/>
+                            <field name="number_of_days" force_save="1" readonly="1"/>
+                            <field name="remarks" attrs="{'readonly': [('state', '=', 'confirm')]}"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="compensation_leave_view_tree" model="ir.ui.view">
+            <field name="name">compensation.leave.tree</field>
+            <field name="model">compensation.leave</field>
+            <field name="arch" type="xml">
+                <tree string="Compensation Leave">
+                    <field name="name"/>
+                    <field name="employee_id" options="{'no_create': True, 'no_open': True, 'no_edit': True}"/>
+                    <field name="from_date"/>
+                    <field name="to_date"/>
+                    <field name="state"/>
+                    <button name="confirm_compensation_leave" string="Confirm" class="oe_highlight" states="draft" type="object"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="compensation_leave_action" model="ir.actions.act_window">
+            <field name="name">Compensation Leave</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">compensation.leave</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="compensation_leave_menu" name="Compensation Leave" parent="hr_holidays.menu_hr_holidays_root" action="compensation_leave_action" sequence="10"/>
+    </data>
+</odoo>

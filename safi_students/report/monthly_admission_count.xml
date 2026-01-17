@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="monthly_admission_count_pdf">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <t t-foreach="docs" t-as="o">
+                        <div class="page">
+                            <table class="table-striped table-bordered oe_import_grid table table-condensed">
+                                <tr>
+                                    <t t-if="o.from_date and not o.to_date">
+                                        <td colspan="4" class="text-center" style="font-size:20px">Admission Statistics
+                                        From
+                                            <span t-esc="o.from_date.strftime('%d/%m/%Y')"/>
+                                        </td>
+                                    </t>
+                                    <t t-if="o.to_date and not o.from_date">
+                                        <td colspan="4" class="text-center" style="font-size:20px">Admission Statistics
+                                        Upto
+                                            <span t-esc="o.to_date.strftime('%d/%m/%Y')"/>
+                                        </td>
+                                    </t>
+                                    <t t-if="o.from_date and o.to_date">
+                                        <td colspan="4" class="text-center" style="font-size:20px">Admission Statistics
+                                            during
+                                            <span t-esc="o.from_date.strftime('%d/%m/%Y')"/>
+                                            to
+                                            <span t-esc="o.to_date.strftime('%d/%m/%Y')"/>
+                                        </td>
+                                    </t>
+                                </tr>
+                                <tr>
+                                    <th>Month</th>
+                                    <th class="text-center">UG</th>
+                                    <th class="text-center">PG</th>
+                                    <th class="text-center">Integrated</th>
+                                    <th class="text-center">Total</th>
+                                </tr>
+                                <t t-set="tot_ug" t-value="0"/>
+                                <t t-set="tot_pg" t-value="0"/>
+                                <t t-set="tot_integrated" t-value="0"/>
+                                <t t-set="tot_total" t-value="0"/>
+                                <tr t-foreach="lines" t-as="line">
+                                    <t t-set="tot_ug" t-value="tot_ug+line['ug']"/>
+                                    <t t-set="tot_pg" t-value="tot_pg+line['pg']"/>
+                                    <t t-set="tot_integrated" t-value="tot_integrated+line['integrated']"/>
+                                    <t t-set="tot_total" t-value="tot_total+line['ug']+line['pg']+line['integrated']"/>
+                                    <td>
+                                        <span t-esc="line['month']"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-esc="line['ug']"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-esc="line['pg']"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-esc="line['integrated']"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-esc="line['ug'] + line['pg'] + line['integrated']"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Total</th>
+                                    <td class="text-right">
+                                        <span t-esc="tot_ug"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-esc="tot_pg"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-esc="tot_integrated"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-esc="tot_total"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+
+    </data>
+</odoo>

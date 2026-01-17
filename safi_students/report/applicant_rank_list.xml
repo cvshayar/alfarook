@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="applicant_rank_list_pdf">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="web.external_layout">
+                        <div class="page" style="page-break-after:always;">
+                            <h3 class="text-center">UG Rank List</h3>
+                            <table width="100%">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center" style="color:black" colspan="7"><span t-esc="doc.programme_id.name"/> </th>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-center" style="color:black" colspan="7">Category : <span t-esc="doc.category"/></th>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-center" style="border:1px solid black;padding:5px;color:black;vertical-align:middle" width="1%">SI No</th>
+                                        <th class="text-center" style="border:1px solid black;padding:5px;color:black;vertical-align:middle" width="10%">Application No</th>
+                                        <th class="text-center" style="border:1px solid black;padding:5px;color:black;vertical-align:middle">Applicant Name</th>
+                                        <th class="text-center" style="border:1px solid black;padding:5px;color:black;vertical-align:middle">Pref</th>
+                                        <th class="text-center" style="border:1px solid black;padding:5px;color:black;vertical-align:middle">%</th>
+                                        <th class="text-center" style="border:1px solid black;padding:5px;color:black;vertical-align:middle">Category</th>
+                                        <th class="text-center" style="border:1px solid black;padding:5px;color:black;vertical-align:middle" width="30%">Remarks</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-set="i" t-value="0"/>
+                                    <tr t-foreach="lines" t-as="applicant">
+                                        <t t-set="i" t-value="i+1"/>
+                                        <td class="text-center" style="border:1px solid black;padding:5px;vertical-align:middle"> <span t-esc="i"/></td>
+                                        <td class="text-center" style="border:1px solid black;padding:5px;vertical-align:middle"><t t-if="applicant['locked'] == '0'">* </t> <span t-esc="applicant['controlno']"/></td>
+                                        <td style="border:1px solid black;padding:5px;vertical-align:middle"> <span t-esc="applicant['applname']"/></td>
+                                        <td class="text-center" style="border:1px solid black;padding:5px;vertical-align:middle"> <span t-esc="applicant['pref']"/></td>
+                                        <td style="border:1px solid black;padding:5px;vertical-align:middle"> <span t-esc="applicant['percentage']"/></td>
+                                        <td style="border:1px solid black;padding:5px;vertical-align:middle"> <span t-esc="applicant['appliedcategory']"/></td>
+                                        <td style="border:1px solid black;padding:5px;vertical-align:middle">
+                                            <t t-if="applicant['mobile']">Mobile : <span t-esc="applicant['mobile']"/><br/></t>
+                                            <t t-if="applicant['phone']">Phone : <span t-esc="applicant['phone']"/><br/></t>
+                                            <t t-if="applicant['email']">Email : <span t-esc="applicant['email']"/><br/></t>
+                                            <br/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <br/>
+                            <p>*  Not Locked Applicants</p>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

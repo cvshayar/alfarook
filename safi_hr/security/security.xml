@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.module.category" id="module_employee_categ_group">
+            <field name="name">Employee Category</field>
+            <field name="description">Employee Category</field>
+            <field name="sequence">17</field>
+        </record>
+
+        <record model="res.groups" id="group_employee_management">
+            <field name="name">Teaching</field>
+            <field name="category_id" ref="module_employee_categ_group"/>
+        </record>
+
+        <record model="res.groups" id="group_employee_government">
+            <field name="name">Non-teaching</field>
+            <field name="category_id" ref="module_employee_categ_group"/>
+        </record>
+
+        <record model="res.groups" id="group_employee_both">
+            <field name="name">Both</field>
+            <field name="category_id" ref="module_employee_categ_group"/>
+            <field name="implied_ids"
+                   eval="[(4, ref('group_employee_government')),(4, ref('group_employee_management'))]"/>
+        </record>
+
+        <!--    Report Group    -->
+
+        <record model="ir.module.category" id="module_report_group">
+            <field name="name">Report</field>
+            <field name="description">Report</field>
+            <field name="sequence">17</field>
+        </record>
+
+        <record model="res.groups" id="group_employee_report">
+            <field name="name">Employee</field>
+            <field name="category_id" ref="module_report_group"/>
+        </record>
+
+        <!--    Report Group    -->
+
+        <record model="ir.module.category" id="module_application_group">
+            <field name="name">Application</field>
+            <field name="description">Application</field>
+            <field name="sequence">17</field>
+        </record>
+
+        <record model="res.groups" id="group_application_user">
+            <field name="name">User</field>
+            <field name="category_id" ref="module_application_group"/>
+        </record>
+
+        <!--    Dashboard Group    -->
+
+        <record model="ir.module.category" id="module_dashboard_group">
+            <field name="name">Dashboard</field>
+            <field name="description">Dashboard</field>
+            <field name="sequence">17</field>
+        </record>
+
+        <record model="res.groups" id="group_dashboard">
+            <field name="name">Dashboard</field>
+            <field name="category_id" ref="module_dashboard_group"/>
+        </record>
+
+        <!--    Internal Duty Entry Group    -->
+
+        <record model="ir.module.category" id="module_internal_duty_entry_group">
+            <field name="name">Internal Duty</field>
+            <field name="description">Internal Duty</field>
+            <field name="sequence">17</field>
+        </record>
+
+        <record model="res.groups" id="group_internal_duty_entry">
+            <field name="name">User</field>
+            <field name="category_id" ref="module_internal_duty_entry_group"/>
+        </record>
+
+                    <!--    Super manager group for accessing all department employees    -->
+
+        <record id="group_hr_super_user" model="res.groups">
+            <field name="name">Super user</field>
+            <field name="category_id" ref="base.module_category_human_resources_employees"/>
+            <field name="comment">The user will be able to approve document created by employees.</field>
+        </record>
+
+        <record id="group_hr_super_manager" model="res.groups">
+            <field name="name">Super manager</field>
+            <field name="category_id" ref="base.module_category_human_resources_employees"/>
+            <field name="implied_ids" eval="[(4, ref('hr.group_hr_manager'))]"/>
+            <field name="comment">The user will be able to approve document created by employees.</field>
+        </record>
+
+
+                            <!--   Employee Domain for each employee groups    -->
+
+        <record id="hr_employee_user_view" model="ir.rule">
+            <field name="name">user: view own profile only</field>
+            <field name="model_id" ref="model_hr_employee"/>
+            <field name="groups" eval="[(4,ref('hr.group_hr_user'))]"/>
+            <field name="domain_force">[('user_id','=',user.id)]</field>
+        </record>
+
+        <record id="hr_employee_public_user_view" model="ir.rule">
+            <field name="name">user: view own profile only</field>
+            <field name="model_id" ref="hr.model_hr_employee_public"/>
+            <field name="groups" eval="[(4,ref('hr.group_hr_user'))]"/>
+            <field name="domain_force">[('user_id','=',user.id)]</field>
+        </record>
+
+        <record id="hr_employee_manager_view" model="ir.rule">
+            <field name="name">manager: view department profile</field>
+            <field name="model_id" ref="model_hr_employee"/>
+            <field name="groups" eval="[(4,ref('hr.group_hr_manager'))]"/>
+            <field name="domain_force">[('department_id.member_ids.user_id', 'in', [user.id])]</field>
+        </record>
+
+        <record id="hr_employee_public_manager_view" model="ir.rule">
+            <field name="name">manager: view department profile</field>
+            <field name="model_id" ref="hr.model_hr_employee_public"/>
+            <field name="groups" eval="[(4,ref('hr.group_hr_manager'))]"/>
+            <field name="domain_force">[('department_id.member_ids.user_id', 'in', [user.id])]</field>
+        </record>
+
+        <record id="hr_employee_super_manager_view" model="ir.rule">
+            <field name="name">manager: view all profile</field>
+            <field name="model_id" ref="model_hr_employee"/>
+            <field name="groups" eval="[(4,ref('safi_hr.group_hr_super_manager'))]"/>
+            <field name="domain_force">[]</field>
+        </record>
+
+        <record id="hr_employee_public_super_manager_view" model="ir.rule">
+            <field name="name">manager: view all profile</field>
+            <field name="model_id" ref="hr.model_hr_employee_public"/>
+            <field name="groups" eval="[(4,ref('safi_hr.group_hr_super_manager'))]"/>
+            <field name="domain_force">[]</field>
+        </record>
+
+        <record id="hr_employee_super_user_view" model="ir.rule">
+            <field name="name">user: view all profile</field>
+            <field name="model_id" ref="model_hr_employee"/>
+            <field name="groups" eval="[(4,ref('safi_hr.group_hr_super_user'))]"/>
+            <field name="domain_force">[]</field>
+        </record>
+
+        <record id="hr_employee_user_department_view" model="ir.rule">
+            <field name="name">user: view own department only</field>
+            <field name="model_id" ref="hr.model_hr_department"/>
+            <field name="groups" eval="[(4,ref('hr.group_hr_user'))]"/>
+            <field name="domain_force">[('member_ids.user_id', 'in', [user.id])]</field>
+        </record>
+
+        <record id="hr_employee_manager_department_view" model="ir.rule">
+            <field name="name">manager: view department profile</field>
+            <field name="model_id" ref="hr.model_hr_department"/>
+            <field name="groups" eval="[(4,ref('hr.group_hr_manager'))]"/>
+            <field name="domain_force">[('member_ids.user_id', 'in', [user.id])]</field>
+        </record>
+
+        <record id="hr_employee_super_manager_department_view" model="ir.rule">
+            <field name="name">manager: view all profile</field>
+            <field name="model_id" ref="hr.model_hr_department"/>
+            <field name="groups" eval="[(4,ref('safi_hr.group_hr_super_manager'))]"/>
+            <field name="domain_force">[]</field>
+        </record>
+
+                        <!--    Student Domain For each Employees    -->
+
+        <record id="group_student_hod_user_view" model="ir.rule">
+            <field name="name">HOD</field>
+            <field name="model_id" ref="safi_students.model_student_student"/>
+            <field name="groups" eval="[(4,ref('safi_students.group_student_hod_user'))]"/>
+            <field name="domain_force">[('programme_id.department_id.member_ids.user_id', 'in', [user.id])]</field>
+        </record>
+
+        <record id="group_student_adviser_user_view" model="ir.rule">
+            <field name="name">Advisers</field>
+            <field name="model_id" ref="safi_students.model_student_student"/>
+            <field name="groups" eval="[(4,ref('safi_students.group_student_adviser_user'))]"/>
+            <field name="domain_force">['&amp;',('batch_id.adviser_ids.employee_id.user_id', 'in', [user.id]),('batch_id.adviser_ids.is_active', '=', True)]</field>
+        </record>
+
+        <record id="group_programme_hod_user_view" model="ir.rule">
+            <field name="name">HOD Programmes</field>
+            <field name="model_id" ref="safi_students.model_programme_programme"/>
+            <field name="groups" eval="[(4,ref('safi_students.group_student_hod_user'))]"/>
+            <field name="domain_force">[('department_id.member_ids.user_id', 'in', [user.id])]</field>
+        </record>
+
+<!--        <record id="group_programme_adviser_user_view" model="ir.rule">-->
+<!--            <field name="name">Advisers Programmes</field>-->
+<!--            <field name="model_id" ref="safi_students.model_programme_programme"/>-->
+<!--            <field name="groups" eval="[(4,ref('safi_students.group_student_adviser_user'))]"/>-->
+<!--            <field name="domain_force">[('department_id.member_ids.user_id', 'in', [user.id])]</field>-->
+<!--        </record>-->
+
+        <record id="group_batch_hod_user_view" model="ir.rule">
+            <field name="name">HOD Batch</field>
+            <field name="model_id" ref="safi_students.model_batch_batch"/>
+            <field name="groups" eval="[(4,ref('safi_students.group_student_hod_user'))]"/>
+            <field name="domain_force">[('programme_id.department_id.member_ids.user_id', 'in', [user.id])]</field>
+        </record>
+
+        <record id="group_batch_adviser_user_view" model="ir.rule">
+            <field name="name">Advisers Batch</field>
+            <field name="model_id" ref="safi_students.model_batch_batch"/>
+            <field name="groups" eval="[(4,ref('safi_students.group_student_adviser_user'))]"/>
+            <field name="domain_force">['&amp;',('adviser_ids.employee_id.user_id', 'in', [user.id]),('adviser_ids.is_active', '=', True)]</field>
+        </record>
+
+
+        <!--         Duty Rejoin Domain-->
+
+        <record id="duty_rejoin_user_view" model="ir.rule">
+            <field name="name">user: view own profile only</field>
+            <field name="model_id" ref="model_duty_rejoin"/>
+            <field name="groups" eval="[(4,ref('hr_holidays.group_hr_holidays_user'))]"/>
+            <field name="domain_force">[('employee_id.user_id','=',user.id)]</field>
+        </record>
+
+        <record id="duty_rejoin_manager_view" model="ir.rule">
+            <field name="name">manager: view department profile</field>
+            <field name="model_id" ref="model_duty_rejoin"/>
+            <field name="groups" eval="[(4,ref('hr_holidays.group_hr_holidays_manager'))]"/>
+            <field name="domain_force">[]</field>
+        </record>
+
+        <record id="duty_rejoin_super_manager_view" model="ir.rule">
+            <field name="name">manager: view all profile</field>
+            <field name="model_id" ref="model_duty_rejoin"/>
+            <field name="groups" eval="[(4,ref('safi_hr.group_hr_super_manager'))]"/>
+            <field name="domain_force">[]</field>
+        </record>
+
+        <!--    Compensation Leave    -->
+
+        <record id="compensatory_leave_user_view" model="ir.rule">
+            <field name="name">user: view own compensation leave only</field>
+            <field name="model_id" ref="model_compensation_leave"/>
+            <field name="groups" eval="[(4,ref('hr.group_hr_user'))]"/>
+            <field name="domain_force">[('employee_id.user_id','=',user.id)]</field>
+        </record>
+
+        <record id="compensatory_leave_manager_view" model="ir.rule">
+            <field name="name">manager: view department compensation leave</field>
+            <field name="model_id" ref="model_compensation_leave"/>
+            <field name="groups" eval="[(4,ref('hr.group_hr_manager'))]"/>
+            <field name="domain_force">[('employee_id.department_id.member_ids.user_id', 'in', [user.id])]</field>
+        </record>
+
+        <record id="compensatory_leave_super_manager_view" model="ir.rule">
+            <field name="name">manager: view all profile</field>
+            <field name="model_id" ref="model_compensation_leave"/>
+            <field name="groups" eval="[(4,ref('safi_hr.group_hr_super_manager'))]"/>
+            <field name="domain_force">[]</field>
+        </record>
+
+        <!--    Internal Duty Entry    -->
+
+        <record id="internal_duty_entry_user_view" model="ir.rule">
+            <field name="name">user: view own duty entry only</field>
+            <field name="model_id" ref="model_hr_internal_duty"/>
+            <field name="groups" eval="[(4,ref('hr.group_hr_user'))]"/>
+            <field name="domain_force">[('employee_id.user_id','=',user.id)]</field>
+        </record>
+
+        <record id="internal_duty_entry_super_manager_view" model="ir.rule">
+            <field name="name">manager: view all profile</field>
+            <field name="model_id" ref="model_hr_internal_duty"/>
+            <field name="groups" eval="[(4,ref('safi_hr.group_hr_super_manager'))]"/>
+            <field name="domain_force">[]</field>
+        </record>
+
+<!--        &lt;!&ndash;    Department Leave    &ndash;&gt;-->
+
+<!--        <record id="hr_leave_department_view" model="ir.rule">-->
+<!--            <field name="name">manager: view department leave</field>-->
+<!--            <field name="model_id" ref="model_hr_leave"/>-->
+<!--            <field name="groups" eval="[(4,ref('hr.group_hr_manager'))]"/>-->
+<!--            <field name="domain_force">[('department_id.member_ids.user_id', 'in', [user.id])]</field>-->
+<!--        </record>-->
+
+<!--        &lt;!&ndash;    View All Leave    &ndash;&gt;-->
+
+<!--        <record id="hr_leave_all_view" model="ir.rule">-->
+<!--            <field name="name">manager: view all leaves</field>-->
+<!--            <field name="model_id" ref="model_hr_leave"/>-->
+<!--            <field name="groups" eval="[(4,ref('safi_hr.group_hr_super_manager'))]"/>-->
+<!--            <field name="domain_force">[]</field>-->
+<!--        </record>-->
+
+
+    </data>
+</odoo>

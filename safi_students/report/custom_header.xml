@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="internal_layout_header" inherit_id="web.internal_layout">
+            <xpath expr="//div[@class='header']" position="replace">
+                <div class="header" style="font-family: 'Roboto', sans-serif;font-weight: bold;">
+                </div>
+            </xpath>
+        </template>
+
+        <template id="external_layout_standard" inherit_id="web.external_layout_standard">
+            <xpath expr="//div[1]" position="replace">
+                <div class="header">
+                    <div class="row">
+                        <div>
+                            <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="max-height: 45px;" alt="Logo"/>
+                        </div>
+                        <div name="company_address" class="col-8">
+                            <div t-field="company.partner_id"
+                                t-options='{"widget": "contact", "fields": ["name"], "no_marker": true}'
+                            />
+                            Farook College
+                        </div>
+                    </div>
+                    <div t-if="company.logo or company.report_header" class="row zero_min_height">
+                        <div class="col-12">
+                            <div style="border-bottom: 1px solid black;"/>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </template>
+    </data>
+</odoo>

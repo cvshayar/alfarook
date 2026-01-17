@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="matriculation_report_wizard_form" model="ir.ui.view">
+            <field name="name">matriculation.report.wizard.form</field>
+            <field name="model">matriculation.report.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Choose your date">
+                    <group>
+                        <field name="start_year" required="1"/>
+                        <field name="batch_id" domain="[('start_year','=',start_year)]" required="1" options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
+                    </group>
+                    <footer>
+                        <button name="generate_report" string="Print PDF" type="object" class="btn-primary"/>
+                        <button name="print_excel_report" string="Print Excel Report" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <record id="matriculation_report_wizard_action" model="ir.actions.act_window">
+            <field name="name">Matriculation Report</field>
+            <field name="res_model">matriculation.report.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem name="Matriculation Report" action="matriculation_report_wizard_action"
+                  id="matriculation_report_wizard_menu_id"
+                  groups="group_student_user,group_student_manager"
+                  parent="safi_students.student_report_menu" sequence="6"/>
+
+
+    </data>
+</odoo>

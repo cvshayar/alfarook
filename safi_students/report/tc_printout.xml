@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="tc_printout_template">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.html_container">
+                    <t t-call="web.internal_layout">
+                        <div class="page" style="font-family:'FreeSans'; font-size:17px; line-height: 18px">
+                            <div style="height:120px"/>
+                            <p class="text-center"><b>TRANSFER AND CONDUCT CERTIFICATE</b></p><br/>
+                            <table width="100%">
+                                <tr>
+                                    <th class="text-left" width="50%">TC No.&#160;&#58;&#160;<span t-esc="o.name"/>/<span t-field="o.tc_academic_year"/></th>
+                                    <th width="50%" class="text-right">Admission&#160;No.&#160;&#58;&#160;<span t-esc="o.admission_number"/></th>
+                                </tr>
+                            </table>
+                            <br/>
+                            <table cellspacing="40px" width="100%">
+                                <tr>
+                                    <td width="5%">1.&#160;  </td>
+                                    <td width="42%" align="left">Name of the student in full</td>
+                                    <td width="2%"><strong>:</strong></td>
+                                    <th><strong><span t-field="o.student_name"/></strong></th>
+                                </tr><tr style="height:15px"/>
+                                <tr>
+                                    <td>2.&#160; </td>
+                                    <td align="left">Date of birth as entered in the <br/>admission register</td>
+                                    <td width="2%"><strong>:</strong></td>
+                                    <th><span t-field="o.dob"/> </th>
+                                </tr><tr style="height:15px"/>
+                                <tr>
+                                    <td>3.&#160; </td>
+                                    <td align="left">Date of admission</td>
+                                    <td width="2%"><strong>:</strong></td>
+                                    <th><span t-field="o.date_of_admission"/></th>
+                                </tr><tr style="height:15px"/>
+                                <tr>
+                                    <td>4.&#160;</td>
+                                    <td style="text-align: left"> Date of leaving</td>
+                                    <td width="2%"><strong>:</strong></td>
+                                    <th><span t-field="o.date_of_leave"/> </th>
+                                </tr><tr style="height:15px"/>
+                                <tr>
+                                    <td>5.&#160; </td>
+                                    <td> The class in which the student<br/>studied at the time of leaving</td>
+                                    <td width="2%"><strong>:</strong></td>
+                                    <t t-if="o.programme_id.code">
+                                        <th><span t-field="o.programme_id.name"/>,&#160; Semester-<span t-esc="o.get_roman_value(int(o.semester_id.name))"/> </th>
+                                    </t>
+                                </tr><tr style="height:15px"/>
+                                <tr>
+                                    <td>6.&#160; </td>
+                                    <td> Whether qualified for promotion<br/>to a higher class</td>
+                                    <td width="2%"><strong>:</strong></td>
+                                    <th>
+                                        <t t-if="not o.promotion">NIL</t>
+                                        <t t-if="o.promotion"><span t-field="o.promotion"/></t>
+                                    </th>
+                                </tr><tr style="height:15px"/>
+                                <tr>
+                                    <td>7.&#160; </td>
+                                    <td> Whether the student has paid<br/>all fees due to the institution</td>
+                                    <td width="2%"><strong>:</strong></td>
+                                    <th>
+                                        <t t-if="not o.dues">NIL</t>
+                                        <t t-if="o.dues"><span t-field="o.dues"/></t>
+                                    </th>
+                                </tr><tr style="height:15px"/>
+                                <tr>
+                                    <td>8.&#160; </td>
+                                    <td>Examination for which the <br/>student last appeared from<br/>the college &amp;amp; year</td>
+                                    <td width="2%"><strong>:</strong></td>
+                                    <th>
+                                        <t t-if="not o.exam_year">NIL</t>
+                                        <t t-if="o.exam_year == '-'">NIL</t>
+                                        <t t-if="o.programme_id.code">
+                                            <t t-if="o.exam_semester_id.name and o.exam_semester_id.name != '-'"><span t-field="o.programme_id.name"/>,&#160; Semester-<span t-esc="o.get_roman_value(int(o.exam_semester_id.name))"/>,</t>
+                                        </t>
+                                        <t t-if="o.exam_year"><span t-field="o.exam_year"/></t>
+                                    </th>
+                                </tr><tr style="height:15px"/>
+                                <tr>
+                                    <td>9.&#160;</td>
+                                    <td> Register number of the above examination</td>
+                                    <td width="2%"><strong>:</strong></td>
+                                    <th>
+                                        <t t-if="not o.exam_reg_no">NIL</t>
+                                        <t t-if="o.exam_reg_no"><span t-field="o.exam_reg_no"/></t>
+                                    </th>
+                                </tr><tr style="height:15px"/>
+                                <tr>
+                                    <td>10.&#160;</td>
+                                    <td> Whether passed or failed</td>
+                                    <td width="2%"><strong>:</strong></td>
+                                    <th>
+                                        <t t-if="not o.ex_passed">NIL</t>
+                                        <t t-if="o.ex_passed"><span t-field="o.ex_passed"/></t>
+                                    </th>
+                                </tr><tr style="height:15px"/>
+                                <tr>
+                                    <td>11.&#160; </td>
+                                    <td>Date of application of TC</td>
+                                    <td width="2%"><strong>:</strong></td>
+                                    <th>
+                                        <t t-if="not o.tc_applied_date">NIL</t>
+                                        <t t-if="o.tc_applied_date"><span t-field="o.tc_applied_date"/></t>
+                                    </th>
+                                </tr><tr style="height:15px"/>
+                                <tr>
+                                    <td>12.&#160;</td>
+                                    <td> Date of  Transfer Certificate</td>
+                                    <td width="2%"><strong>:</strong></td>
+                                    <th><span t-field="o.tc_issued_date"/> </th>
+                                </tr><tr style="height:15px"/>
+                                <tr>
+                                    <td>13.&#160; </td>
+                                    <td> Conduct during this period</td>
+                                    <td width="2%"><strong>:</strong></td>
+                                    <th><span t-field="o.conduct"/> </th>
+                                </tr><tr style="height:15px"/>
+                            </table>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

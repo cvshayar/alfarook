@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="student_attendance_report_form" model="ir.ui.view">
+            <field name="name">student.attendance.report.form</field>
+            <field name="model">student.attendance.report</field>
+            <field name="arch" type="xml">
+                <form string="Attendance Report">
+                    <group>
+                        <field name="from_date"/>
+                        <field name="to_date"/>
+                        <field name="batch_id" options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
+                        <field name="semester_id" options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
+                        <field name="student_id" domain="[('batch_id', '=', batch_id)]" options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
+                    </group>
+                    <footer>
+                        <button name="print_excel_report" string="Export" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="student_attendance_report_action" model="ir.actions.act_window">
+            <field name="name">Attendance Report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">student.attendance.report</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <!-- Absentee List -->
+
+        <record id="student_attendance_absentee_report_form" model="ir.ui.view">
+            <field name="name">student.attendance.absentee.report.form</field>
+            <field name="model">student.attendance.absentee.report</field>
+            <field name="arch" type="xml">
+                <form string="Absentee List">
+                    <group>
+                        <field name="from_date" string="Date"/>
+                        <!-- <field name="to_date"/> -->
+                        <field name="batch_id" options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
+                        <field name="semester_id" options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
+                    </group>
+                    <footer>
+                        <button name="print_excel_report" string="Export" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="student_attendance_absentee_report_action" model="ir.actions.act_window">
+            <field name="name">Absentee List</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">student.attendance.absentee.report</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem
+                id="attendance_report_menu"
+                name="Report"
+                parent="student_attendance_root_menu"
+                sequence="6"
+        />
+
+        <menuitem
+                id="student_attendance_report_menu"
+                name="Attendance Report"
+                parent="attendance_report_menu"
+                sequence="1"
+                action="student_attendance_report_action"
+        />
+
+        <menuitem
+                id="student_attendance_absentee_report_menu"
+                name="Absentee List"
+                parent="attendance_report_menu"
+                sequence="1"
+                action="student_attendance_absentee_report_action"
+        />
+
+    </data>
+</odoo>

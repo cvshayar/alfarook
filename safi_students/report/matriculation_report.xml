@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="matriculation_report_pdf">
+            <t t-call="web.html_container">
+                <t t-call="web.internal_layout">
+                    <t t-foreach="docs" t-as="o">
+                        <div class="page">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th class="text-center" colspan="19" style="font-size:30px"><span t-esc="o.env.company.name"/> </th>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-center" colspan="19" style="font-size:30px">Consolidated list of candidates admitted to <span t-field="o.batch_id.programme_id.name"/> during
+                                            <span t-field="o.start_year"/> - <span t-esc="int(o.start_year) + 1"/>
+                                        </th>
+                                    </tr>
+                                    <tr style="border:1px solid black">
+                                    <th class="text-center" style="vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black;padding:5px">SI&#160;No.</th>
+                                    <th class="text-center" style="vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black;padding:5px">Name&#160;of&#160;Candidate</th>
+                                    <th class="text-center" style="vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black;padding:5px">Programme<br/>to&#160;which<br/>admitted</th>
+                                    <th class="text-center" style="vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black;padding:5px" colspan="3">Name,&#160;Reg.No. &amp; Year&#160;of<br/>passing&#160;the&#160;qualifying<br/>
+                                        examination&#160;for&#160;admission&#160;to&#160;a<br/>course/programme&#160;of&#160;study <br/>
+                                        under&#160;this&#160;University
+                                    </th>
+                                    <th class="text-center" style="vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black;padding:5px">Name&#160;of&#160;College&#160;and&#160;University&#160;from<br/>
+                                        which&#160;presented&#160;for&#160;qualifying&#160;examination &amp; year
+                                    </th>
+                                    <th class="text-center" style="vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black;padding:5px">Year&#160;in&#160;which&#160;and&#160;the<br/>college&#160;to&#160;which&#160;the<br/>candidate&#160;was&#160;first&#160;admitted
+                                        <br/>to&#160;a&#160;course&#160;of&#160;study&#160;under<br/>the&#160;university&#160;after&#160;passing&#160;S.S.L.C
+                                    </th>
+                                    <th class="text-center" style="vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black;padding:5px">Date&#160;on&#160;which <br/>migrated&#160;from&#160;this<br/>University&#160;and<br/>details&#160;of&#160;academic
+                                        <br/>career&#160;pursued
+                                    </th>
+                                    <th class="text-center" style="vertical-align:middle;border-bottom:1px solid black;border-right:2px solid black;padding:5px">Date&#160;of&#160;Admission</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-set="i" t-value="0"/>
+                                    <tr style="border:1px solid black" t-foreach="lines" t-as="line">
+                                        <t t-set="i" t-value="i + 1"/>
+                                        <td style="vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black;padding:5px"><span t-esc="i"/></td>
+                                        <td style="vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black;padding:5px"><span t-esc="line['name']"/></td>
+                                        <td style="vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black;padding:5px"><span t-esc="line['programme']"/></td>
+                                        <td style="vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black;padding:5px"><span t-esc="line['reg_no']"/></td>
+                                        <td style="vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black;padding:5px"><span t-esc="line['month']"/></td>
+                                        <td style="vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black;padding:5px"><span t-esc="line['year']"/></td>
+                                        <td style="vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black;padding:5px"><span t-esc="line['institute']"/></td>
+                                        <td style="vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black;padding:5px"><span t-esc="line['board']"/></td>
+                                        <td style="vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black;padding:5px"></td>
+                                        <td style="vertical-align:middle;border-bottom:1px solid black;border-right:2px solid black;padding:5px"><span t-esc="line['admission_date']"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

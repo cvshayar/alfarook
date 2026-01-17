@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <template id="admission_register_report_pdf">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="web.internal_layout">
+                        <div class="page" style="font-family: 'aakar';font-size:25px">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th class="text-center" colspan="19" style="font-size:30px">G FORM No.VI</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-center" colspan="19" style="font-size:30px">ADMISSION REGISTER Name of College : <span t-esc="doc.env.company.name"/></th>
+                                    </tr>
+                                    <tr style="border:1px solid black">
+                                        <th class="text-center" style="vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black;padding:10px" rowspan="2">Admn No</th>
+                                        <th class="text-center" style="vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black;padding:60px" rowspan="2">Name</th>
+                                        <th class="text-center" style="vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black;padding:5px" rowspan="2">Place&#160;of&#160;Birth
+                                        </th>
+                                        <th class="text-center" style="vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black;padding:5px" rowspan="2">Date&#160;of<br/>Birth</th>
+                                        <th class="text-center" style="vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black;padding:5px" rowspan="2">Name,&#160;Occupation,&#160;address&#160;of&#160;the <br/>parent&#160;or&#160;guardian&#160;with<br/> phone
+                                            number
+                                        </th>
+                                        <th class="text-center" style="vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black;padding:5px" rowspan="2">Religion/<br/>Caste
+                                        </th>
+                                        <th class="text-center" rowspan="2" style="width:20%;vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black;padding:5px">Date<br/> of <br/>Vacci<br/>nation</th>
+                                        <th class="text-center" rowspan="2" style="width:20%;vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black;padding:5px">The&#160;school&#160;in<br/>which&#160;the<br/>student&#160;has<br/>studied,&#160;with&#160;the<br/>
+                                            number of years <br/> in each
+                                        </th>
+                                        <th class="text-center" style="vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black;padding:5px" rowspan="2">School <br/> leaving <br/>
+                                            certificate
+                                        </th>
+                                        <th class="text-center" style="vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black;padding:5px" rowspan="2">Date&#160;of<br/>admission
+                                        </th>
+                                        <th class="text-center" style="vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black;padding:5px" rowspan="2">Class&#160;to&#160;which <br/>
+                                            admitted
+                                        </th>
+                                        <th class="text-center" style="vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black;padding:5px" colspan="3">Date&#160;of&#160;passing&#160;+2
+                                        </th>
+                                        <th class="text-center" style="vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black;padding:5px" colspan="2">Date&#160;of&#160;passing&#160;degree
+                                        </th>
+                                        <th class="text-center" style="vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black;padding:5px" rowspan="2">Date&#160;of<br/>leaving</th>
+                                        <th class="text-center" style="vertical-align:middle;border-bottom:1px solid black;border-right:2px solid black;padding:5px" rowspan="2">Remarks</th>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center" style="vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black;padding:5px">Group</td>
+                                        <td class="text-center" style="vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black;padding:5px">Class/ distinction</td>
+                                        <td class="text-center" style="vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black;padding:5px">Year</td>
+                                        <td class="text-center" style="vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black;padding:5px">English/ Language class Year
+                                        </td>
+                                        <td class="text-center" style="vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black;padding:5px">Optional Subjects Class Year
+                                        </td>
+                                    </tr>
+                                    <tr style="border:1px solid black">
+                                        <td class="text-center" style="vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black;padding:5px"> 1 </td>
+                                        <td class="text-center" style="vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black;padding:5px"> 2 </td>
+                                        <td class="text-center" style="vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black;padding:5px"> 3 </td>
+                                        <td class="text-center" style="vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black;padding:5px"> 4 </td>
+                                        <td class="text-center" style="vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black;padding:5px"> 5 </td>
+                                        <td class="text-center" style="vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black;padding:5px"> 6 </td>
+                                        <td class="text-center" style="vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black;padding:5px">  </td>
+                                        <td class="text-center" style="vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black;padding:5px"> 8 </td>
+                                        <td class="text-center" style="vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black;padding:5px"> 9 </td>
+                                        <td class="text-center" style="vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black;padding:5px"> 10 </td>
+                                        <td class="text-center" style="vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black;padding:5px"> 11 </td>
+                                        <td class="text-center" colspan="3" style="vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black;padding:5px"> 12 </td>
+                                        <td class="text-center" colspan="2" style="vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black;padding:5px"> 13 </td>
+                                        <td class="text-center" style="vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black;padding:5px"> 14 </td>
+                                        <td class="text-center" style="vertical-align:middle;border-bottom:1px solid black;border-right:2px solid black;padding:5px"> 15 </td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="lines" t-as="line" style="border:1px solid black">
+                                        <th style="vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black;padding:5px">
+                                            <span t-esc="line['admission_no']"/>
+                                        </th>
+                                        <td style="vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black;padding:5px">
+                                            <span t-esc="line['name']"/>
+                                        </td>
+                                        <td style="vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black;padding:5px">
+                                            <span t-esc="line['birth_place']"/>
+                                        </td>
+                                        <td style="vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black;padding:5px">
+                                            <span t-esc="line['dob']"/>
+                                        </td>
+                                        <td style="vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black;padding:5px">
+                                           <t t-foreach="line['parent_details']" t-as="address">
+                                              <span t-esc="address"/><br/>
+                                           </t>
+                                        </td>
+                                        <td style="vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black;padding:5px">
+                                            <span t-esc="line['religion']"/>
+                                            /
+                                            <span t-esc="line['caste']"/>
+                                        </td>
+                                        <td style="vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black;padding:5px"></td>
+                                        <td style="vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black;padding:5px">
+                                            <span t-esc="line['school']"/>
+                                        </td>
+                                        <td style="vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black"></td>
+                                        <td style="vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black;padding:5px">
+                                           <span t-esc="line['admission_date']"/>
+                                        </td>
+                                        <td style="vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black;padding:5px">
+                                           <span t-esc="line['programme']"/>
+                                        </td>
+                                        <td style="vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black;padding:5px">
+                                            <span t-esc="line['+2_group']"/>
+                                        </td>
+                                        <td style="vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black;padding:5px">
+                                            <span t-esc="line['+2class/distinction']"/>
+                                        </td>
+                                        <td style="vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black;padding:5px">
+                                            <span t-esc="line['+2year']"/>
+                                        </td>
+                                        <td style="vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black;padding:5px">
+                                            <span t-esc="line['degree_year']"/>
+                                        </td>
+                                        <td style="vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black;padding:5px">
+                                            <span t-esc="line['degree_subject']"/>
+                                        </td>
+                                        <td style="vertical-align:middle;border-bottom:1px solid black;border-right:1px solid black"></td>
+                                        <td style="vertical-align:middle;border-bottom:1px solid black;border-right:2px solid black"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="student_detailed_report_form" model="ir.ui.view">
+            <field name="name">student.detailed.report.form</field>
+            <field name="model">student.detailed.report</field>
+            <field name="arch" type="xml">
+                <form string="Student Detailed Report">
+                    <group>
+                        <field name="report_type"/>
+                        <field name="religion_ids" widget="many2many_tags"
+                               options="{'no_create': True, 'no_edit': True, 'no_open': True}"
+                               attrs="{'invisible': [('report_type', '!=', 'religion')]}"/>
+                        <field name="caste_ids" widget="many2many_tags"
+                               options="{'no_create': True, 'no_edit': True, 'no_open': True}"
+                               attrs="{'invisible': [('report_type', '!=', 'caste')]}"/>
+                        <field name="second_language_ids" widget="many2many_tags"
+                               options="{'no_create': True, 'no_edit': True, 'no_open': True}"
+                               attrs="{'invisible': [('report_type', '!=', 'second_language')]}"/>
+                        <field name="admission_category_ids" widget="many2many_tags"
+                               options="{'no_create': True, 'no_edit': True, 'no_open': True}"
+                               attrs="{'invisible': [('report_type', '!=', 'admission_category')]}"/>
+                        <field name="caste_category_ids" widget="many2many_tags"
+                               options="{'no_create': True, 'no_edit': True, 'no_open': True}"
+                               attrs="{'invisible': [('report_type', '!=', 'category')]}"/>
+                        <field name="fee_category_ids" widget="many2many_tags"
+                               options="{'no_create': True, 'no_edit': True, 'no_open': True}"
+                               attrs="{'invisible': [('report_type', '!=', 'fee_category')]}"/>
+                        <field name="level" required="1"/>
+                        <field name="start_year" string="Batch Year" required="1"/>
+                        <field name="batch_ids"
+                               domain="[('start_year', '=', start_year), ('programme_id.level', '=', level)]"
+                               widget="many2many_tags" options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
+                        <field name="field_select_ids" widget="many2many_tags"
+                               domain="[('model_id.model', '=', 'student.student'), ('ttype', '!=', 'one2many'),
+                                        ('relation', 'not in', ['mail.activity.type', 'res.users', 'mail.channel', 'ir.attachment'
+                                        , 'res.partner']), ('store', '=', True), ('name', 'not in', ['id', 'image', 'name', 'admission_number', 'write_date', 'create_date'])]"
+                               options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
+                        <field name="tc_status" widget="radio" string="TC Issued"/>
+                    </group>
+                    <footer>
+                        <button name="print_excel_report" string="Print Excel" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="student_detailed_report_action" model="ir.actions.act_window">
+            <field name="name">Student Detailed Report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">student.detailed.report</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem
+                id="student_detailed_report_menu"
+                name="Student Detailed Report"
+                parent="safi_students.student_report_menu"
+                sequence="2"
+                action="student_detailed_report_action"
+        />
+
+    </data>
+</odoo>

@@ -1,0 +1,1442 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!--  Batch Form      -->
+
+        <record id="batch_form" model="ir.ui.view">
+            <field name="name">Batch</field>
+            <field name="model">batch.batch</field>
+            <field name="arch" type="xml">
+                <form string="Batch">
+                    <sheet>
+                        <group name="batch">
+                            <field name="complete_name"/>
+                            <field name="name"/>
+                            <field name="start_year"/>
+                            <field name="programme_id"/>
+                            <field name="current_semester_id"/>
+                            <field name="division"/>
+                            <field name="strength"/>
+                            <field name="active"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="batch_tree" model="ir.ui.view">
+            <field name="name">Batch</field>
+            <field name="model">batch.batch</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="complete_name"/>
+                    <field name="name"/>
+                    <field name="start_year"/>
+                    <field name="current_semester_id"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="batch_action" model="ir.actions.act_window">
+            <field name="name">Batch</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">batch.batch</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p>
+                <p>
+                    <!-- More details about what a user can do with this object will be OK -->
+                </p>
+            </field>
+        </record>
+
+        <!--    Programme Form    -->
+
+        <record id="programme_form" model="ir.ui.view">
+            <field name="name">Programme</field>
+            <field name="model">programme.programme</field>
+            <field name="arch" type="xml">
+                <form string="Programme">
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="pgm_display_name" placeholder="Display Name" readonly="0"/>
+                            </h1>
+                            <h1>
+                                <field name="name" placeholder="Programme Name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="code"/>
+                                <field name="level"/>
+                                <field name="reg_no_code"/>
+                                <field name="sort_order"/>
+                            </group>
+                            <group>
+                                <field name="duration"/>
+                                <field name="reg_no_sl_no_max"/>
+                                <field name="is_self_finance"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="programme_tree" model="ir.ui.view">
+            <field name="name">Programme</field>
+            <field name="model">programme.programme</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="is_self_finance"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="programme_action" model="ir.actions.act_window">
+            <field name="name">Programme</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">programme.programme</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p>
+                <p>
+                    <!-- More details about what a user can do with this object will be OK -->
+                </p>
+            </field>
+        </record>
+
+        <!--   Caste Form     -->
+
+        <record id="caste_form" model="ir.ui.view">
+            <field name="name">Caste</field>
+            <field name="model">caste.caste</field>
+            <field name="arch" type="xml">
+                <form string="Caste">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="category" options="{'no_create': True, 'no_open': True, 'no_edit': True}"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="caste_tree" model="ir.ui.view">
+            <field name="name">Caste</field>
+            <field name="model">caste.caste</field>
+            <field name="arch" type="xml">
+                <tree string="Caste">
+                    <field name="name"/>
+                    <field name="category"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="caste_action" model="ir.actions.act_window">
+            <field name="name">Caste</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">caste.caste</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p>
+                <p>
+                    <!-- More details about what a user can do with this object will be OK -->
+                </p>
+            </field>
+        </record>
+
+        <!--   Caste category  -->
+
+        <record id="caste_category_form" model="ir.ui.view">
+            <field name="name">caste.category.form</field>
+            <field name="model">caste.category</field>
+            <field name="arch" type="xml">
+                <form string="Caste category">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="sort_order"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="caste_category_tree" model="ir.ui.view">
+            <field name="name">caste.category.tree</field>
+            <field name="model">caste.category</field>
+            <field name="arch" type="xml">
+                <tree string="Caste category">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="caste_category_action" model="ir.actions.act_window">
+            <field name="name">Caste category</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">caste.category</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p>
+                <p>
+                    <!-- More details about what a user can do with this object will be OK -->
+                </p>
+            </field>
+        </record>
+
+        <!--   Fee category  -->
+
+        <record id="fee_category_form" model="ir.ui.view">
+            <field name="name">fee.category.form</field>
+            <field name="model">fee.category</field>
+            <field name="arch" type="xml">
+                <form string="Fee category">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="fee_category_tree" model="ir.ui.view">
+            <field name="name">fee.category.tree</field>
+            <field name="model">fee.category</field>
+            <field name="arch" type="xml">
+                <tree string="Fee category">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="fee_category_action" model="ir.actions.act_window">
+            <field name="name">Fee category</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">fee.category</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p>
+                <p>
+                    <!-- More details about what a user can do with this object will be OK -->
+                </p>
+            </field>
+        </record>
+
+        <!--   Admission category  -->
+
+        <record id="admission_category_form" model="ir.ui.view">
+            <field name="name">admission.category.form</field>
+            <field name="model">admission.category</field>
+            <field name="arch" type="xml">
+                <form string="Admission category">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="group"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="admission_category_tree" model="ir.ui.view">
+            <field name="name">admission.category.tree</field>
+            <field name="model">admission.category</field>
+            <field name="arch" type="xml">
+                <tree string="Admission category">
+                    <field name="name"/>
+                    <field name="group"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="admission_category_action" model="ir.actions.act_window">
+            <field name="name">Admission category</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">admission.category</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p>
+                <p>
+                    <!-- More details about what a user can do with this object will be OK -->
+                </p>
+            </field>
+        </record>
+
+        <!--   Second Language  -->
+
+        <record id="second_language_form" model="ir.ui.view">
+            <field name="name">second.language.form</field>
+            <field name="model">second.language</field>
+            <field name="arch" type="xml">
+                <form string="Second Language">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="second_language_tree" model="ir.ui.view">
+            <field name="name">second.language.tree</field>
+            <field name="model">second.language</field>
+            <field name="arch" type="xml">
+                <tree string="Second Language">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="second_language_action" model="ir.actions.act_window">
+            <field name="name">Second Language</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">second.language</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p>
+                <p>
+                    <!-- More details about what a user can do with this object will be OK -->
+                </p>
+            </field>
+        </record>
+
+        <!--   District  -->
+
+        <record id="state_district_form" model="ir.ui.view">
+            <field name="name">state.district.form</field>
+            <field name="model">state.district</field>
+            <field name="arch" type="xml">
+                <form string="District">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="state_id" options="{'no_create': True, 'no_open': True}"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="state_district_tree" model="ir.ui.view">
+            <field name="name">state.district.tree</field>
+            <field name="model">state.district</field>
+            <field name="arch" type="xml">
+                <tree string="District">
+                    <field name="name"/>
+                    <field name="state_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="state_district_action" model="ir.actions.act_window">
+            <field name="name">State District</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">state.district</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p>
+                <p>
+                    <!-- More details about what a user can do with this object will be OK -->
+                </p>
+            </field>
+        </record>
+
+        <!--   Taluk  -->
+
+        <record id="taluk_taluk_form" model="ir.ui.view">
+            <field name="name">taluk.taluk.form</field>
+            <field name="model">taluk.taluk</field>
+            <field name="arch" type="xml">
+                <form string="Taluk">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="district_id" options="{'no_create': True, 'no_open': True}"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="taluk_taluk_tree" model="ir.ui.view">
+            <field name="name">taluk.taluk.tree</field>
+            <field name="model">taluk.taluk</field>
+            <field name="arch" type="xml">
+                <tree string="Taluk">
+                    <field name="name"/>
+                    <field name="district_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="taluk_taluk_action" model="ir.actions.act_window">
+            <field name="name">Taluk</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">taluk.taluk</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p>
+                <p>
+                    <!-- More details about what a user can do with this object will be OK -->
+                </p>
+            </field>
+        </record>
+
+        <!--   LSG  -->
+
+        <record id="local_self_government_form" model="ir.ui.view">
+            <field name="name">local.self.government.form</field>
+            <field name="model">local.self.government</field>
+            <field name="arch" type="xml">
+                <form string="Local Self Government">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="lsg_type"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="local_self_government_tree" model="ir.ui.view">
+            <field name="name">local.self.government.tree</field>
+            <field name="model">local.self.government</field>
+            <field name="arch" type="xml">
+                <tree string="Local Self Government">
+                    <field name="name"/>
+                    <field name="lsg_type"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="local_self_government_action" model="ir.actions.act_window">
+            <field name="name">Local Self Government</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">local.self.government</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p>
+                <p>
+                    <!-- More details about what a user can do with this object will be OK -->
+                </p>
+            </field>
+        </record>
+
+        <!--   Panchayath  -->
+
+        <record id="religion_religion_form" model="ir.ui.view">
+            <field name="name">religion.religion.form</field>
+            <field name="model">religion.religion</field>
+            <field name="arch" type="xml">
+                <form string="Panchayath">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="religion_religion_tree" model="ir.ui.view">
+            <field name="name">religion.religion.tree</field>
+            <field name="model">religion.religion</field>
+            <field name="arch" type="xml">
+                <tree string="Panchayath">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="religion_religion_action" model="ir.actions.act_window">
+            <field name="name">Religion</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">religion.religion</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p>
+                <p>
+                    <!-- More details about what a user can do with this object will be OK -->
+                </p>
+            </field>
+        </record>
+
+
+        <!--    Student Form    -->
+
+        <record id="student_form_view" model="ir.ui.view">
+            <field name="name">student.student.form</field>
+            <field name="model">student.student</field>
+            <field name="arch" type="xml">
+                <form string="Student">
+                    <header>
+                        <button name="load_fee_due" type="object" string="Load Fee"/>
+                        <button name="toggle_active" type="object" string="Promote"
+                                attrs="{'invisible': ['|', ('active', '=', True), '&amp;',('tc_issued', '=', True),('active', '=', False)]}"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="expense_button_box">
+                            <button name="view_fee_status"
+                                    type="object"
+                                    class="oe_stat_button"
+                                    icon="fa-list-ol"
+                                    string="Fee Status">
+                            </button>
+                        </div>
+                        <field name="image" widget="image" class="oe_left oe_avatar"/>
+                        <div class="oe_title">
+                            <h1>
+                                <table>
+                                    <tr>
+                                        <td style="padding-right:10px;">
+                                            <field name="name" required="1" placeholder="First Name"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="batch_id" options="{'no_create': True, 'no_open': True, 'no_edit': True}"
+                                       required="1"/>
+                                <field name="repeat_batch_id"
+                                       options="{'no_create': True, 'no_open': True, 'no_edit': True}"
+                                       attrs="{'invisible': [('is_repeat_sem', '=', False)]}"/>
+                                <field name="app_no"/>
+                                <field name="admission_number"/>
+                                <field name="is_repeat_sem" force_save="1" invisible="1"/>
+                                <field name="reg_no"/>
+                                <field name="roll_no"/>
+                                <field name="pg_visible" force_save="1" invisible="1"/>
+                            </group>
+                            <group>
+                                <field name="fee_category_id"
+                                       options="{'no_create': True, 'no_open': True, 'no_edit': True}" required="1"/>
+                                <field name="second_language_id"
+                                       options="{'no_create': True, 'no_open': True, 'no_edit': True}"
+                                       attrs="{'required': [('pg_visible', '=', False)], 'invisible': [('pg_visible', '=', True)]}"/>
+                                <field name="admission_category_id"
+                                       options="{'no_create': True, 'no_open': True, 'no_edit': True}" required="0"
+                                       groups="safi_students.group_student_manager"/>
+                                <field name="semester_id" required="1"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Academic">
+                                <group>
+                                    <field name="programme_id"
+                                           options="{'no_create': True, 'no_open': True, 'no_edit': True}"/>
+                                    <field name="date_of_admission" required="0"
+                                           groups="safi_students.group_student_manager,safi_students.group_student_user"/>
+                                    <field name="year_of_admission" required="0"
+                                           groups="safi_students.group_student_manager,safi_students.group_student_user"/>
+                                    <field name="roll_order"
+                                           groups="safi_students.group_student_manager,safi_students.group_student_user"/>
+                                    <!-- <field name="second_language"/> -->
+                                    <field name="self_finance" force_save="1" readonly="1"
+                                           groups="safi_students.group_student_manager,safi_students.group_student_user"/>
+                                    <field name="tc_issued" force_save="1" invisible="0"/>
+                                    <field name="active" force_save="1"/>
+                                    <field name="sports"/>
+                                    <field name="spc" string="SPC"/>
+                                    <field name="nss" string="NSS"/>
+                                    <field name="scout"/>
+                                    <field name="lakshadweep"/>
+                                    <field name="nri" string="NRI"/>
+                                    <!--                                    <field name="main_category" options="{'no_create': True}" string='Selection List' groups="safi_students.group_student_manager,safi_students.group_student_user"/>-->
+                                    <field name="index" groups="safi_students.group_student_manager"/>
+                                    <field name="tc_no"
+                                           groups="safi_students.group_student_manager,safi_students.group_student_user"/>
+                                    <field name="tc_date"
+                                           groups="safi_students.group_student_manager,safi_students.group_student_user"/>
+                                    <field name="tc_institution"
+                                           groups="safi_students.group_student_manager,safi_students.group_student_user"/>
+                                    <field name="tc_course"
+                                           groups="safi_students.group_student_manager,safi_students.group_student_user"/>
+                                    <field name="capid" required="0"
+                                           groups="safi_students.group_student_manager,safi_students.group_student_user"/>
+                                    <field name="state" force_save="1" invisible="1"/>
+                                    <field name="is_senior_admission" force_save="1" invisible="1"/>
+                                    <field name="is_readmission" force_save="1" invisible="1"/>
+                                    <field name="is_readmission" force_save="1" invisible="1"/>
+                                    <field name="remarks"/>
+                                </group>
+                            </page>
+                            <page string="Personal">
+                                <group>
+                                    <group>
+                                        <field name="gender" required="1"/>
+                                        <field name="dob" required="1"/>
+                                        <field name="nationality"
+                                               options="{'no_create': True, 'no_open': True, 'no_edit': True}"/>
+                                        <field name="religion_id"
+                                               options="{'no_create': True, 'no_open': True, 'no_edit': True}"
+                                               required="1"/>
+                                        <field name="caste_id"
+                                               options="{'no_create': True, 'no_open': True, 'no_edit': True}"
+                                               required="1"/>
+                                        <field name="caste_category_id" force_save="1" readonly="1"
+                                               string="Caste category"
+                                               options="{'no_create': True, 'no_open': True, 'no_edit': True}"/>
+                                        <field name="blood_group"/>
+                                    </group>
+                                    <group>
+                                        <field name="mobile" required="1" widget="phone"/>
+                                        <field name="whatsapp_no" widget="phone"/>
+                                        <field name="phone" required="1" widget="phone"/>
+                                        <field name="email" required="1"/>
+                                        <!-- <field name="student_password"/> -->
+                                        <field name="ph"/>
+                                        <field name="disability_id"
+                                               attrs="{'invisible': [('ph','=',False)], 'required': [('ph', '=', True)]}"/>
+                                        <field name="place_of_birth" required="0"
+                                               groups="safi_students.group_student_manager,safi_students.group_student_user"/>
+                                        <field name="aadhar_number" required="0"
+                                               groups="safi_students.group_student_manager,safi_students.group_student_user"/>
+                                        <field name="apl_bpl"/>
+                                    </group>
+                                </group>
+                                <group>
+                                    <group>
+                                        <field name="address" required="1"/>
+                                        <field name="post"/>
+                                        <field name="city"/>
+                                        <field name="state_id" required="1"
+                                               options="{'no_create': True, 'no_edit': True, 'no_open': True}" domain="[('country_id.code', '=', 'IN')]"/>
+                                        <field name="district_id" domain="[('state_id', '=', state_id)]" options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
+                                        <field name="lsg_type" string="Panchayath/Municipality/Corporation"/>
+                                        <field name="lsg_id" domain="[('lsg_type', '=', lsg_type)]" options="{'no_create': True, 'no_edit': True, 'no_open': True}" string="Name of Panchayath/Municipality/Corporation"/>
+                                        <field name="taluk_id" domain="[('district_id', '=', district_id)]" options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
+<!--                                        <field name="panchayath_id" domain="[('taluk_id', '=', taluk_id)]" options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>-->
+                                        <field name="pin" required="1"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Parent">
+                                <group>
+                                    <field name="parent_name" required="1"/>
+                                    <field name="parent_relation"/>
+                                    <field name="parent_email"/>
+                                    <field name="parent_mobile" required="1"/>
+                                    <field name="parent_address"/>
+                                    <field name="parent_job"/>
+                                    <field name="annual_income"/>
+                                </group>
+                            </page>
+                            <page string="TC" groups="safi_students.group_student_manager,safi_students.group_student_user">
+                                <field name="tc_relation">
+                                    <tree create="false">
+                                        <field name="name"/>
+                                        <field name="tc_issued_date"/>
+                                        <field name="promotion"/>
+                                        <field name="state"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Transfer">
+                                <field name="transfer_relation">
+                                    <tree create="false">
+                                        <field name="transferred_date"/>
+                                        <field name="from_batch_id"/>
+                                        <field name="to_batch_id"/>
+                                    </tree>
+                                </field>
+                                <strong>
+                                    <p class="text-center">Inter Transfer</p>
+                                </strong>
+                                <field name="inter_transfer_relation">
+                                    <tree create="false">
+                                        <field name="admission_number"/>
+                                        <field name="transferred_date"/>
+                                        <field name="from_batch_id"/>
+                                        <field name="to_batch_id"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Scholarship" groups="safi_students.group_student_manager,safi_students.group_student_user">
+                                <field name="scholarship_relation">
+                                    <tree create="false">
+                                        <field name="scholarship_id"/>
+                                        <field name="semester"/>
+                                        <field name="amount" sum="total"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Disciplinary" groups="safi_students.group_student_manager,safi_students.group_student_user">
+                                <field name="disciplinary_relation">
+                                    <tree create="false">
+                                        <field name="disciplinary_id"/>
+                                        <field name="semester"/>
+                                        <field name="from_date"/>
+                                        <field name="to_date"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Hostel"
+                                  groups="safi_students.group_student_manager,safi_students.group_student_user">
+                                <group>
+                                    <field name="is_hostel"/>
+                                    <field name="hostel_id" attrs="{'invisible': [('is_hostel', '=', False)]}"/>
+                                </group>
+                            </page>
+                            <page string="Fee" groups="safi_students.group_student_manager,safi_students.group_student_user">
+                                <field name="fee_relation">
+                                    <tree>
+                                        <field name="fee_type" invisible="1"/>
+                                        <field name="payment_date"/>
+                                        <field name="academic_year"/>
+                                        <field name="semester_id"/>
+<!--                                        <field name="installment_ids" widget="many2many_tags"/>-->
+                                        <field name="total" sum="total"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Semester Performance" groups="safi_students.group_student_manager,safi_students.group_student_user">
+                                <field name="semester_remark_ids" readonly="1">
+                                    <tree>
+                                        <field name="semester_id"/>
+                                        <field name="remarks"/>
+                                        <field name="user_id"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Qualification"
+                                  groups="safi_students.group_student_manager,safi_students.group_student_user">
+                                <group string="SSLC">
+                                    <group>
+                                        <field name="tenth_reg_no"/>
+                                        <field name="tenth_year"/>
+                                        <field name="tenth_school"/>
+                                    </group>
+                                    <group>
+                                        <field name="tenth_board"/>
+                                        <field name="tenth_month"/>
+                                        <field name="tenth_percentage"/>
+                                    </group>
+                                </group>
+                                <group string="Plus2">
+                                    <group>
+                                        <field name="plus2_reg_no"/>
+                                        <field name="plus2_year"/>
+                                        <field name="plus2_stream"/>
+                                        <field name="plus2_percentage"/>
+                                    </group>
+                                    <group>
+                                        <field name="plus2_board"/>
+                                        <field name="plus2_month"/>
+                                        <field name="plus2_school"/>
+                                        <field name="plus2_inst_country" options="{'no_create': True, 'no_open': True, 'no_edit': True}"/>
+                                        <field name="plus2_inst_state" options="{'no_create': True, 'no_open': True, 'no_edit': True}"/>
+                                        <field name="plus2_inst_district" options="{'no_create': True, 'no_open': True, 'no_edit': True}"/>
+                                    </group>
+                                </group>
+                                <group string="UG" attrs="{'invisible': [('pg_visible', '=', False)]}">
+                                    <group>
+                                        <field name="university_reg_no"/>
+                                        <field name="university_year"/>
+                                        <field name="university_stream"/>
+                                        <field name="university_percentage"/>
+                                    </group>
+                                    <group>
+                                        <field name="university"/>
+                                        <field name="university_month"/>
+                                        <field name="college"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="student_tree_view" model="ir.ui.view">
+            <field name="name">student.student.tree</field>
+            <field name="model">student.student</field>
+            <field name="arch" type="xml">
+                <tree string="Students" default_order='batch_id,roll_order' decoration-muted="tc_issued==True">
+                    <field name="name"/>
+                    <field name="admission_number"/>
+                    <field name="reg_no" optional="hide"/>
+                    <field name="roll_no"/>
+                    <field name="semester_id"/>
+                    <field name="batch_id"/>
+                    <field name="second_language_id" optional="hide" string="Second Language"/>
+                    <field name="tc_issued" invisible="1"/>
+<!--                    <field name="image" widget="image" class="oe avatar sm"/>-->
+                </tree>
+            </field>
+        </record>
+
+        <record id="student_search_view" model="ir.ui.view">
+            <field name="name">student.student.search</field>
+            <field name="model">student.student</field>
+            <field name="arch" type="xml">
+                <search string="Search Student">
+                    <field name="name" string="Name"/>
+                    <field name="admission_number" string="Admission Number"/>
+                    <field name="app_no" string="Application Number"/>
+                    <field name="reg_no" string="Register Number"/>
+                    <field name="programme_id" string="Programme"/>
+                    <field name="batch_id" string="Batch"/>
+                    <field name="tc_issued" string="TC status"/>
+                    <field name="admission_category_id" string="Admission Quota"/>
+                    <field name="second_language_id" string="Second language"/>
+                    <field name="caste_category_id"/>
+                    <field name="caste_id" string="Caste"/>
+                    <field name="roll_no" string="Roll number"/>
+                    <separator/>
+                    <filter string="Inactive Student" name="inactive" domain="[('active','=',False)]"/>
+                    <filter string="Re Admission" name="readmission" domain="[('is_readmission','=',True)]"/>
+                    <filter string="Repeat Semester" name="repeatsemester" domain="[('is_repeat_sem','=',True)]"/>
+                    <filter string="Senior Class Admission" name="senioradmission"
+                            domain="[('is_senior_admission','=',True)]"/>
+                    <filter string="Detained Students" name="detained"
+                            domain="[('active','=',False),('tc_issued', '=', False)]"/>
+                    <group expand="0" string="Group By">
+                        <filter name="group_programme" string="Programme" context="{'group_by':'programme_id'}"/>
+                        <filter name="group_batch_id" string="Batch" context="{'group_by':'batch_id'}"/>
+                        <filter name="admission_category_id" string="Admission category"
+                                context="{'group_by':'admission_category_id'}"/>
+                        <filter name="second_language_id" string="Second language"
+                                context="{'group_by':'second_language_id'}"/>
+                        <filter name="caste_category" string="Caste category"
+                                context="{'group_by':'caste_category_id'}"/>
+                        <filter name="caste_id" string="Caste" context="{'group_by':'caste_id'}"/>
+                        <filter name="date_of_admission" string="Date of admission"
+                                context="{'group_by':'date_of_admission'}"/>
+                        <separator/>
+                    </group>
+                    <searchpanel>
+                        <field name="batch_id" string="Batch" icon="fa-users"/>
+                    </searchpanel>
+                </search>
+            </field>
+        </record>
+
+        <!--    Graph View    -->
+
+        <record id="view_graph_checkout" model="ir.ui.view">
+            <field name="model">student.student</field>
+            <field name="arch" type="xml">
+                <graph type="bar">
+                    <field name="batch_id" type="aggregate"/>
+<!--                    <field name="year_of_admission" type="aggregate"/>-->
+                    <field name="gender" type="aggregate"/>
+                </graph>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="student_pivot">
+            <field name="name">student.student.pivot</field>
+            <field name="model">student.student</field>
+            <field name="arch" type="xml">
+                <pivot string="Programme Students" display_quantity="True">
+                    <field name="programme_id" type="row"/>
+                    <field name="batch_id" type="row"/>
+                    <field name="gender" type="col"/>
+                </pivot>
+            </field>
+        </record>
+
+        <record id="student_act_window" model="ir.actions.act_window">
+            <field name="name">Students</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">student.student</field>
+            <field name="view_mode">tree,form,graph,pivot</field>
+            <field name="search_view_id" ref="student_search_view"/>
+            <field name="context">{'search_default_group_batch_id': 0}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    There is no examples click here to add new ModelTitle.
+                </p>
+            </field>
+        </record>
+
+        <!-- Senior Admission -->
+
+        <record id="senior_admission_student_action" model="ir.actions.act_window">
+            <field name="name">Senior Class Student</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">student.student</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('is_senior_admission', '=', True)]</field>
+            <field name="context">{'default_is_senior_admission':True}</field>
+            <field name="search_view_id" ref="student_search_view"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p>
+                <p>
+                    <!-- More details about what a user can do with this object will be OK -->
+                </p>
+            </field>
+        </record>
+
+        <!--    Student Semester Remarks    -->
+
+        <record id="student_semester_remarks_view_form" model="ir.ui.view">
+            <field name="name">student_semester_remarks_view_form</field>
+            <field name="model">student.semester.remarks</field>
+            <field name="arch" type="xml">
+                <form string="student_semester_remarks_form">
+                    <sheet>
+                        <group>
+                            <field name="student_id" options="{'no_create': True, 'no_open': True, 'no_edit': True}"/>
+                            <field name="admission_number"/>
+                            <field name="batch_id" options="{'no_create': True, 'no_open': True, 'no_edit': True}"/>
+                            <field name="semester_id" options="{'no_create': True, 'no_open': True, 'no_edit': True}"/>
+                            <field name="course_id" domain="domain" options="{'no_create': True, 'no_open': True, 'no_edit': True}"/>
+                            <field name="remarks"/>
+                            <field name="user_id" readonly="1" force_save="1"/>
+                            <field name="domain" invisible="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="student_semester_remarks_view_tree" model="ir.ui.view">
+            <field name="name">student_semester_remarks_view_tree</field>
+            <field name="model">student.semester.remarks</field>
+            <field name="arch" type="xml">
+                <tree string="student_semester_remarks_tree">
+                    <field name="student_id"/>
+                    <field name="semester_id"/>
+                    <field name="course_id"/>
+                    <field name="remarks"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="student_semester_remarks_search_view" model="ir.ui.view">
+            <field name="name">student.semester.remarks.search</field>
+            <field name="model">student.semester.remarks</field>
+            <field name="arch" type="xml">
+                <search string="Search Student">
+                    <field name="student_id" string="Student"/>
+                    <field name="admission_number" string="Admission Number"/>
+                    <field name="batch_id" string="Batch"/>
+                    <field name="semester_id" string="Semester"/>
+                    <separator/>
+                </search>
+            </field>
+        </record>
+
+        <record id="student_semester_remarks_action" model="ir.actions.act_window">
+            <field name="name">Student Semester Remarks</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">student.semester.remarks</field>
+            <field name="search_view_id" ref="student_semester_remarks_search_view"/>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!--    Student Promotion    -->
+
+        <record id="batch_promotion_form_view" model="ir.ui.view">
+            <field name="name">batch.promotion.form</field>
+            <field name="model">batch.promotion</field>
+            <field name="arch" type="xml">
+                <form string="Batch Promote">
+                    <group>
+                        <field name="start_year"/>
+                        <field name="level"/>
+                        <field name="batch_ids" options="{'no_create': True, 'no_open': True, 'no_edit': True}"/>
+                    </group>
+                    <notebook>
+                        <page string="Students">
+                            <group>
+                                <field name="student_ids" domain="[('batch_id', 'in', batch_ids)]" string="Students not to promote"/>
+                            </group>
+                        </page>
+                    </notebook>
+                    <footer>
+                        <button name="promote_batch" class="btn-primary" type="object" string="Promote"/>
+                        <button string="Cancel" class="btn-primary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="batch_promotion_act_window" model="ir.actions.act_window">
+            <field name="name">Promote Batch</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">batch.promotion</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <!--    Student Non Promotion    -->
+
+        <record id="student_non_promotion_form_view" model="ir.ui.view">
+            <field name="name">student.non.promotion.form</field>
+            <field name="model">student.non.promotion</field>
+            <field name="arch" type="xml">
+                <form string="Non Promoted Students">
+                    <sheet>
+                        <group>
+                            <field name="date"/>
+                            <field name="admission_number"/>
+                            <field name="student_id" force_save="1" readonly="1"/>
+                            <field name="batch_id"/>
+                            <field name="semester_id"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="student_non_promotion_view_tree" model="ir.ui.view">
+            <field name="name">student.non.promotion.view.tree</field>
+            <field name="model">student.non.promotion</field>
+            <field name="arch" type="xml">
+                <tree string="Non Promoted Students">
+                    <field name="date"/>
+                    <field name="student_id"/>
+                    <field name="batch_id"/>
+                    <field name="semester_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="student_non_promotion_action_window" model="ir.actions.act_window">
+            <field name="name">Non Promoted Student</field>
+            <field name="res_model">student.non.promotion</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p></p>
+            </field>
+        </record>
+
+        <!--  Roll Number Allotment  -->
+
+        <record id="student_roll_no_allotment" model="ir.ui.view">
+            <field name="name">Roll Number Allotment</field>
+            <field name="model">student.roll.number</field>
+            <field name="arch" type="xml">
+                <form string="Roll Number Allotment">
+                    <sheet>
+                        <group>
+                            <field name="batch_id" options="{'no_create': True, 'no_open': True, 'no_edit': True}"/>
+                            <field name="start_roll_no" string="Starting Roll Number"/>
+                        </group>
+                        <notebook>
+                            <page string="Students">
+                                <field name="line_ids">
+                                    <tree editable="bottom" create="false" delete="false">
+                                        <field name="student_id" force_save="1" readonly="1"/>
+                                        <field name="second_language" force_save="1" readonly="1"/>
+                                        <field name="roll_no"/>
+                                        <field name="roll_order" class="oe_left"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <footer>
+                        <button name="generate_roll_no" class="btn btn-primary" type="object"
+                                string="Generate Roll Number"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!--    Student Scholarship Details    -->
+
+        <record id="scholarship_details_form" model="ir.ui.view">
+            <field name="name">scholarship.details.form</field>
+            <field name="model">scholarship.details</field>
+            <field name="arch" type="xml">
+                <form string="Scholarship details">
+                    <sheet>
+                        <group>
+                            <field name="student_id" options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
+                            <field name="admission_number"/>
+                            <field name="batch_id" options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
+                            <field name="semester"/>
+                            <field name="scholarship_id"/>
+                            <field name="amount"/>
+                        	<field name="date"/>
+                        </group>
+                        <group>
+                            <field name="remarks" widget="text"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="scholarship_details_tree" model="ir.ui.view">
+            <field name="name">scholarship.details.tree</field>
+            <field name="model">scholarship.details</field>
+            <field name="arch" type="xml">
+                <tree string="Scholarship details">
+                    <field name="student_id"/>
+                    <field name="admission_number"/>
+                    <field name="batch_id"/>
+                    <field name="scholarship_id"/>
+                    <field name="amount"/>
+                	<field name="date"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="scholarship_details_action" model="ir.actions.act_window">
+            <field name="name">Scholarship details</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">scholarship.details</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p>
+            </field>
+        </record>
+
+        <record id="student_roll_no_allotment_action" model="ir.actions.act_window">
+            <field name="name">Allot Roll Number</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">student.roll.number</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <!--    Disciplinary Actions    -->
+
+        <record id="disciplinary_action_details_form" model="ir.ui.view">
+           <field name="name">disciplinary.actions.details.form</field>
+           <field name="model">disciplinary.actions.details</field>
+           <field name="arch" type="xml">
+               <form string="Disciplinary actions">
+                   <sheet>
+                       <group>
+                           <field name="student_id" options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
+                           <field name="disciplinary_id"/>
+                           <field name="from_date"/>
+                           <field name="to_date"/>
+                           <field name="remarks" widget="text"/>
+                       </group>
+                   </sheet>
+               </form>
+           </field>
+       </record>
+
+        <record id="disciplinary_action_details_tree" model="ir.ui.view">
+            <field name="name">disciplinary.actions.details.tree</field>
+            <field name="model">disciplinary.actions.details</field>
+            <field name="arch" type="xml">
+                <tree string="Disciplinary actions">
+                    <field name="student_id"/>
+                    <field name="disciplinary_id"/>
+                    <field name="from_date"/>
+                    <field name="to_date"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="disciplinary_action_details_action" model="ir.actions.act_window">
+            <field name="name">Disciplinary action</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">disciplinary.actions.details</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+        <!--    Student Repeat Semester    -->
+
+        <record id="student_repeat_semester_form_view" model="ir.ui.view">
+            <field name="name">student.repeat.semester.form</field>
+            <field name="model">student.repeat.semester</field>
+            <field name="arch" type="xml">
+                <form string="Repeat Semester">
+                    <header>
+                        <button name="confirm_repeat" string="Confirm" class="oe_highlight" states="draft"
+                                type="object"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="student_id" options="{'no_create': True, 'no_open': True, 'no_edit': True}"/>
+                            <field name="admission_number"/>
+                            <field name="batch_id" options="{'no_create': True, 'no_open': True, 'no_edit': True}"/>
+                            <field name="semester_id"/>
+                            <field name="roll_no"/>
+                            <field name="date"/>
+                            <field name="old_batch_id" forcesave="1" invisible="1"
+                                   options="{'no_create': True, 'no_open': True, 'no_edit': True}"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="student_repeat_semester_tree_view" model="ir.ui.view">
+            <field name="name">student.repeat.semester.tree</field>
+            <field name="model">student.repeat.semester</field>
+            <field name="arch" type="xml">
+                <tree string="Repeat Semester">
+                    <field name="student_id"/>
+                    <field name="batch_id"/>
+                    <field name="date"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="student_repeat_semester_act_window" model="ir.actions.act_window">
+            <field name="name">Student Repeat Semester</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">student.repeat.semester</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click on create button
+                </p>
+            </field>
+        </record>
+
+        <!--    Student Readmission    -->
+
+        <record id="student_readmission_form_view" model="ir.ui.view">
+            <field name="name">student.readmission.form</field>
+            <field name="model">student.readmission</field>
+            <field name="arch" type="xml">
+                <form string="Re admission">
+                    <header>
+                        <button name="confirm_readmission" string="Confirm" class="oe_highlight" states="draft"
+                                type="object"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="student_id" forcesave="1" invisible="1"
+                                   options="{'no_create': True, 'no_open': True, 'no_edit': True}"/>
+                            <field name="admission_number"/>
+                            <field name="batch_id" options="{'no_create': True, 'no_open': True, 'no_edit': True}"/>
+                            <field name="date"/>
+                            <field name="new_student_id" forcesave="1" readonly="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="student_readmission_tree_view" model="ir.ui.view">
+            <field name="name">student.readmission.tree</field>
+            <field name="model">student.readmission</field>
+            <field name="arch" type="xml">
+                <tree string="Re admission">
+                    <field name="student_id"/>
+                    <field name="admission_number"/>
+                    <field name="batch_id"/>
+                    <field name="date"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="student_readmission_act_window" model="ir.actions.act_window">
+            <field name="name">Student Re admission</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">student.readmission</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click on create button
+                </p>
+            </field>
+        </record>
+
+
+        <!--    Batch Generation    -->
+
+        <record id="batch_generation_form_view" model="ir.ui.view">
+            <field name="name">batch.generation.form</field>
+            <field name="model">batch.generation</field>
+            <field name="arch" type="xml">
+                <form string="Batch Promote">
+                    <group>
+                        <field name="batch_year"/>
+                        <field name="semester_id"/>
+                        <field name="programme_ids" options="{'no_create': True, 'no_open': True, 'no_edit': True}"/>
+                    </group>
+                    <footer>
+                        <button name="generate_batch" class="btn-primary" type="object" string="Generate"/>
+                        <button string="Cancel" class="btn-primary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="batch_generation_act_window" model="ir.actions.act_window">
+            <field name="name">Generate Batch</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">batch.generation</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="student_semester_remarks_root" action="student_semester_remarks_action" name="Student Performance" sequence="2" web_icon="safi_students,static/src/img/odoo_icon.png"/>
+
+        <menuitem id="student_root" name="Student" sequence="1"
+                  groups="group_student_user,group_student_manager,group_student_hod_user,group_student_adviser_user,group_student_library_user"
+                  web_icon="safi_students,static/src/img/icon_student.png"/>
+
+        <menuitem id="student_form_menu" name="Student" parent="student_root" action="student_act_window" sequence="1"
+                  groups="group_student_user,group_student_manager,group_student_hod_user,group_student_adviser_user,group_student_library_user"/>
+
+        <menuitem
+                id="senior_admission_student_menu"
+                name="Senior Class Admission"
+                action="senior_admission_student_action"
+                parent="safi_students.student_root"
+                groups="group_student_user,group_student_manager"
+                sequence="10"/>
+
+        <menuitem id="configuration_menu" name="Configuration" parent="student_root" sequence="100"
+                  groups="group_student_manager"/>
+
+        <menuitem id="caste_menu" name="Caste" parent="configuration_menu" action="caste_action"/>
+
+        <menuitem id="caste_category_menu" name="Caste category" parent="configuration_menu"
+                  action="caste_category_action"/>
+
+        <menuitem id="admission_category_menu" name="Admission category" parent="configuration_menu"
+                  action="admission_category_action"/>
+
+        <menuitem id="fee_category_menu" name="Fee category" parent="configuration_menu"
+                  action="fee_category_action"/>
+
+        <menuitem id="second_language_menu" name="Second Language" parent="configuration_menu"
+                  action="second_language_action"/>
+
+        <menuitem id="state_district_menu" name="District" parent="configuration_menu"
+                  action="state_district_action"/>
+
+        <menuitem id="taluk_taluk_menu" name="Taluk" parent="configuration_menu"
+                  action="taluk_taluk_action"/>
+
+        <menuitem id="local_self_government_menu" name="LSG" parent="configuration_menu"
+                  action="local_self_government_action"/>
+
+        <menuitem id="religion_menu" name="Religion" parent="configuration_menu"
+                  action="religion_religion_action"/>
+
+        <menuitem id="batch_generation_menu" name="Generate Batch" parent="configuration_menu"
+                  action="batch_generation_act_window"/>
+
+
+        <menuitem id="batch_action_menu"
+                  name="Batch"
+                  parent="configuration_menu"
+                  action="batch_action"
+                  groups="base.group_system"
+                  sequence="1"/>
+
+
+        <menuitem id="programme_action_menu"
+                  name="Programme"
+                  parent="configuration_menu"
+                  action="programme_action"
+                  groups="base.group_system"
+                  sequence="2"/>
+
+        <menuitem id="student_roll_no_allotment_menu"
+                  name="Allot Roll Number"
+                  parent="student_root"
+                  action="student_roll_no_allotment_action"
+                  sequence="3"
+                  groups="group_student_user,group_student_manager"/>
+
+        <menuitem name="Batch Promotion"
+                  id="batch_promotion_menu"
+                  parent="student_root"
+                  groups="group_student_user,group_student_manager"
+                  action="batch_promotion_act_window"/>
+
+       <menuitem name="Non Prmoted Students"
+                  id="student_non_promotion_menu"
+                  parent="student_root"
+                  groups="group_student_user,group_student_manager"
+                  action="student_non_promotion_action_window"/>
+
+        <menuitem id="scholarship_details_root"
+                  name="Scholarships" sequence="2"
+                  web_icon="safi_students,static/src/img/icon_scholarship.png"
+                  groups="safi_students.group_scholarship_user,safi_students.group_scholarship_manager"/>
+        <menuitem id="scholarship_details_parent"
+                  name="Scholarships"
+                  parent="scholarship_details_root" sequence="1"/>
+        <menuitem id="scholarship_details_menu_action"
+                  name="Scholarship details"
+                  parent="scholarship_details_parent" action="scholarship_details_action" sequence="1"/>
+
+        <menuitem id="disciplinary_action_details_root" name="Disciplinary Actions"
+                  sequence="3" web_icon="safi_students,static/src/img/justice2.png"
+                  groups="safi_students.group_discipline_user,safi_students.group_discipline_manager"/>
+        <menuitem id="disciplinary_action_details_menu_action" name="Disciplinary Action"
+                  parent="disciplinary_action_details_root" action="disciplinary_action_details_action" sequence="1"/>
+
+        <menuitem name="Re admission"
+                  id="student_readmission_menu"
+                  parent="student_root"
+                  action="student_readmission_act_window"
+                  sequence="5"
+        />
+
+        <menuitem name="Repeat Semester"
+                  id="student_repeat_semester_menu"
+                  parent="student_root"
+                  action="student_repeat_semester_act_window"
+                  sequence="5"
+        />
+
+
+    </data>
+</odoo>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <report
+                id="seniority_report_xlsx_id"
+                model="seniority.report"
+                string="Seniority Report"
+                name="safi_hr.seniority_report_xlsx"
+                file="safi_hr.seniority_report_xlsx"
+                report_type="xlsx"/>
+
+        <!--   Retired List Report     -->
+
+        <report
+            id="retired_list_pdf_id"
+            model="retired.list.report"
+            report_type="qweb-pdf"
+            string="Retired List Report"
+            name="safi_hr.retired_list_pdf"
+            file="safi_hr.retired_list_pdf"
+            print_report_name="'Retirement List'"
+        />
+
+                    <!--   Employee Proforma     -->
+
+        <report
+            id="employee_proforma_xlsx_id"
+            model="employee.proforma"
+            report_type="xlsx"
+            string="Employee Proforma XLSX"
+            name="safi_hr.employee_proforma_xlsx"
+            file="safi_hr.employee_proforma_xlsx"
+        />
+
+        <report
+            id="employee_profile_pdf_id"
+            model="hr.employee"
+            report_type="qweb-pdf"
+            string="Employee Profile"
+            name="safi_hr.employee_profile_pdf"
+            file="safi_hr.employee_profile_pdf"
+            print_report_name="'%s Profile'%(object.name)"
+        />
+
+                    <!--   Employee Qualification Report     -->
+
+        <report
+            id="employee_qualification_xlsx_id"
+            model="employee.proforma"
+            report_type="xlsx"
+            string="Employee Qualification XLSX"
+            name="safi_hr.employee_qualification_xlsx"
+            file="safi_hr.employee_qualification_xlsx"
+            print_report_name="'Employee Qualification'"
+        />
+
+                    <!--   Employee Religion Report     -->
+
+        <report
+            id="employee_religion_xlsx_id"
+            model="employee.proforma"
+            report_type="xlsx"
+            string="Employee Religion XLSX"
+            name="safi_hr.employee_religion_xlsx"
+            file="safi_hr.employee_religion_xlsx"
+            print_report_name="'Employee Religion'"
+        />
+
+                    <!--   Employee Caste Report     -->
+
+        <report
+            id="employee_caste_xlsx_id"
+            model="employee.proforma"
+            report_type="xlsx"
+            string="Employee Caste XLSX"
+            name="safi_hr.employee_caste_xlsx"
+            file="safi_hr.employee_caste_xlsx"
+            print_report_name="'Employee Caste'"
+        />
+
+    </data>
+</odoo>

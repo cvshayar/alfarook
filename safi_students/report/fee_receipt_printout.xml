@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="student_fee_receipt">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.external_layout">
+                        <div class="page" style="font-family: 'aakar';font-size:16px">
+                            <h4 class="text-center">FEE RECEIPT</h4>
+                            <div class="text-center" t-if="o.state == 'cancelled'">(Cancelled)</div>
+                            <div class="watermark"
+                                 style="position:absolute;opacity:0.1;font-size:3em;width:100%;text-align:center;z-index:1000;">
+                                <img src='/web/binary/company_logo' style="width:100%"/>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">Name:
+                                    <strong><span t-field="o.student_id.name"/></strong>
+                                </div>
+                                <div class="col-6" align="right">Admission No:
+                                    <strong><span style="border:1px solid black;padding:5px">
+                                        <span t-esc="o.student_id.admission_number"/></span></strong>
+                                </div>
+                            </div>
+                            <div>
+                                Programme &amp; Batch:
+                                <span t-field="o.batch_id.programme_id.name"/>,
+                                <span t-esc="o.batch_id.start_year"/>-
+                                <t t-if="o.batch_id.programme_id.level == 'ug'">
+                                    <t t-set="year" t-value="o.batch_id.start_year + 3"/>
+                                    <span t-esc="year"/>
+                                </t>
+                                <t t-if="o.batch_id.programme_id.level == 'pg'">
+                                    <t t-set="year" t-value="o.batch_id.start_year + 2"/>
+                                    <span t-esc="year"/>
+                                </t>
+                                Sem <span t-esc="o.semester_id.name"/>
+                            </div>
+                            <div style="height:20px"/>
+                            <div class="row">
+                                <div class="col-6">Receipt No.:
+                                    <strong><span t-esc="o.name"/></strong>
+                                </div>
+                                <div class="col-6" align="right">Date:
+                                    <span t-esc="o.payment_date.strftime('%d-%m-%Y')"/>
+                                </div>
+                            </div>
+                            <table class="table-bordered" width="100%">
+                                <tr>
+                                    <th width="10%">SI No</th>
+                                    <th class="text-center">Particulars</th>
+                                    <th class="text-center">Amount</th>
+                                </tr>
+                                <t t-set="i" t-value="0"/>
+                                <tr t-foreach="o.fee_line" t-as="line">
+                                    <t t-set="i" t-value="i+1"/>
+                                    <td class="text-center">
+                                        <span t-esc="i"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="line.fee_id.name"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-esc="line.amount"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th colspan="2" class="text-right">Total</th>
+                                    <th class="text-right">
+                                        <span t-esc="sum(o.fee_line.mapped('amount'))"/>
+                                    </th>
+                                </tr>
+                            </table>
+                            <br/>
+                            <div class="row">
+                                <t t-if="o.receipt_mode == 'Bank'">
+                                    <div class="col-4">Receipt Mode:
+                                        <span t-esc="o.receipt_mode"/>
+                                    </div>
+                                    <div class="col-4">transaction Ref:
+                                        <span t-esc="o.transaction_ref"/>
+                                    </div>
+                                    <div class="col-4" align="right">Bank:
+                                        <span t-esc="o.bank"/>
+                                    </div>
+                                </t>
+                                <t t-if="o.receipt_mode == 'Card'">
+                                    <div class="col-4">Receipt Mode:
+                                        <span t-esc="o.receipt_mode"/>
+                                    </div>
+                                    <div class="col-4">Card Owner:
+                                        <span t-esc="o.card_owner"/>
+                                    </div>
+                                    <div class="col-4" align="right">Card No:
+                                        <span t-esc="o.card_no"/>
+                                    </div>
+                                </t>
+                                <t t-if="o.receipt_mode == 'Cheque'">
+                                    <div class="col-3">Rec. Mode:
+                                        <br/>
+                                        <span t-esc="o.receipt_mode"/>
+                                    </div>
+                                    <div class="col-3">Cheque No:
+                                        <br/>
+                                        <span t-esc="o.cheque_no"/>
+                                    </div>
+                                    <div class="col-3">Cheque Date:
+                                        <br/>
+                                        <t t-if="o.cheque_date"><span t-esc="o.cheque_date.strftime('%d-%m-%Y')"/></t>
+                                    </div>
+                                    <div class="col-3">Issued Bank:
+                                        <br/>
+                                        <span t-esc="o.cheque_issued_bank"/>
+                                        <span t-esc="o.cheque_issued_branch"/>
+                                    </div>
+                                </t>
+                                <t t-if="o.receipt_mode == 'Cash'">
+                                    <div class="col-4">Receipt Mode:
+                                        <span t-esc="o.receipt_mode"/>
+                                    </div>
+                                </t>
+                            </div>
+                            <div style="height:40px"/>
+                            <div class="text-right">Cashier/ Accountant</div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+
+    </data>
+</odoo>

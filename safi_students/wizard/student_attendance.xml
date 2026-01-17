@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="student_attendance_wizard_form" model="ir.ui.view">
+            <field name="name">student.attendance.wizard.form</field>
+            <field name="model">student.attendance.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Mark Attendance">
+                    <header>
+                        <button string="Send Message" name="send_message" type="object" class="oe_highlight" attrs="{'invisible': [('id', '&lt;', '1')]}"/>
+                    </header>
+                    <group>
+                        <field name="batch_id" options="{'no_create': True, 'no_open': True, 'no_edit': True}" required="1"/>
+                        <field name="semester_id" options="{'no_create': True, 'no_open': True, 'no_edit': True}" required="1"/>
+                        <field name="course_id" options="{'no_create': True, 'no_open': True, 'no_edit': True}" required="0"/>
+                        <field name="date" required="1"/>
+                        <field name="hour" required="1"/>
+                        <field name="second_language_id" required="0" options="{'no_create': True, 'no_open': True, 'no_edit': True}"/>
+                        <field name="user_id" required="1" options="{'no_create': True, 'no_open': True, 'no_edit': True}"/>
+                        <field name="attendance_status" required="1"/>
+                    </group>
+                    <notebook>
+                        <page string="Students">
+                            <div class="row">
+                                <div class="col-1"/>
+                                <div class="col-10">
+                                    <div style="padding-left:23px"><field name="check_all"/> <b>Select all</b></div>
+                                    <field name="attendance_line_ids" class="custom-control custom-checkbox">
+                                        <tree editable="bottom" create="false" delete="false">
+                                            <field name="is_absent" string="Abs"/>
+                                            <field name="roll_no" width="20" string="Roll Number" force_save="1" readonly="1"/>
+                                            <field name="student_id" width="50" string="Name" options="{'no_create': True, 'no_open': True, 'no_edit': True}" force_save="1" readonly="1"/>
+                                        </tree>
+                                    </field>
+                                </div>
+                            </div>
+                        </page>
+                    </notebook>
+<!--                    <footer>-->
+<!--                        <button name="mark_attendance" string="Mark Attendance" type="object"-->
+<!--                                class="btn-primary"/>-->
+<!--                        <button string="Cancel" class="btn-default" special="cancel"/>-->
+<!--                    </footer>-->
+                </form>
+            </field>
+        </record>
+        <record id="student_attendance_wizard_action" model="ir.actions.act_window">
+            <field name="name">Attendance Marking</field>
+            <field name="res_model">student.attendance.wizard</field>
+            <field name="view_mode">form</field>
+<!--            <field name="target">new</field>-->
+        </record>
+
+        <!-- Message Absentees -->
+
+        <record id="message_absentees_view_form" model="ir.ui.view">
+            <field name="name">message.absentees.view.form</field>
+            <field name="model">message.absentees</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <group>
+                        <field name="date"/>
+                    </group>
+                   <footer>
+                       <button name="message_absentees" string="Send" type="object"
+                                class="btn-primary"/>
+                       <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="message_absentees_action" model="ir.actions.act_window">
+            <field name="name">Send Message</field>
+            <field name="res_model">message.absentees</field>
+            <field name="view_mode">form</field>
+           <field name="target">new</field>
+        </record>        
+
+        <menuitem name="Attendance"
+                  action="student_attendance_wizard_action"
+                  id="student_attendance_wizard_menu"
+                  parent="student_attendance_root_menu"
+                  sequence="1"/>
+
+        <menuitem name="Send Message"
+                  action="message_absentees_action"
+                  id="message_absentees_menu"
+                  parent="student_attendance_root_menu"
+                  sequence="10"/>
+    </data>
+</odoo>

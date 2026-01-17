@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="applicant_rank_list_form" model="ir.ui.view">
+            <field name="name">Admission Register</field>
+            <field name="model">applicant.rank.list</field>
+            <field name="arch" type="xml">
+                <form string="Applicant Rank List">
+                    <group>
+                        <field name="programme_id" options="{'no_create': True, 'no_open': True, 'no_edit': True}" required="1"/>
+                        <field name="category" required="1"/>
+                        <field name="lock_status" required="1"/>
+                        <field name="preference"/>
+                    </group>
+                    <footer>
+<!--                        <button name="print_excel_report" string="Print Excel" type="object" class="btn-primary"/>-->
+                        <button name="generate_report" string="Print" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="applicant_rank_list_action" model="ir.actions.act_window">
+            <field name="name">Applicant Rank List</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">applicant.rank.list</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</odoo>

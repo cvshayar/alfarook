@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="admission_summary_wizard_form" model="ir.ui.view">
+            <field name="name">admission.summary.wizard.form</field>
+            <field name="model">admission.summary.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Admission Summary">
+                    <group>
+                        <field name="from_date" required="1"/>
+                        <field name="to_date" required="1"/>
+                        <field name="report_form" required="1"/>
+                        <field name="report_type"
+                               attrs="{'invisible': [('report_form', '!=', 'Count')], 'required': [('report_form', '=', 'Count')]}"/>
+                        <field name="detailed_report_type"
+                               attrs="{'invisible': [('report_form', 'not in', ['Detailed Admitted', 'Detailed Not Admitted'])]}"/>
+                        <field name="sort_order"
+                               attrs="{'invisible': [('report_form', 'not in', ['Detailed Admitted'])]}"/>
+                        <field name="religion_ids" widget="many2many_tags"
+                               options="{'no_create': True, 'no_edit': True, 'no_open': True}"
+                               attrs="{'invisible': [('detailed_report_type', '!=', 'religion')]}"/>
+                        <field name="caste_ids" widget="many2many_tags"
+                               options="{'no_create': True, 'no_edit': True, 'no_open': True}"
+                               attrs="{'invisible': [('detailed_report_type', '!=', 'caste')]}"/>
+                        <field name="second_language_ids" widget="many2many_tags"
+                               options="{'no_create': True, 'no_edit': True, 'no_open': True}"
+                               attrs="{'invisible': [('detailed_report_type', '!=', 'second_language')]}"/>
+                        <field name="admission_category_ids" widget="many2many_tags"
+                               options="{'no_create': True, 'no_edit': True, 'no_open': True}"
+                               attrs="{'invisible': [('detailed_report_type', '!=', 'admission_category')]}"/>
+                        <field name="caste_category_ids" widget="many2many_tags"
+                               options="{'no_create': True, 'no_edit': True, 'no_open': True}"
+                               attrs="{'invisible': [('detailed_report_type', '!=', 'category')]}"/>
+                        <field name="fee_category_ids" widget="many2many_tags"
+                               options="{'no_create': True, 'no_edit': True, 'no_open': True}"
+                               attrs="{'invisible': [('detailed_report_type', '!=', 'fee_category')]}"/>
+                        <field name="level" required="0"/>
+                        <field name="batch_year" string="Batch Year" required="1"/>
+                        <field name="batch_ids"
+                               domain="[('start_year', '=', batch_year), ('programme_id.level', '=', level)]"
+                               widget="many2many_tags" options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
+                        <field name="field_select_ids" widget="many2many_tags"
+                               attrs="{'invisible': [('report_form', '!=', 'Detailed Admitted')]}"
+                               domain="[('model_id.model', '=', 'student.student'), ('ttype', '!=', 'one2many'),
+                                        ('relation', 'not in', ['mail.activity.type', 'res.users', 'mail.channel', 'ir.attachment'
+                                        , 'res.partner']), ('store', '=', True), ('name', 'not in', ['id', 'image', 'name', 'appno', 'admission_number', 'write_date', 'create_date'])]"
+                               options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
+                        <field name="fee_status" widget="radio" attrs="{'invisible': [('report_form', '=', 'Count')]}"/>
+                    </group>
+                    <footer>
+                        <button name="print_excel_report" string="Print Excel" type="object" class="btn-primary"/>
+<!--                        <button name="generate_report" string="Generate pdf" type="object" class="btn-primary"/>-->
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="admission_summary_wizard_action" model="ir.actions.act_window">
+            <field name="name">Admission Summary</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">admission.summary.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem
+                id="admission_summary_wizard_menu"
+                name="Admission Summary"
+                parent="safi_students.student_report_menu"
+                sequence="2"
+                groups="group_student_user,group_student_manager"
+                action="admission_summary_wizard_action"
+        />
+
+
+    </data>
+</odoo>

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <report
+                id="other_leave_report_id"
+                model="hr.leave"
+                string="Other Leave Letter"
+                name="safi_hr.other_leave_report"
+                file="safi_hr.other_leave_report"
+                menu="False"
+                print_report_name="'%s'%(object.employee_id.name)"
+                report_type="qweb-pdf"/>
+
+        <template id="other_leave_report">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.internal_layout">
+                        <div class="page" style="line-height: 25px">
+                            <h4 class="text-center">FAROOK COLLEGE (Autonomous)</h4>
+                            <p class="text-center">P.O. Farook College (Calicut)</p>
+                            <p class="text-center">Form No. 13</p>
+                            <h4 class="text-center">APPLICATION FOR LEAVE</h4>
+                            <P class="text-center">(Rule 113 Part - I)</P>
+                            <P class="text-center">Note : Item 1-16 must be filled in by all applicants whether Gazetted or Non-Gazetted</P>
+                            <div class="row">
+                                <div class="col-5">1   &#160;Name of the applicant</div>
+                                <div class="col-7">:
+                                    <span t-field="o.employee_id.name"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5">2   &#160;Date of birth</div>
+                                <div class="col-7">:
+                                    <span t-field="o.employee_id.birthday"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5">3   &#160;Post held</div>
+                                <div class="col-7">:
+                                    <span t-field="o.employee_id.job_id.name"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5">4   &#160;Dept, Office &amp; Section</div>
+                                <div class="col-7">:
+                                    <span t-field="o.department_id.name"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5">5   &#160;Pay and scale of pay</div>
+                                <div class="col-7">:
+                                    <!-- <span t-field="o.employee_id.name"/> -->
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5">6   &#160;Date of entry in service</div>
+                                <div class="col-7">:
+                                    <span t-field="o.employee_id.date_of_joining"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5">7   &#160;Date of commencement of continues <br/>&#160;&#160;&#160;&#160;service</div>
+                                <div class="col-7">:
+                                    <span t-field="o.employee_id.date_of_joining"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5">8   &#160;Whether the applicant has got <br/>&#160;&#160;&#160;&#160;confirmation in any post, if so from
+                                                    <br/>&#160;&#160;&#160;&#160;which date and which post</div>
+                                <div class="col-7">:
+                                    Yes
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5">9   &#160;Address during leave</div>
+                                <div class="col-7">:
+                                    <span t-field="o.leave_address"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5">10  House rent allowance, conveyance<br/>&#160;&#160;&#160;&#160;
+                                                    allowance or other compensatory<br/>&#160;&#160;&#160;&#160;
+                                                    allowance drawn in the permanent post</div>
+                                <div class="col-7">:
+                                    <!-- <span t-field="o.employee_id.name"/> -->
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5">11  Nature and period of leave applied<br/>&#160;&#160;&#160;&#160;
+                                                    for and date from which required</div>
+                                <div class="col-7">:
+                                    <span t-field="o.holiday_status_id.name"/>
+                                    <t t-if="o.request_date_from == o.request_date_to"> on <span t-field="o.request_date_from"/></t>
+                                    <t t-if="o.request_date_from != o.request_date_to"> from <span t-field="o.request_date_from"/> to <span t-field="o.request_date_to"/></t>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5">12  Sunday and holiday if and proposed<br/>&#160;&#160;&#160;&#160;
+                                                    to be prefixed/suffixed</div>
+                                <div class="col-7">:
+                                    <t t-if="o.prefix">Prefix : <span t-field="o.prefix"/></t>
+                                    <t t-if="o.suffix">Suffix : <span t-field="o.suffix"/></t>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5">13  Ground on which the leave is applied for</div>
+                                <div class="col-7">:
+                                    <span t-field="o.leave_reasons_id.name"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5">14  Date and return from last leave and the<br/>&#160;&#160;&#160;&#160;&#160;
+                                                    nature and period of that leave</div>
+                                <div class="col-7">:
+                                    <!-- <span t-field="o.employee_id.name"/> -->
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    15 (a) I undertake to refund the difference between the leave salary drawn during commuted leave and<br/> &#160;&#160;&#160;&#160;
+                                    admissible, during half pay leave, which would not have been admissible had ruling No.2 under rule<br/> &#160;&#160;&#160;&#160;
+                                    84 part I not been applied in the event of my retirement from service at the end or during the current <br/> &#160;&#160;&#160;&#160;
+                                    of the leave.<br/>&#160;&#160;&#160;&#160;
+                                    (b) I undertake to refund the leave salary drawn "during leave not due" which would not have been<br/>&#160;&#160;&#160;&#160;
+                                    admissible had rule 85 part I not been applied in the event of my voluntary retirement or resignation<br/>&#160;&#160;&#160;&#160;
+                                    from service at any time until I earn half pay leave , not less than this amount of leave not due<br/>&#160;&#160;&#160;&#160;
+                                    availed of by me.<br/>
+                                    <p style="page-break-after:always"/>
+                                    16 Place : <br/>
+                                    <p class="text-right">Signature of applicant(with date)</p>
+                                    17 Remarks and or recommendation of Controlling Officer<br/><br/><br/>
+                                    <p class="text-right">Signature (with date) &amp; Designation</p>
+                                    Note - in case of a Government servant who is mentally unsound and / or physically unable to fill in the<br/>
+                                    columns of this form and sign it, the guardian of his appointed under the indian Lunacy Act 1912(Central<br/>
+                                    ActIV of 1912) or any person authorised by the authority competant to grant the leave may fill the column<br/>
+                                    and sign the application for and behalf of the government servant.<br/><br/><br/><br/>
+                                </div>
+                            </div>
+                            <h5 class="text-center">CERTIFICATE REGARDING ADMISSIBILITY OF LEAVE</h5>
+                            <h6 class="text-center">(By Accountant General in the case of Gazetted Officer)</h6>
+                            <div class="row">
+                                <div class="col-12">
+                                    18 Certified that .......................................................................................................................................(nature of leave)<br/> &#160;&#160;&#160;&#160;
+                                    for ............................................................................................from..................................to.........................................<br/> &#160;&#160;&#160;&#160;
+                                    is admissible under........................................................................................................................................rule of the <br/> &#160;&#160;&#160;&#160;
+                                    Kerala Service Rules.<br/><br/><br/>
+                                    <p class="text-right">Signature (with date) &amp; Designation</p><br/>
+                                    19 Orders of sanctioning authority<br/><br/><br/>
+                                    <p class="text-right">Signature (with date) &amp; Designation</p>
+                                    If the applicant is drawing any compensatory allowance, the sanctioning authority should state whether on<br/>
+                                    the expiry of leave he is likely to return to the same post or to another post carrying similar allowance<br/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

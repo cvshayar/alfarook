@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!--    TC Printout    -->
+        <report
+            id="tc_printout_id"
+            model="tc.issued.register"
+            report_type="qweb-pdf"
+            string="TC"
+            name="safi_students.tc_printout_template"
+            file="safi_students.tc_printout_template"
+            menu="False"
+            print_report_name="'TC of %s'%(object.student_id.name)"
+        />
+
+        <!--    Fee Receipt    -->
+        <report
+                id="student_fee_receipt_id"
+                model="fee.collection"
+                string="Fee Receipt"
+                report_type="qweb-pdf"
+                name="safi_students.student_fee_receipt"
+                file="safi_students.student_fee_receipt"
+                menu="False"
+                print_report_name="'Fee receipt of %s'%(object.student_id.name)"
+        />
+
+        <!--    Refund Receipt    -->
+        <report
+                id="student_fee_refund_id"
+                model="fee.refund"
+                string="Fee Refund"
+                report_type="qweb-pdf"
+                name="safi_students.student_fee_refund"
+                file="safi_students.student_fee_refund"
+                menu="False"
+                print_report_name="'Fee Refund of %s'%(object.student_id.name)"
+        />
+
+        <!--    Admission Register    -->
+        <report
+                id="admission_register_report_pdf_id"
+                model="admission.register.report"
+                string="Admission Register"
+                report_type="qweb-pdf"
+                name="safi_students.admission_register_report_pdf"
+                file="safi_students.admission_register_report_pdf"
+                menu="False"
+                print_report_name="'Admission Register %s'%(object.year_of_admission)"
+        />
+
+        <!--    Student Count    -->
+        <report
+                id="student_count_report_xlsx_id"
+                model="student.count.report"
+                string="Student Count"
+                report_type="xlsx"
+                name="safi_students.student_count_report_xlsx"
+                file="safi_students.student_count_report_xlsx"
+                menu="False"
+        />
+        <!--    Religion Wise Admission Summary    -->
+
+        <report
+                id="religion_admission_summary_report_xlsx_id"
+                model="admission.summary.wizard"
+                report_type="xlsx"
+                string="Admission Summary Religion"
+                name="safi_students.religion_admission_summary_report_xlsx"
+                file="Religion wise Admission Summary"
+        />
+
+                <!--    Admission Category Wise Admission Summary    -->
+
+        <report
+                id="admission_category_summary_report_xlsx_id"
+                model="admission.summary.wizard"
+                report_type="xlsx"
+                string="Admission Summary Admission Category"
+                name="safi_students.admission_category_summary_report_xlsx"
+                file="Admission Category wise Admission Summary"
+        />
+
+                <!--    Caste Wise Admission Summary    -->
+
+        <report
+                id="caste_admission_summary_report_xlsx_id"
+                model="admission.summary.wizard"
+                report_type="xlsx"
+                string="Admission Summary Caste"
+                name="safi_students.caste_admission_summary_report_xlsx"
+                file="Caste wise Admission Summary"
+        />
+
+                <!--    Caste Category Wise Admission Summary    -->
+
+        <report
+                id="category_admission_summary_report_xlsx_id"
+                model="admission.summary.wizard"
+                report_type="xlsx"
+                string="Admission Summary Caste Category"
+                name="safi_students.category_admission_summary_report_xlsx"
+                file="Caste Category wise Admission Summary"
+        />
+
+                <!--    Second Language Wise Admission Summary    -->
+
+        <report
+                id="language_admission_summary_report_xlsx_id"
+                model="admission.summary.wizard"
+                report_type="xlsx"
+                string="Admission Summary Second Language"
+                name="safi_students.language_admission_summary_report_xlsx"
+                file="Second Language wise Admission Summary"
+        />
+
+                <!--    Second Language Wise Admission Summary    -->
+
+        <report
+                id="fee_admission_summary_report_xlsx_id"
+                model="admission.summary.wizard"
+                report_type="xlsx"
+                string="Admission Summary Fee Category"
+                name="safi_students.fee_admission_summary_report_xlsx"
+                file="Fee Category wise Admission Summary"
+        />
+
+                <!--     Detailed Admission Summary    -->
+
+        <report
+                id="detailed_admission_summary_report_xlsx_id"
+                model="admission.summary.wizard"
+                report_type="xlsx"
+                string="Detailed Admission Summary"
+                name="safi_students.detailed_admission_summary_report_xlsx"
+                file="Detailed Admission Summary"
+        />
+
+                <!--     Matriculation Report    -->
+
+        <report
+                id="matriculation_report_xlsx_id"
+                model="matriculation.report.wizard"
+                report_type="xlsx"
+                string="Matriculation Report"
+                name="safi_students.matriculation_report_xlsx"
+                file="Matriculation Report"
+        />
+
+        <report
+                id="matriculation_report_pdf_id"
+                model="matriculation.report.wizard"
+                report_type="qweb-pdf"
+                string="Matriculation Report"
+                name="safi_students.matriculation_report_pdf"
+                file="Matriculation Report"
+        />
+
+                 <!--     Nominal Roll    -->
+
+        <report
+                id="nominal_roll_xlsx_id"
+                model="nominal.roll"
+                report_type="xlsx"
+                string="Nominal Roll Xlsx"
+                name="safi_students.nominal_roll_xlsx"
+                file="Nominal Roll"
+        />
+
+        <report
+                id="nominal_roll_pdf_id"
+                model="nominal.roll"
+                report_type="qweb-pdf"
+                string="Nominal Roll"
+                name="safi_students.nominal_roll_pdf"
+                file="Nominal Roll"
+                print_report_name="'Nominal Roll'"
+        />
+
+                 <!--     Monthly Admission Count    -->
+
+        <report
+                id="monthly_admission_count_xlsx_id"
+                model="monthly.admission.count"
+                report_type="xlsx"
+                string="Monthly Admission Count"
+                name="safi_students.monthly_admission_count_xlsx"
+                file="Monthly Admission Count"
+        />
+
+        <report
+                id="monthly_admission_count_pdf_id"
+                model="monthly.admission.count"
+                report_type="qweb-pdf"
+                string="Monthly Admission Count"
+                name="safi_students.monthly_admission_count_pdf"
+                file="Monthly Admission Count Pdf"
+                print_report_name="'Monthly Admission Count'"
+        />
+
+                <!--     Student Detailed Report    -->
+
+        <report
+                id="student_detailed_report_xlsx_id"
+                model="student.detailed.report"
+                report_type="xlsx"
+                string="Student Detailed Report"
+                name="safi_students.student_detailed_report_xlsx"
+                file="Student Detailed Report"
+        />
+
+                <!--     CD Register     -->
+
+        <report
+                id="cd_register_report_pdf_id"
+                model="cd.register.wizard"
+                report_type="qweb-pdf"
+                string="CD Register"
+                name="safi_students.cd_register_report_pdf"
+                file="CD Register"
+                print_report_name="'CD Register'"
+        />
+
+                <!-- Student Fee Due -->
+
+        <report
+                id="student_fee_due_xlsx_id"
+                model="student.fee.due"
+                report_type="xlsx"
+                string="Student Detailed Report"
+                name="safi_students.student_fee_due_xlsx"
+                file="Fee Dues"
+        />
+
+                <!-- Programme Fee Collection -->
+
+        <report
+                id="programme_fee_collection_report_xlsx_id"
+                model="programme.fee.collection.report"
+                report_type="xlsx"
+                string="Programme Fee Collection Report"
+                name="safi_students.programme_fee_collection_report_xlsx"
+                file="Programme Fee Collection"
+        />
+
+                <!-- DFCR -->
+
+        <report
+                id="dfcr_xlsx_id"
+                model="dfcr.wizard"
+                report_type="xlsx"
+                string="DFCR"
+                name="safi_students.dfcr_xlsx"
+                file="DFCR"
+        />
+
+                <!-- DFCR Self Finance -->
+
+        <report
+                id="dfcr_self_finance_xlsx_id"
+                model="dfcr.self_finance.wizard"
+                report_type="xlsx"
+                string="DFCR Self"
+                name="safi_students.dfcr_self_finance_xlsx"
+                file="DFCR"
+        />
+
+               <!-- Periodic Collection Summary -->
+
+        <report
+                id="periodic_collection_summary_xlsx_id"
+                model="periodic.collection.summary"
+                report_type="xlsx"
+                string="Periodic Collection Summary"
+                name="safi_students.periodic_collection_summary_xlsx"
+                file="Periodic Collection Summary"
+        />
+
+               <!-- Applicant Rank List -->
+
+        <report
+                id="applicant_rank_list_pdf_id"
+                model="applicant.rank.list"
+                report_type="qweb-pdf"
+                string="Applicant Rank List"
+                name="safi_students.applicant_rank_list_pdf"
+                file="Applicant Rank List"
+                print_report_name="'Applicant Rank List'"
+        />
+
+               <!-- Student Attendance Report -->
+
+        <report
+                id="student_attendance_report_xlsx_id"
+                model="student.attendance.report"
+                report_type="xlsx"
+                string="Attendance Report"
+                name="safi_students.student_attendance_report_xlsx"
+                file="Attendance Report"
+        />
+
+               <!-- Attendance Summary Report -->
+
+        <report
+                id="attendance_summary_report_xlsx_id"
+                model="attendance.summary.report"
+                report_type="xlsx"
+                string="Attendance Summary Report"
+                name="safi_students.attendance_summary_report_xlsx"
+                file="Attendance Summary Report"
+        />
+
+               <!-- Scholarship Report -->
+
+        <report
+                id="scholarship_report_xlsx_id"
+                model="scholarship.report"
+                report_type="xlsx"
+                string="Scholarship Report"
+                name="safi_students.scholarship_report_xlsx"
+                file="Scholarship Report"
+        />
+
+                <!-- Student Absentee List -->
+
+        <report
+                id="student_attendance_absentee_report_xlsx_id"
+                model="student.attendance.absentee.report"
+                report_type="xlsx"
+                string="Absentee List"
+                name="safi_students.student_attendance_absentee_report_xlsx"
+                file="Absentee List"
+        />
+
+    </data>
+</odoo>

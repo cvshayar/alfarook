@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="monthly_admission_count_form" model="ir.ui.view">
+            <field name="name">Monthly Admission Count</field>
+            <field name="model">monthly.admission.count</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <group>
+                        <field name="from_date"/>
+                        <field name="to_date"/>
+                        <field name="programme_type" />
+                    </group>
+                    <footer>
+                        <button name="print_excel_report" string="Print Excel" type="object" class="btn-primary"/>
+                        <button name="generate_report" string="Print" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="monthly_admission_count_action" model="ir.actions.act_window">
+            <field name="name">Monthly Admission Count</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">monthly.admission.count</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem
+                id="monthly_admission_count_menu"
+                name="Monthly Admission Count"
+                parent="safi_students.student_report_menu"
+                sequence="1"
+                groups="group_student_user,group_student_manager"
+                action="monthly_admission_count_action"
+        />
+    </data>
+</odoo>

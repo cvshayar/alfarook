@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="student_fee_due_form" model="ir.ui.view">
+            <field name="name">student.fee.due.form</field>
+            <field name="model">student.fee.due</field>
+            <field name="arch" type="xml">
+                <form string="Fee Due">
+                    <group>
+                        <field name="report_type"/>
+                        <field name="batch_ids" widget="many2many_tags" options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
+                        <field name="semester_id" options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
+                        <field name="to_date"/>
+                    </group>
+                    <footer>
+                        <button name="print_excel_report" string="Export" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="student_fee_due_action" model="ir.actions.act_window">
+            <field name="name">Student Fee Due</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">student.fee.due</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem
+                id="student_fee_due_menu"
+                name="Student Fee Due"
+                parent="fee_report_menu"
+                sequence="6"
+                action="student_fee_due_action"
+        />
+
+    </data>
+</odoo>

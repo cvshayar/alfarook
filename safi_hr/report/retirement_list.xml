@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <template id="retired_list_pdf">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <h4 class="text-center">Retirement List</h4>
+                            <table width="100%" class="table-bordered">
+                                <tr>
+                                    <th style="padding:5px" class="text-center">SI.No</th>
+                                    <th style="padding:5px" class="text-center">Pen Number</th>
+                                    <th style="padding:5px" class="text-center">Name</th>
+                                    <th style="padding:5px" class="text-center">Designation</th>
+                                    <th style="padding:5px" class="text-center">Department</th>
+                                    <th style="padding:5px" class="text-center">Retirement Date</th>
+                                </tr>
+                                <t t-set="i" t-value="0"/>
+                                <tr t-foreach="lines" t-as="line">
+                                    <t t-set="i" t-value="i + 1"/>
+                                    <td style="padding:5px"><span t-esc="i"/></td>
+                                    <td style="padding:5px" class="text-center"><span t-esc="line['pen_number']"/></td>
+                                    <td style="padding:5px"><span t-esc="line['name']"/></td>
+                                    <td style="padding:5px"><span t-esc="line['job_id'].name"/></td>
+                                    <td style="padding:5px"><span t-esc="line['department_id'].name"/></td>
+                                    <td style="padding:5px" class="text-center"><span t-esc="line['retirement_date'].strftime('%d/%m/%Y')"/></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

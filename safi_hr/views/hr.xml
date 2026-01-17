@@ -1,0 +1,1091 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="safi_hr_leave_view_search" model="ir.ui.view">
+            <field name="name">safi.hr.leave.search.view.inherit</field>
+            <field name="model">hr.leave</field>
+            <field name="inherit_id" ref="hr_holidays.view_hr_holidays_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='employee_id']" position="after">
+                    <filter name="leave_today" string="Leave Today"
+                            domain="[('request_date_from', '&gt;=', context_today().strftime('%Y-%m-%d')), ('request_date_to', '&lt;=', context_today().strftime('%Y-%m-%d')), ('state', 'not in', ['refuse', 'cancel'])]"/>
+                </xpath>
+                <xpath expr="//field[@name='employee_id']" position="after">
+                    <filter name="leave_month" string="This Month"
+                            domain="[('request_date_from', '&gt;=', context_today().strftime('%Y-%m-01')), ('request_date_to', '&lt;=', (context_today()+relativedelta(months=1)).strftime('%Y-%m-01')), ('state', 'not in', ['refuse', 'cancel'])]"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!--    Duty Type    -->
+
+        <record id="duty_type_view_form" model="ir.ui.view">
+            <field name="name">duty_type_view_form</field>
+            <field name="model">duty.type</field>
+            <field name="arch" type="xml">
+                <form string="Duty Type">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="duty_type_view_tree" model="ir.ui.view">
+            <field name="name">duty_type_view_tree</field>
+            <field name="model">duty.type</field>
+            <field name="arch" type="xml">
+                <tree string="duty_type_tree">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="duty_type_action" model="ir.actions.act_window">
+            <field name="name">Duty Type</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">duty.type</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!--    Role of Applicant    -->
+
+        <record id="leave_role_view_form" model="ir.ui.view">
+            <field name="name">leave_role_view_form</field>
+            <field name="model">leave.role</field>
+            <field name="arch" type="xml">
+                <form string="Duty Role">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="leave_role_view_tree" model="ir.ui.view">
+            <field name="name">leave_role_view_tree</field>
+            <field name="model">leave.role</field>
+            <field name="arch" type="xml">
+                <tree string="Duty Role">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="leave_role_action" model="ir.actions.act_window">
+            <field name="name">Duty Role</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">leave.role</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!--    HR Leaves    -->
+
+        <record id="all_hr_leave_view_dashboard" model="ir.ui.view">
+            <field name="name">all.hr.leave.view.dashboard</field>
+            <field name="model">hr.leave</field>
+            <field name="arch" type="xml">
+                <calendar string="Time Off Request" form_view_id="%(hr_holidays.hr_leave_view_form_manager)d"
+                          event_open_popup="true" date_start="date_from" date_stop="date_to" mode="month"
+                          quick_add="False" color="employee_id">
+                    <field name="display_name"/>
+                </calendar>
+            </field>
+        </record>
+
+        <record id="view_graph_leaves" model="ir.ui.view">
+            <field name="model">hr.leave</field>
+            <field name="arch" type="xml">
+                <graph type="bar">
+                    <field name="holiday_status_id" type="aggregate"/>
+                    <!--                    <field name="gender" type="aggregate"/>-->
+                </graph>
+            </field>
+        </record>
+
+        <record id="all_hr_leave_action_new_request" model="ir.actions.act_window">
+            <field name="name">Dashboard</field>
+            <field name="res_model">hr.leave</field>
+            <field name="view_mode">calendar,tree,form,activity,graph</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new time off request
+                </p><p>
+                Once a time off request is posted, your manager is notified for validation.
+            </p>
+            </field>
+        </record>
+
+        <record id="hr_leave_action_new_request_view_calendar" model="ir.actions.act_window.view">
+            <field name="sequence">1</field>
+            <field name="view_mode">calendar</field>
+            <field name="act_window_id" ref="all_hr_leave_action_new_request"/>
+            <field name="view_id" ref="all_hr_leave_view_dashboard"/>
+        </record>
+
+        <!-- Inheriting HR Leave Manager Form -->
+        <record id="hr_leave_form_manager_inherit" model="ir.ui.view">
+            <field name="name">hr.leave.manager.form.inherit</field>
+            <field name="model">hr.leave</field>
+            <field name="inherit_id" ref="hr_holidays.hr_leave_view_form_manager"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//div[@name='title']" position="replace">
+                    <div/>
+                </xpath>
+                <xpath expr="//group[1]/group/label" position="before">
+                    <field name="holiday_status_id"
+                           domain="['&amp;', ('virtual_remaining_leaves', '&gt;', 0), '|', ('allocation_type', 'in', ['fixed_allocation', 'no']),'&amp;',('allocation_type', '=', 'fixed'), ('max_leaves', '&gt;', '0')]"
+                           context="{'employee_id':employee_id, 'default_date_from':date_from}" string="Leave Type"
+                           options="{'no_create': True, 'no_open': True, 'no_edit': True}"/>
+                </xpath>
+                <xpath expr="//field[@name='holiday_status_id']" position="after">
+                    <field name="is_visible" invisible="1"/>
+                    <field name="is_commuted"
+                           attrs="{'invisible':[('is_visible','=',False)],'readonly': [('state', 'not in', ('draft', 'confirm'))]}"/>
+                </xpath>
+                <field name="name" position="replace">
+                    <field name="leave_reasons_id"
+                           attrs="{'readonly': [('state', 'not in', ('draft', 'confirm'))], 'invisible': [('is_field_visible', '=', 1)]}"/>
+                </field>
+                <field name="report_note" position="replace">
+                    <field name="report_note" invisible="1"/>
+                </field>
+                <xpath expr="//separator" position="replace">
+                    <div/>
+                </xpath>
+                <xpath expr="//group[last()]" position="after">
+                    <group attrs="{'invisible': [('is_field_visible', 'in', [0, 3, 4, 5])]}" name="duty_leave">
+                        <group>
+                            <field name="duty_type_id" options="{'no_create': True, 'no_open': True, 'no_edit': True}" attrs="{'readonly': [('state', '=', 'validate')]}"/>
+                            <field name="leave_role_id" options="{'no_create': True, 'no_open': True, 'no_edit': True}" attrs="{'readonly': [('state', '=', 'validate')]}"/>
+                            <field name="role"
+                                   attrs="{'invisible': [('is_field_visible', '!=', 2)], 'readonly': [('state', '=', 'validate')]}"/>
+                        </group>
+                        <group>
+                            <field name="venue" attrs="{'readonly': [('state', '=', 'validate')]}"/>
+                            <field name="address" attrs="{'readonly': [('state', '=', 'validate')]}"/>
+                            <field name="call_letter_ids" widget="many2many_binary"
+                                   attrs="{'readonly': [('state', '=', 'validate')]}"/>
+                            <field name="approve_date" force_save="1" invisible="1"/>
+                            <field name="is_field_visible" force_save="1" invisible="1"/>
+                        </group>
+                    </group>
+                </xpath>
+                <field name="number_of_days" position="replace">
+                    <field name="number_of_days" force_save="1" readonly="1"/>
+                </field>
+
+                <xpath expr="//group[1]" position="before">
+                    <div>
+                        <field name="is_halfday_visible" invisible="1"/>
+                        <button name="%(duty_leave_report_id)d" type="action" icon="fa-print"
+                                attrs="{'invisible': [('is_field_visible', 'in', [0, 3, 4, 5])]}"/>
+                        <button name="%(leave_report)d" type="action" icon="fa-print"
+                                attrs="{'invisible': [('is_halfday_visible', '=', False)]}"
+                                class="btn-info"/>
+                        <button name="%(other_leave_report_id)d" type="action" icon="fa-print"
+                                attrs="{'invisible': [('is_field_visible', 'not in', [3, 4, 5])]}"
+                                class="btn-info"/>
+                    </div>
+                </xpath>
+                <xpath expr="//group[@name='duty_leave']" position="after">
+                    <notebook>
+                        <page string="Work Arrangement">
+                            <field name="leave_line" attrs="{'readonly': [('state', 'in', ['validate1','validate'])]}">
+                                <tree editable="bottom">
+                                    <field name="leave_id" force_save="1" invisible="1"/>
+                                    <field name="hour"/>
+                                    <field name="staff" string="Adjusted with"/>
+                                    <!-- <field name="staff_id" options="{'no_create': True, 'no_edit': True, 'no_open': True}"/> -->
+                                    <field name="is_cancel"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </xpath>
+                <!--                <xpath expr="//field[@name='number_of_days']" position="replace">-->
+                <!--                    <attribute name="readonly" >1</attribute>-->
+                <!--                </xpath>-->
+            </field>
+        </record>
+
+        <!--    Inheriting HR Leave User Form    -->
+        <record id="hr_leave_view_form_dashboard_inherit1" model="ir.ui.view">
+            <field name="name">hr.leave.form.dashboard.inherit1</field>
+            <field name="model">hr.leave</field>
+            <field name="inherit_id" ref="hr_holidays.hr_leave_view_form_dashboard"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='status_id']" position="replace">
+                    <div/>
+                </xpath>
+                <xpath expr="//group[1]/group/label" position="before">
+                    <field name="holiday_status_id"
+                           domain="['&amp;', ('virtual_remaining_leaves', '&gt;', 0), '|', ('allocation_type', 'in', ['fixed_allocation', 'no']),'&amp;',('allocation_type', '=', 'fixed'), ('max_leaves', '&gt;', '0')]"
+                           context="{'employee_id':employee_id, 'default_date_from':date_from}"
+                           options="{'no_create': True, 'no_open': True}"/>
+                </xpath>
+                <xpath expr="//group[1]/group" position="inside">
+                    <field name="name" widget="text"/>
+                </xpath>
+                <xpath expr="//div[@name='description']" position="replace">
+                    <div/>
+                </xpath>
+                <xpath expr="//field[@name='holiday_status_id']" position="after">
+                    <field name="is_visible" invisible="1"/>
+                    <field name="is_commuted"
+                           attrs="{'invisible':[('is_visible','=',False)],'readonly': [('state', 'not in', ('draft', 'confirm'))]}"/>
+                </xpath>
+                <field name="name" position="replace">
+                    <field name="leave_reasons_id"
+                           attrs="{'readonly': [('state', 'not in', ('draft', 'confirm'))], 'invisible': [('is_field_visible', '=', 1)]}"/>
+                </field>
+                <xpath expr="//group[last()]" position="after">
+                    <group attrs="{'invisible': [('is_field_visible', 'in', [0, 3, 4, 5])]}" name="duty_leave">
+                        <group>
+                            <field name="duty_type_id" options="{'no_create': True, 'no_open': True, 'no_edit': True}" attrs="{'readonly': [('state', '=', 'validate')]}"/>
+                            <field name="leave_role_id" options="{'no_create': True, 'no_open': True, 'no_edit': True}" attrs="{'readonly': [('state', '=', 'validate')]}"/>
+                            <field name="role"
+                                   attrs="{'invisible': [('is_field_visible', '!=', 2)], 'readonly': [('state', '=', 'validate')]}"/>
+                        </group>
+                        <group>
+                            <field name="venue" attrs="{'readonly': [('state', '=', 'validate')]}"/>
+                            <field name="address" attrs="{'readonly': [('state', '=', 'validate')]}"/>
+                            <field name="call_letter_ids" widget="many2many_binary"
+                                   attrs="{'readonly': [('state', '=', 'validate')]}"/>
+                            <field name="approve_date" force_save="1" invisible="1"/>
+                            <field name="is_field_visible" force_save="1" invisible="1"/>
+                        </group>
+                    </group>
+                </xpath>
+                <xpath expr="//group[1]" position="before">
+                    <div>
+                        <field name="is_halfday_visible" invisible="1"/>
+                        <button name="%(duty_leave_report_id)d" type="action" icon="fa-print"
+                                attrs="{'invisible': [('is_field_visible', 'in', [0, 3, 4, 5])]}"/>
+                        <button name="%(leave_report)d" type="action" icon="fa-print"
+                                attrs="{'invisible': [('is_halfday_visible', '=', False)]}"
+                                class="btn-info"/>
+                        <button name="%(other_leave_report_id)d" type="action" icon="fa-print"
+                                attrs="{'invisible': [('is_field_visible', 'not in', [3, 4, 5])]}"
+                                class="btn-info"/>
+                    </div>
+                </xpath>
+                <xpath expr="//group[@name='duty_leave']" position="after">
+                    <notebook>
+                        <page string="Work Arrangement">
+                            <field name="leave_line" attrs="{'readonly': [('state', 'in', ['validate1','validate'])]}">
+                                <tree editable="bottom">
+                                    <field name="leave_id" force_save="1" invisible="1"/>
+                                    <field name="hour"/>
+                                    <field name="staff" string="Adjusted with"/>
+                                    <!-- <field name="staff_id" options="{'no_create': True, 'no_edit': True, 'no_open': True}"/> -->
+                                    <field name="is_cancel"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </xpath>
+            </field>
+        </record>
+
+        <!--    Inheriting HR Leave Approval Form    -->
+        <record id="hr_leave_view_form_manager_approve_inherit" model="ir.ui.view">
+            <field name="name">hr.leave.approval.form.inherit</field>
+            <field name="model">hr.leave</field>
+            <field name="inherit_id" ref="hr_holidays.hr_leave_view_form_manager_approve"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='employee_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='holiday_status_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='name']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//group[1]/group/label" position="before">
+                    <field name="employee_id" options="{'no_create': True, 'no_open': True}"/>
+                    <field name="holiday_status_id"
+                           domain="['&amp;', ('virtual_remaining_leaves', '&gt;', 0), '|', ('allocation_type', 'in', ['fixed_allocation', 'no']),'&amp;',('allocation_type', '=', 'fixed'), ('max_leaves', '&gt;', '0')]"
+                           context="{'employee_id':employee_id, 'default_date_from':date_from}"
+                           options="{'no_create': True, 'no_open': True}"/>
+                </xpath>
+                <xpath expr="//group[1]/group[2]" position="replace">
+                    <div/>
+                </xpath>
+                <xpath expr="//group[last()]" position="after">
+                    <group attrs="{'invisible': [('is_field_visible', 'in', [0, 3, 4, 5])]}" name="duty_leave">
+                        <group>
+                            <field name="duty_type_id" options="{'no_create': True, 'no_open': True, 'no_edit': True}" attrs="{'readonly': [('state', '=', 'validate')]}"/>
+                            <field name="leave_role_id" options="{'no_create': True, 'no_open': True, 'no_edit': True}" attrs="{'readonly': [('state', '=', 'validate')]}"/>
+                            <field name="role"
+                                   attrs="{'invisible': [('is_field_visible', '!=', 2)], 'readonly': [('state', '=', 'validate')]}"/>
+                        </group>
+                        <group>
+                            <field name="venue" attrs="{'readonly': [('state', '=', 'validate')]}"/>
+                            <field name="address" attrs="{'readonly': [('state', '=', 'validate')]}"/>
+                            <field name="call_letter_ids" widget="many2many_binary"
+                                   attrs="{'readonly': [('state', '=', 'validate')]}"/>
+                            <field name="approve_date" force_save="1" invisible="1"/>
+                            <field name="is_field_visible" force_save="1" invisible="1"/>
+                        </group>
+                    </group>
+                    <group class="mt-0">
+                        <widget name="hr_leave_stats"/>
+                    </group>
+                </xpath>
+                <xpath expr="//group[@name='duty_leave']" position="after">
+                    <notebook>
+                        <page string="Work Arrangement">
+                            <field name="leave_line" attrs="{'readonly': [('state', 'in', ['validate1','validate'])]}">
+                                <tree editable="bottom">
+                                    <field name="leave_id" force_save="1" invisible="1"/>
+                                    <field name="hour"/>
+                                    <field name="staff" string="Adjusted with"/>
+                                    <!-- <field name="staff_id" options="{'no_create': True, 'no_edit': True, 'no_open': True}"/> -->
+                                    <field name="is_cancel"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </xpath>
+            </field>
+        </record>
+
+        <!--    Adding Action for Department Leave    -->
+
+        <record id="department_leave_action_view" model="ir.actions.server">
+            <field name="name">Leave</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="hr_holidays.model_hr_leave"/>
+            <field name="state">code</field>
+            <field name="code">action = model.view_department_leave()</field>
+        </record>
+
+        <!--    HR Leave Type    -->
+
+        <record id="leave_type_form_inherit" model="ir.ui.view">
+            <field name="name">Leave Type</field>
+            <field name="model">hr.leave.type</field>
+            <field name="inherit_id" ref="hr_holidays.edit_holiday_status_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='validation_type']" position="after">
+                    <field name="is_halfpay"/>
+                    <field name="is_sandwitch" string="Include Holidays"/>
+                    <field name="suffix"/>
+                    <field name="include_suffix"/>
+                    <field name="prefix"/>
+                    <field name="include_prefix"/>
+                    <!-- Add your fields or attributes here -->
+                </xpath>
+                <field name="request_unit" position="after">
+                    <field name="is_casual"/>
+                    <field name="is_duty"/>
+                    <field name="is_other"/>
+                    <field name="is_compensation"/>
+                </field>
+
+                <xpath expr="//field[@name='request_unit']" position="attributes">
+                    <attribute name="string">Take Leave in</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <!--   Employee Publications     -->
+
+        <record model='ir.ui.view' id='employee_publications_form'>
+            <field name="name">employee.publications.form</field>
+            <field name="model">employee.publications</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="presentation_type_id" string="Publication Type"
+                                   options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
+                            <field name="presentation_name" string="Title of Paper"/>
+                            <field name="journal_name" string="Title of Journal/ Conference"/>
+                            <!-- <field name="date"/> -->
+                            <label for="month" string="Month &amp; Year of Presentation/Publication"/>
+                            <div class="o_row o_row_readonly o_hr_holidays_dates">
+                                <field name="month" class="oe_inline"/>
+                                <span><strong></strong></span>
+                                <field name="year" class="oe_inline"/>
+                            </div>
+                            <field name="publisher"/>
+                            <field name="place" string="Place of Presentation/ Publication"/>
+                            <field name="volume"/>
+                            <field name="issn_no" string="ISSN No./ ISBN No./ DOI"/>
+                            <field name="indexing_agency"/>
+                            <field name="authorship"/>
+                            <field name="employee_id" force_save="1" readonly="1"
+                                   options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model='ir.ui.view' id='employee_publications_tree_view'>
+            <field name="name">employee.publications.tree</field>
+            <field name="model">employee.publications</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="presentation_name"/>
+                    <field name="presentation_type_id"/>
+                    <field name="date"/>
+                </tree>
+            </field>
+        </record>
+
+        <!--   Employee Advisership     -->
+
+        <record model='ir.ui.view' id='employee_advisership_form'>
+            <field name="name">employee.advisership.form</field>
+            <field name="model">employee.advisership</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="batch_id" options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
+                            <field name="semester_id"/>
+                            <field name="employee_id" force_save="1" readonly="1"
+                                   options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
+                            <field name="is_active" force_save="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model='ir.ui.view' id='employee_advisership_tree_view'>
+            <field name="name">employee.advisership.tree</field>
+            <field name="model">employee.advisership</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="batch_id"/>
+                    <field name="semester_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <!--   Employee Qualifications     -->
+
+        <record model='ir.ui.view' id='employee_qualification_form'>
+            <field name="name">hr.qualification.form</field>
+            <field name="model">hr.qualification</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="employee_id" force_save="1" invisible="1"/>
+                            <field name="level_id" string="Qualification"
+                                   options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
+                            <field name="university_id"
+                                   options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
+                            <field name="date"/>
+                            <field name="programme_id" options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
+                            <field name="certificate_no"/>
+                            <field name="grade"/>
+                            <field name="is_visible" force_save="1" invisible="1"/>
+                            <!--                            <button class="oe_stat_button" name="phd_view" type="object" string="Enter Details"-->
+                            <!--                                    attrs="{'invisible': [('is_visible', '=', False)]}"/>-->
+                        </group>
+                        <notebook>
+                            <page string="PHD/Mphil Details" attrs="{'invisible': [('is_visible', '=', False)]}">
+                                <field name="phd_ids">
+                                    <tree editable="bottom">
+                                        <field name="name"/>
+                                        <field name="guide"/>
+                                        <field name="employee_id"/>
+                                        <field name="qualification_id"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model='ir.ui.view' id='employee_qualification_tree_view'>
+            <field name="name">hr.qualification.tree</field>
+            <field name="model">hr.qualification</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="level_id" string="Qualification"/>
+                    <field name="university_id"/>
+                    <field name="date"/>
+                    <field name="programme_id"/>
+                    <field name="certificate_no"/>
+                    <field name="grade"/>
+                </tree>
+            </field>
+        </record>
+
+        <!--   Employee In-service Course     -->
+
+        <record model='ir.ui.view' id='employee_inservice_form'>
+            <field name="name">employee.inservice.form</field>
+            <field name="model">employee.inservice</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="employee_id" force_save="1" invisible="1"/>
+                            <field name="name" string="Description"/>
+                            <field name="department_id"
+                                   options="{'no_create': True, 'no_open': True, 'no_edit': True}"/>
+                            <field name="designation_id"
+                                   options="{'no_create': True, 'no_open': True, 'no_edit': True}"/>
+                            <field name="inservice_course_id"
+                                   options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                            <field name="center"/>
+                            <field name="university_id"/>
+                            <field name="attachment_ids" widget="many2many_binary"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model='ir.ui.view' id='employee_inservice_tree_view'>
+            <field name="name">employee.inservice.tree</field>
+            <field name="model">employee.inservice</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" string="Description"/>
+                    <field name="department_id"
+                           options="{'no_create': True, 'no_open': True, 'no_edit': True}"/>
+                    <field name="designation_id"
+                           options="{'no_create': True, 'no_open': True, 'no_edit': True}"/>
+                    <field name="inservice_course_id"/>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                    <field name="center"/>
+                    <field name="university_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <!--   Employee Committee     -->
+
+        <record model='ir.ui.view' id='employee_committee_form'>
+            <field name="name">employee.committee.form</field>
+            <field name="model">employee.committee</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="committee_id" options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
+                            <field name="position_id" options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
+                            <label for="from_date" string="Period"/>
+                            <div>
+                                <field name="from_date" invisible="1"/>
+                                <field name="to_date" invisible="1"/>
+                                <div class="o_row o_row_readonly o_hr_holidays_dates">
+                                    <field name="from_date" class="oe_inline"/>
+                                    <span>
+                                        <strong>To</strong>
+                                    </span>
+                                    <field name="to_date" class="oe_inline"/>
+                                </div>
+                            </div>
+                            <field name="employee_id" force_save="1" readonly="1"
+                                   options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model='ir.ui.view' id='employee_committee_tree_view'>
+            <field name="name">employee.committee.tree</field>
+            <field name="model">employee.committee</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="committee_id"/>
+                    <field name="position_id"/>
+                    <field name="from_date"/>
+                    <field name="to_date"/>
+                </tree>
+            </field>
+        </record>
+
+        <!--   Employee Resource Person     -->
+
+        <record model='ir.ui.view' id='employee_resource_person_form'>
+            <field name="name">employee.resource.person.form</field>
+            <field name="model">employee.resource.person</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="title"/>
+                            <field name="date"/>
+                            <field name="organiser"/>
+                            <field name="audience_type"/>
+                            <field name="employee_id" force_save="1" readonly="1"
+                                   options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model='ir.ui.view' id='employee_resource_person_tree_view'>
+            <field name="name">employee.resource.person.tree</field>
+            <field name="model">employee.resource.person</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="title"/>
+                    <field name="date"/>
+                    <field name="organiser"/>
+                    <field name="audience_type"/>
+                </tree>
+            </field>
+        </record>
+
+        <!--   Employee Service Book Movement     -->
+
+        <record model='ir.ui.view' id='employee_service_book_form'>
+            <field name="name">employee.service.book.form</field>
+            <field name="model">employee.service.book</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="station_id"/>
+                            <field name="date"/>
+                            <field name="employee_id" force_save="1" readonly="1"
+                                   options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
+                            <field name="remarks"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model='ir.ui.view' id='employee_service_book_tree_view'>
+            <field name="name">employee.service.book.tree</field>
+            <field name="model">employee.service.book</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="station_id"/>
+                    <field name="date"/>
+                </tree>
+            </field>
+        </record>
+
+        <!--        PhD Form         -->
+
+        <record model='ir.ui.view' id='hr_phd_form'>
+            <field name="name">hr.phd.form</field>
+            <field name="model">hr.phd</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <!--                            <field name="university_id" force_save="1" readonly="1"-->
+                            <!--                                   options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>-->
+                            <!--                            <field name="year"/>-->
+                            <!--                            <field name="month"/>-->
+                            <field name="guide"/>
+                            <!--                            <field name="certificate_no"/>-->
+                            <field name="employee_id" force_save="1" invisible="1"/>
+                            <field name="qualification_id" force_save="1" invisible="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="fc_employee_form_inherit" model="ir.ui.view">
+            <field name="name">fc.employee.form</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header" position="inside">
+                    <button name="preview_id_card" string="Preview ID Card" type="object"/>
+                </xpath>
+                <!--                <xpath expr="//div[2]/div/div" position="replace">-->
+                <!--                    <div class="oe_title">-->
+                <!--                        <table>-->
+                <!--                            <tr>-->
+                <!--                                <td style="width:20%">-->
+                <!--                                    <h1>-->
+                <!--                                        <field name="employee_title_id" placeholder="Title" style="padding-right:10px"/>-->
+                <!--                                    </h1>-->
+                <!--                                </td>-->
+                <!--                                <td>-->
+                <!--                                    <h1>-->
+                <!--                                        <field name="name" placeholder="Name" style="padding-right:10px"/>-->
+                <!--                                    </h1>-->
+                <!--                                </td>-->
+                <!--                            </tr>-->
+                <!--                        </table>-->
+                <!--                    </div>-->
+                <!--                </xpath>-->
+
+                <field name="category_ids" position="replace">
+                    <div/>
+                </field>
+
+                <field name="user_id" position="after">
+                    <field name="sort_order" groups="base.group_system"/>
+                </field>
+
+                <xpath expr="//page[@name='public']/div/div" position="replace">
+                    <div id="o_work_employee_main">
+                        <group>
+                            <field name="department_id" attrs="{'readonly': [('edit_access', '=', False)]}"/>
+                            <field name="job_id" string="Designation"
+                                   attrs="{'readonly': [('edit_access', '=', False)]}"/>
+                            <field name="date_of_joining" attrs="{'readonly': [('edit_access', '=', False)]}"/>
+                            <field name="employee_type" attrs="{'readonly': [('edit_access', '=', False)]}"/>
+                            <field name="appointment_nature" attrs="{'readonly': [('edit_access', '=', False)]}"/>
+                            <field name="employee_category"
+                                   attrs="{'invisible': [('appointment_nature', 'not in', ['Permanent', 'Temporary'])], 'readonly': [('edit_access', '=', False)]}"/>
+                            <field name="superannuation_date"
+                                   attrs="{'invisible': [('employee_category', '!=', 'government')], 'readonly': [('edit_access', '=', False)]}"/>
+                            <field name="retirement_date"
+                                   attrs="{'invisible': [('employee_category', '!=', 'government')], 'readonly': [('edit_access', '=', False)]}"/>
+                            <field name="retirement_age"
+                                   attrs="{'invisible': [('employee_category', '!=', 'government')], 'readonly': [('edit_access', '=', False)]}"/>
+                            <field name="research_guide"
+                                   attrs="{'invisible': ['|', ('employee_category', '!=', 'government'), ('employee_type', '!=', 'teaching')], 'readonly': [('edit_access', '=', False)]}"/>
+                            <field name="resource_calendar_id" required="1" groups="base.group_system"/>
+                            <field name="tz" groups="base.group_system"/>
+                            <field name="approval_order"
+                                   attrs="{'invisible': [('employee_category', '!=', 'government')], 'readonly': [('edit_access', '=', False)]}"/>
+                            <field name="approval_order_date"
+                                   attrs="{'invisible': [('employee_category', '!=', 'government')], 'readonly': [('edit_access', '=', False)]}"/>
+                            <field name="probation_date" attrs="{'readonly': [('edit_access', '=', False)]}"/>
+                            <!--                        <field name="fund_id" groups="base.group_hr_super_manager"-->
+                            <!--                               attrs="{'invisible': [('appointment_nature', 'not in', ['Contract', 'Guest'])]}"/>-->
+                            <!--                        <field name="committee_ids" widget="many2many_tags"/>-->
+                            <field name="join_sequence" invisible="1"/>
+                            <field name="edit_access" invisible="1"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="leave_manager_id" invisible="1"/>
+                        </group>
+                    </div>
+                </xpath>
+
+                <xpath expr="//field[@name='job_title']" position="replace">
+                    <div/>
+                </xpath>
+
+                <xpath expr="//group[1]" position="replace">
+                    <div/>
+                </xpath>
+
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button class="oe_stat_button" name="qualification_view" type="object" icon="fa-list-ol"
+                            string="Qualifications"/>
+                    <button class="oe_stat_button" name="inservice_course_view" type="object" icon="fa-list-ol"
+                            string="In-service Course"/>
+                    <button class="oe_stat_button" name="publication_view" type="object" icon="fa-list-ol"
+                            string="Publications"/>
+                    <button class="oe_stat_button" name="advisership_view" type="object" icon="fa-list-ol"
+                            string="Advisership"/>
+                    <button class="oe_stat_button" name="committee_view" type="object" icon="fa-list-ol"
+                            string="Committee"/>
+                    <button class="oe_stat_button" name="resource_person_view" type="object" icon="fa-list-ol"
+                            string="Invited Talks"/>
+                    <!--                    <button class="oe_stat_button" name="service_book_view" type="object" icon="fa-list-ol"-->
+                    <!--                            string="Movement of Service Book"/>-->
+                    <!-- Add your fields or attributes here -->
+                </xpath>
+
+                <xpath expr="//page[@name='personal_information']/group[1]" position="replace">
+                    <group>
+                        <group string="Permanent Address">
+                            <field name="address"/>
+                            <field name="place"/>
+                            <field name="post"/>
+                            <field name="pin"/>
+                            <field name="country_id" string="Country"
+                                   options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
+                            <field name="state_id" options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
+                            <field name="district_id"/>
+                        </group>
+
+                        <group string="Communication Address">
+                            <field name="communication_bool" string="Same as Permanent"/>
+                            <field name="comm_address"/>
+                            <field name="comm_place"/>
+                            <field name="comm_post"/>
+                            <field name="comm_pin"/>
+                            <field name="comm_country_id" string="Country"
+                                   options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
+                            <field name="comm_state_id"
+                                   options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
+                            <field name="comm_district_id"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="gender"/>
+                        <field name="birthday" attrs="{'readonly': [('edit_access', '=', False)]}"/>
+                        <field name="place_of_birth" attrs="{'readonly': [('edit_access', '=', False)]}"/>
+                        <field name="country_of_birth" string="Nationality"
+                               options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
+                        <field name="marital"/>
+                        <field name="spouse_complete_name"
+                               attrs="{'invisible': [('marital', 'not in', ['married', 'cohabitant'])]}"/>
+                        <field name="work_email" string="Email"/>
+                        <field name="mobile_phone" string="Mobile"/>
+                        <field name="work_phone" string="Phone"/>
+                        <field name="father_name"/>
+                        <field name="blood_group"/>
+                        <field name="religion_id"/>
+                        <field name="caste_id"/>
+                        <field name="constituency_id"/>
+                    </group>
+                </xpath>
+                <!--                <xpath expr="//page[@name='personal_information']/group[last() - 1]" position="replace">-->
+                <!--                    <group/>-->
+                <!--                </xpath>-->
+                <xpath expr="//page[last() - 1]" position="after">
+                    <page string="Account Details">
+                        <group>
+                            <field name="aadhar_number" attrs="{'readonly': [('edit_access', '=', False)]}"/>
+                            <field name="pan_number" attrs="{'readonly': [('edit_access', '=', False)]}"/>
+                            <field name="pen_number" attrs="{'readonly': [('edit_access', '=', False)]}"/>
+                            <field name="voter_id" attrs="{'readonly': [('edit_access', '=', False)]}"/>
+                            <field name="account_number" attrs="{'readonly': [('edit_access', '=', False)]}"/>
+                            <field name="bank_id"/>
+                            <field name="branch"/>
+                            <field name="ifsc_code"/>
+                            <!--                            <field name="bank_account_id" attrs="{'readonly': [('edit_access', '=', False)]}"/>-->
+                        </group>
+                    </page>
+                </xpath>
+
+                <xpath expr="//page[last()]" position="after">
+                    <page string="In-service Course">
+                        <field name="employee_inservice_ids">
+                            <tree editable="bottom" create="false" delete="false">
+                                <field name="employee_id" invisible="1"/>
+                                <field name="name" string="Description"/>
+                                <field name="department_id"
+                                       options="{'no_create': True, 'no_open': True, 'no_edit': True}"/>
+                                <field name="designation_id"
+                                       options="{'no_create': True, 'no_open': True, 'no_edit': True}"/>
+                                <field name="inservice_course_id"/>
+                                <field name="date_from"/>
+                                <field name="date_to"/>
+                                <field name="center"/>
+                                <field name="university_id"/>
+                                <field name="attachment_ids" widget="many2many_binary"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+
+                <xpath expr="//page[last()]" position="after">
+                    <page string="Qualification">
+                        <field name="employee_qualification_ids">
+                            <tree editable="bottom" create="false" delete="false">
+                                <field name="employee_id" invisible="1"/>
+                                <field name="level_id" string="Qualification"/>
+                                <field name="university_id"/>
+                                <field name="date"/>
+                                <field name="programme_id"/>
+                                <field name="certificate_no"/>
+                                <field name="grade"/>
+                                <field name="is_visible" invisible="1"/>
+                                <!--                                <button class="oe_stat_button" name="phd_view" type="object" string="Enter Details"-->
+                                <!--                                        attrs="{'invisible': [('is_visible', '=', False)]}"/>-->
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+
+                <xpath expr="//page[last()]" position="after">
+                    <page string="PhD">
+                        <field name="phd_ids">
+                            <tree editable="bottom" create="false" delete="false">
+                                <field name="employee_id" force_save="1" invisible="1"/>
+                                <field name="name"/>
+                                <!--                                <field name="university_id"/>-->
+                                <!--                                <field name="year"/>-->
+                                <!--                                <field name="month"/>-->
+                                <field name="guide"/>
+                                <!--                                <field name="certificate_no"/>-->
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+
+                <!--                <xpath expr="//page[@name='hr_settings']" position="attributes">-->
+                <!--                    <attribute name="groups">base.group_system</attribute>-->
+                <!--                </xpath>-->
+                <!--                <xpath expr="//button[@name='toggle_active']" position="attributes">-->
+                <!--                    <attribute name="groups">base.group_system</attribute>-->
+                <!--                </xpath>-->
+
+            </field>
+
+        </record>
+
+        <!--    Inhering and Modifying Department View    -->
+
+        <record id="safi_hr_department_form_inherit" model="ir.ui.view">
+            <field name="name">safi.hr.department.inherit</field>
+            <field name="model">hr.department</field>
+            <field name="inherit_id" ref="hr.view_department_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='parent_id']" position="after">
+                    <field name="sort_order"/>
+                    <field name="department_type"/>
+                    <!--                    <field name="is_self_finance"/>-->
+                    <!--                    <field name="stream"/>-->
+                </xpath>
+
+            </field>
+        </record>
+
+        <!--    Attendance Connector    -->
+
+        <record id="attendance_menu_connector" model="ir.actions.act_url">
+            <field name="name">Attendance</field>
+            <field name="type">ir.actions.act_url</field>
+            <field name="target">new</field>
+            <field name="url">/attendance</field>
+        </record>
+
+        <menuitem action="attendance_menu_connector"
+                  name="Attendance"
+                  id="menu_attendance"
+                  web_icon="safi_hr,static/src/img/Attendance.png"
+                  groups="base.group_system,base.group_user"
+                  sequence="2"/>
+
+        <!--    Application Connector    -->
+
+        <record id="application_menu_connector" model="ir.actions.act_url">
+            <field name="name">Application</field>
+            <field name="type">ir.actions.act_url</field>
+            <field name="target">new</field>
+            <field name="url">/application</field>
+        </record>
+
+        <menuitem name="Applicant"
+                  id="menu_application_root"
+                  web_icon="safi_hr,static/src/img/application_icon.png"
+                  groups="base.group_system,safi_hr.group_application_user"
+                  sequence="2"/>
+
+        <menuitem action="application_menu_connector"
+                  name="Applicant"
+                  parent="safi_hr.menu_application_root"
+                  id="menu_application"
+                  web_icon="safi_hr,static/src/img/application_icon.png"
+                  groups="base.group_system,safi_hr.group_application_user"
+                  sequence="2"/>
+
+        <menuitem
+                id="applicant_rank_list_menu"
+                name="Applicant Rank List"
+                parent="safi_hr.menu_application_root"
+                sequence="1"
+                groups="safi_hr.group_application_user"
+                action="safi_students.applicant_rank_list_action"
+        />
+
+        <!--   Menu Items     -->
+
+        <menuitem id="all_leave_calendar_menu_id" name="Overview"
+                  parent="hr_holidays.menu_hr_holidays_root" action="all_hr_leave_action_new_request"
+                  sequence="0" groups="hr_holidays.group_hr_holidays_manager"/>
+
+        <menuitem id="department_leave_action_view_menu" name="Leaves"
+                  action="department_leave_action_view"
+                  parent="hr_holidays.hr_holidays_menu_manager_approve"/>
+
+        <record model="ir.ui.menu" id="hr_holidays.menu_open_employee_leave">
+            <field name="name">Leave</field>
+        </record>
+
+        <record model="ir.ui.menu" id="hr_holidays.menu_open_department_leave_approve">
+            <field name="name">Leave</field>
+            <field name="groups_id" eval="[(6,0,[ref('base.group_system')])]"/>
+        </record>
+
+        <record model="ir.ui.menu" id="hr_holidays.menu_hr_holidays_my_leaves">
+            <field name="name">My Leave</field>
+        </record>
+
+        <record model="ir.ui.menu" id="hr_holidays.menu_hr_holidays_root">
+            <field name="name">Leaves</field>
+        </record>
+
+        <record model="ir.ui.menu" id="hr_holidays.hr_leave_menu_my">
+            <field name="name">Leave Requests</field>
+        </record>
+
+        <record model="ir.ui.menu" id="hr_holidays.hr_holidays_menu_manager_payroll_to_report">
+            <field name="name">Leave to Report</field>
+        </record>
+
+        <record model="ir.ui.menu" id="hr_holidays.hr_holidays_status_menu_configuration">
+            <field name="name">Leave Types</field>
+        </record>
+
+        <!-- Duty Type Menu -->
+
+        <menuitem id="duty_type_menu_id" name="Duty Type" parent="hr_holidays.menu_hr_holidays_configuration"
+                  action="duty_type_action" sequence="1"/>
+
+        <!-- Leave Role Menu -->
+
+        <menuitem id="leave_role_menu_id" name="Duty Role" parent="hr_holidays.menu_hr_holidays_configuration"
+                  action="leave_role_action" sequence="2"/>
+
+        <!--    Hiding Employee Menu    -->
+        <record model="ir.ui.menu" id="hr.menu_hr_root">
+            <field name="groups_id"
+                   eval="[(6,0,[ref('hr.group_hr_manager'),ref('hr.group_hr_user'),ref('safi_hr.group_hr_super_manager')])]"/>
+        </record>
+
+        <!--    Hiding Leave Menu    -->
+        <record model="ir.ui.menu" id="hr_holidays.menu_hr_holidays_root">
+            <field name="groups_id"
+                   eval="[(6,0,[ref('hr.group_hr_manager'),ref('hr.group_hr_user'),ref('safi_hr.group_hr_super_manager')])]"/>
+        </record>
+
+        <!--    Hiding Configuration Menu    -->
+        <record model="ir.ui.menu" id="hr_holidays.menu_hr_holidays_configuration">
+            <field name="groups_id" eval="[(6,0,[ref('hr_holidays.group_hr_holidays_manager')])]"/>
+        </record>
+
+        <!--    Hiding Allocation Menu    -->
+        <record model="ir.ui.menu" id="hr_holidays.hr_holidays_menu_manager_all_allocations">
+            <field name="groups_id" eval="[(6,0,[ref('hr_holidays.group_hr_holidays_manager')])]"/>
+        </record>
+
+        <record model="ir.ui.menu" id="hr_holidays.hr_holidays_menu_manager_approve_allocations">
+            <field name="groups_id" eval="[(6,0,[ref('hr_holidays.group_hr_holidays_manager')])]"/>
+        </record>
+
+        <record model="ir.ui.menu" id="hr_holidays.menu_open_allocation">
+            <field name="groups_id" eval="[(6,0,[ref('hr_holidays.group_hr_holidays_manager')])]"/>
+        </record>
+
+
+    </data>
+</odoo>

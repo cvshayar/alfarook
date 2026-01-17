@@ -1,0 +1,971 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="fees_item_form" model="ir.ui.view">
+            <field name="name">fees.item.form</field>
+            <field name="model">fees.item</field>
+            <field name="arch" type="xml">
+                <form string="Fees item">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="payable"/>
+                            <field name="group_id"/>
+                            <!--                            <field name="account_id" options="{'no_create': True, 'no_open': True, 'no_edit': True}"/>-->
+                            <!--                            <field name="is_visible" string="Hide"/>-->
+                            <!--                            <field name="is_other_fee"/>-->
+                            <field name="sort_order"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="fees_item_tree" model="ir.ui.view">
+            <field name="name">fees.item.tree</field>
+            <field name="model">fees.item</field>
+            <field name="arch" type="xml">
+                <tree string="Fees Items">
+                    <field name="name"/>
+                    <field name="payable"/>
+                    <field name="group_id"/>
+                    <!--                    <field name="account_id"/>-->
+                    <!--                    <field name="is_other_fee"/>-->
+                </tree>
+            </field>
+        </record>
+
+        <record id="fees_item_action" model="ir.actions.act_window">
+            <field name="name">Fees item</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">fees.item</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p>
+                <p>
+                    <!-- More details about what a user can do with this object will be OK -->
+                </p>
+            </field>
+        </record>
+
+        <!--    Fees Group    -->
+
+        <record id="fees_group_form" model="ir.ui.view">
+            <field name="name">fees.group.form</field>
+            <field name="model">fees.group</field>
+            <field name="arch" type="xml">
+                <form string="Fees Group">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <!--                            <field name="payable"/>-->
+                            <!--                            <field name="sort_order"/>-->
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="fees_group_tree" model="ir.ui.view">
+            <field name="name">fees.group.tree</field>
+            <field name="model">fees.group</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                    <!--                    <field name="payable"/>-->
+                </tree>
+            </field>
+        </record>
+
+        <record id="fees_group_action" model="ir.actions.act_window">
+            <field name="name">Fees Group</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">fees.group</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p>
+                <p>
+                    <!-- More details about what a user can do with this object will be OK -->
+                </p>
+            </field>
+        </record>
+
+        <!--    Programme fee structure    -->
+
+        <record id="programme_fee_form" model="ir.ui.view">
+            <field name="name">programme.fee.form</field>
+            <field name="model">programme.fee</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                        <field name="state" widget="statusbar" nolabel="1" statusbar_visible="draft,confirmed"/>
+                        <button name="confirm_programme_fee" type="object" string="Confirm" states="draft"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="academic_year" attrs="{'readonly' : [('state', '=', 'confirmed')]}"/>
+                            <field name="programme_ids" widget="many2many_tags"
+                                   options="{'no_create': True, 'no_open': True, 'no_edit': True}"
+                                   attrs="{'readonly' : [('state', '=', 'confirmed')]}"/>
+                            <field name="fee_category_ids" attrs="{'readonly' : [('state', '=', 'confirmed')]}"
+                                   widget="many2many_tags"
+                                   options="{'no_create': True, 'no_open': True, 'no_edit': True}"/>
+                            <field name="year" attrs="{'readonly' : [('state', '=', 'confirmed')]}"/>
+                            <field name="semester_id" attrs="{'readonly' : [('state', '=', 'confirmed')]}"
+                                   options="{'no_create': True, 'no_open': True, 'no_edit': True}"/>
+                            <!--                            <field name="installment_id" attrs="{'readonly' : [('state', '=', 'confirmed')]}"/>-->
+                        </group>
+                        <notebook>
+                            <page string="Fees">
+                                <field name="programme_line">
+                                    <tree editable="bottom">
+                                        <field name="fee_id" force_save="1"
+                                               options="{'no_create': True, 'no_open': True, 'no_edit': True}"/>
+                                        <field name="amount" sum="total"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="programme_fee_tree" model="ir.ui.view">
+            <field name="name">programme.fee.tree</field>
+            <field name="model">programme.fee</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="academic_year"/>
+                    <field name="programme_ids" widget="many2many_tags"/>
+                    <field name="fee_category_ids" widget="many2many_tags"/>
+                    <field name="year"/>
+                    <!--                    <field name="installment_id"/>-->
+                    <field name="semester_id"/>
+                    <field name="state"/>
+                    <field name="total"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="programme_fee_action" model="ir.actions.act_window">
+            <field name="name">Programme fee</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">programme.fee</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p>
+                <p>
+                    <!-- More details about what a user can do with this object will be OK -->
+                </p>
+            </field>
+        </record>
+
+        <!--    Fee Schedule    -->
+
+        <record id="fee_schedule_form" model="ir.ui.view">
+            <field name="name">fee.schedule.form</field>
+            <field name="model">fee.schedule</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="academic_year"/>
+                                <!--                                <field name="installment_id"/>-->
+                                <field name="start_date"/>
+                                <field name="semester_id"/>
+                            </group>
+                            <group>
+                                <field name="level"/>
+                                <field name="year"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="first_fine"/>
+                                <field name="first_fine_amount"/>
+                            </group>
+                            <group>
+                                <field name="second_fine"/>
+                                <field name="second_fine_amount"/>
+                            </group>
+                            <group>
+                                <field name="third_fine"/>
+                                <field name="third_fine_amount"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="fee_schedule_tree" model="ir.ui.view">
+            <field name="name">fee.schedule.tree</field>
+            <field name="model">fee.schedule</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="academic_year"/>
+                    <field name="level"/>
+                    <!--                    <field name="installment_id"/>-->
+                    <field name="year"/>
+                    <field name="start_date"/>
+                    <field name="end_date"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="fee_schedule_action" model="ir.actions.act_window">
+            <field name="name">Fee Schedule</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">fee.schedule</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p>
+                <p>
+                    <!-- More details about what a user can do with this object will be OK -->
+                </p>
+            </field>
+        </record>
+
+        <!--    Fee Collection Line    -->
+
+        <record id="fee_collection_line_view_form" model="ir.ui.view">
+            <field name="name">fee_collection_line_view_form</field>
+            <field name="model">fee.collection.line</field>
+            <field name="arch" type="xml">
+                <form string="fee_collection_line_form">
+                    <sheet>
+                        <group>
+                            <field name="fee_id"/>
+                            <field name="amount"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="fee_collection_line_view_tree" model="ir.ui.view">
+            <field name="name">fee_collection_line_view_tree</field>
+            <field name="model">fee.collection.line</field>
+            <field name="arch" type="xml">
+                <tree string="fee_collection_line_tree">
+                    <field name="fee_id"/>
+                    <field name="amount" sum="total"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="fee_collection_line_search" model="ir.ui.view">
+            <field name="name">fee.collection.line.search</field>
+            <field name="model">fee.collection.line</field>
+            <field name="arch" type="xml">
+                <search string="">
+                    <field name="fee_id" string="Fee Item"/>
+                    <group expand="0" string="Group By">
+                        <filter name="group_fee_id" string="Fee Item" context="{'group_by':'fee_id'}"/>
+                        <filter name="group_receipt_mode" string="Receipt Mode" context="{'group_by':'receipt_mode'}"/>
+                        <separator/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!--  Student  Fee Collection    -->
+
+        <record id="fee_collection_form" model="ir.ui.view">
+            <field name="name">fee.collection.form</field>
+            <field name="model">fee.collection</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                        <button string="Confirm Payment" class="btn-primary" name="approve_payment" type="object"
+                                states="challan"/>
+                        <button name="cancel_receipt" type="object" string="Cancel" states="paid"
+                                confirm="Are you sure you want to cancel the Fee Receipt ?"/>
+                        <button name="%(student_fee_receipt_id)d" class="btn-primary" type="action" string="Print"
+                                states="paid,post,cancelled"/>
+                        <field name="state" widget="statusbar" nolabel="1" invisible="1"/>
+                        <!--                        <button name="post_payment" class="btn-primary" type="object" string="Post"-->
+                        <!--                                states="paid"/>-->
+                    </header>
+                    <sheet>
+                        <h1 class="mt0">
+                            <div class="row">
+                                <div class="col-10">
+                                    <span>Receipt Number :</span>
+                                    <field name="name" readonly="1" class="oe_inline"
+                                           attrs="{'invisible': [('state', 'in', ('draft'))]}"/>
+                                </div>
+                                <div class="col-2">
+                                    <field name="image1" force_save="1" widget='image' class="oe_avatar"/>
+                                </div>
+                            </div>
+                        </h1>
+
+                        <group>
+                            <group>
+                                <field name="student_id"
+                                       attrs="{'readonly': [('state', 'in', ('paid','cancelled'))], 'required': [('is_additional_fee', '=', False)]}"
+                                       options="{'no_create': True, 'no_open': True, 'no_edit': True}"/>
+                                <field name="paid_by" attrs="{'invisible': [('is_additional_fee', '=', False)]}"/>
+                                <field name="application_number"
+                                       attrs="{'readonly': [('state', 'in', ('paid','cancelled'))]}" force_save="1"
+                                       readonly="1"/>
+                                <field name="admission_number"
+                                       attrs="{'readonly': [('state', 'in', ('paid','cancelled'))]}" force_save="1"
+                                       readonly="1"/>
+                                <field name="batch_id"
+                                       attrs="{'readonly': ['|', ('state', 'in', ('paid','cancelled')), ('is_additional_fee', '=', False)]}"
+                                       options="{'no_create': True, 'no_open': True, 'no_edit': True}" force_save="1"
+                                       required="1"/>
+                                <field name="fee_category_id"
+                                       attrs="{'readonly': [('state', 'in', ('paid','cancelled'))]}"
+                                       options="{'no_create': True, 'no_open': True, 'no_edit': True}" force_save="1"
+                                       readonly="1"/>
+                                <field name="remarks" attrs="{'invisible': [('state', '!=', 'cancelled')]}"/>
+                                <!--                                <field name="balance_amount"/>-->
+                            </group>
+                            <group>
+                                <field name="payment_date"
+                                       attrs="{'readonly': [('state', 'in', ('paid','cancelled'))]}"/>
+                                <field name="academic_year"
+                                       attrs="{'readonly': [('state', 'in', ('paid','cancelled'))]}"/>
+                                <field name="year" force_save="1" readonly="1"
+                                       attrs="{'readonly': [('state', 'in', ('paid','cancelled'))]}"/>
+                                <field name="semester_id"
+                                       options="{'no_create': True, 'no_open': True, 'no_edit': True}"/>
+                                <!--                                <field name="installment_ids" attrs="{'readonly': [('state', 'in', ('paid','cancelled'))]}"-->
+                                <!--                                       force_save="1" widget="many2many_tags"/>-->
+                                <field name="receipt_mode"
+                                       attrs="{'readonly': [('state', 'in', ('paid','cancelled'))]}"/>
+                                <field name="transaction_ref" attrs="{'invisible': [('receipt_mode', 'not in', ['Bank', 'Online'])]}"/>
+                                <field name="bank" attrs="{'invisible': [('receipt_mode', '!=', 'Bank')]}"/>
+                                <field name="cheque_no" attrs="{'invisible': [('receipt_mode', '!=', 'Cheque')]}"/>
+                                <field name="cheque_date" attrs="{'invisible': [('receipt_mode', '!=', 'Cheque')]}"/>
+                                <field name="cheque_issued_bank"
+                                       attrs="{'invisible': [('receipt_mode', '!=', 'Cheque')]}"/>
+                                <field name="cheque_issued_branch"
+                                       attrs="{'invisible': [('receipt_mode', '!=', 'Cheque')]}"/>
+                                <field name="card_owner" attrs="{'invisible': [('receipt_mode', '!=', 'Card')]}"/>
+                                <field name="card_no" attrs="{'invisible': [('receipt_mode', '!=', 'Card')]}"/>
+                                <!--                                <field name="gov_fee_reference"/>-->
+                                <field name="payment_year" force_save="1" invisible="1"/>
+                            </group>
+                        </group>
+                        <group string="Filter Criteria" attrs="{'invisible': [('state', 'in', ['paid', 'cancelled'])]}">
+                            <group>
+                                <field name="filter_academic_year" string="Academic Year"/>
+                            </group>
+                            <group>
+                                <field name="filter_semester_id" string="Semester" options="{'no_create': True, 'no_open': True, 'no_edit': True}"/>
+                            </group>
+                        </group>                        
+                        <group>
+                            <field name="remarks"/>
+                        </group>
+                        <!-- <group>
+                            <field name="dues_pending" string="Fees Pending"/>
+                        </group> -->
+                        <notebook>
+                            <page string="Fees">
+                                <div class="row">
+                                    <div class="col-1"/>
+                                    <div class="col-10">
+                                        <div style="padding-left:23px"><field name="check_all" attrs="{'invisible': [('state', 'in', ['paid', 'cancelled'])]}"/> <b>Select all</b></div>
+                                        <field name="fee_line" class="custom-control custom-checkbox" required="1"
+                                               attrs="{'readonly': [('state', 'in', ('paid','cancelled'))]}">
+                                            <tree editable="bottom" delete="false" create="false" decoration-muted="is_readonly==True">
+                                                <field name="due_id" force_save="1" invisible="1"/>
+                                                <field name="checked" string=" " force_save="1" attrs="{'invisible': [('parent.state', 'in', ['paid', 'cancelled'])], 'readonly': [('is_readonly', '=', True)]}"/>
+                                                <field name="fee_id" width="10" force_save="1" string="Fee Item"
+                                                       attrs="{'readonly': [('parent.is_additional_fee', '=', False)]}"
+                                                       options="{'no_create': True, 'no_open': True}"/>
+                                                <field name="academic_year" class="text-center" force_save="1" readonly="1" width="5"/>
+                                                <field name="semester_id" class="text-center" width="5" force_save="1" readonly="1" options="{'no_create': True, 'no_open': True}"/>
+                                                <!-- <field name="month_id" width="5" force_save="1" readonly="1" options="{'no_create': True, 'no_open': True}"/> -->
+                                                <!-- <field name="year" class="text-center" width="5" force_save="1" readonly="1"/> -->
+                                                <field name="fee_amount" width="5" force_save="1" readonly="1" sum="total" string="Fee"/>
+                                                <field name="paid_amount" width="5" force_save="1" readonly="1" sum="total" string="Paid"/>
+                                                <field name="amount" width="5" sum="total" string="Paying" force_save="1" attrs="{'readonly': [('is_readonly', '=', True)]}"/>
+                                                <field name="is_readonly" invisible="1"/>
+<!--                                                <field name="advance_amount" sum="total"/>-->
+                                            </tree>
+                                        </field>
+                                    </div>
+                                </div>
+                                <field name="is_additional_fee" invisible="1"/>
+                                <field name="fee_type" force_save="1" invisible="1"/>
+                            </page>
+                        </notebook>
+                        <group string="Academic Year wise Fee Details" attrs="{'invisible': [('state', 'in', ['paid', 'cancelled'])]}"/>
+                        <field name="payment_history" readonly="1"/>                        
+                        <!-- <group>
+                            <field name="dues_pending"/>
+                        </group> -->
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="fee_collection_tree" model="ir.ui.view">
+            <field name="name">fee.collection.tree</field>
+            <field name="model">fee.collection</field>
+            <field name="arch" type="xml">
+                <tree string="" decoration-muted="state == 'cancelled'"
+                      decoration-danger="state not in ('cancelled', 'paid')">
+                    <field name="name"/>
+                    <!--                    <field name="fee_type"/>-->
+                    <field name="student_id"/>
+                    <field name="admission_number"/>
+                    <field name="payment_date"/>
+                    <field name="academic_year"/>
+                    <!--                    <field name="installment_ids" widget="many2many_tags"/>-->
+                    <field name="year"/>
+                    <field name="receipt_mode"/>
+                    <field name="total" sum="total"/>
+                    <field name="state" invisible="1"/>
+                    <field name="is_refund" invisible="1"/>
+                    <button name="%(student_fee_receipt_id)d" class="btn-primary" type="action" string="Print"
+                            states="paid,cancelled"/>
+                    <button name="refund_fee" class="btn-primary" type="object" string="Refund"
+                            attrs="{'invisible': ['|', ('is_refund', '=', True), ('state', '!=', 'paid')]}"
+                            groups="safi_students.group_refund_manager,safi_students.group_refund_user"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="fee_collection_filter" model="ir.ui.view">
+            <field name="name">fee.collection.filter</field>
+            <field name="model">fee.collection</field>
+            <field name="arch" type="xml">
+                <search string="Search Fee">
+                    <field name="student_id" string="Student"/>
+                    <field name="admission_number" string="Admission Number"/>
+                    <field name="name" string="Receipt No"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="fee_collection_action" model="ir.actions.act_window">
+            <field name="name">Fee Collection</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">fee.collection</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_ids"
+                   eval="[(5, 0, 0),
+                          (0, 0, {'view_mode': 'tree', 'view_id': ref('fee_collection_tree')}),
+                          (0, 0, {'view_mode': 'form', 'view_id': ref('fee_collection_form')})]"/>
+            <field name="context">{'default_fee_type': 'student'}</field>
+            <field name="domain">[('is_additional_fee', '=', False), ('fee_type', '=', 'student')]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p>
+                <p>
+                    <!-- More details about what a user can do with this object will be OK -->
+                </p>
+            </field>
+        </record>
+        <!-- Self Finance -->
+        <record id="self_fee_collection_action" model="ir.actions.act_window">
+            <field name="name">Fee Collection</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">fee.collection</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_ids"
+                   eval="[(5, 0, 0),
+                          (0, 0, {'view_mode': 'tree', 'view_id': ref('fee_collection_tree')}),
+                          (0, 0, {'view_mode': 'form', 'view_id': ref('fee_collection_form')})]"/>
+            <field name="context">{'default_fee_type': 'student'}</field>
+            <field name="domain">[('is_additional_fee', '=', False), ('fee_type', '=', 'student')]
+            </field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p>
+                <p>
+                    <!-- More details about what a user can do with this object will be OK -->
+                </p>
+            </field>
+        </record>
+        <!-- Aided -->
+        <record id="aided_fee_collection_action" model="ir.actions.act_window">
+            <field name="name">Fee Collection</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">fee.collection</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_ids"
+                   eval="[(5, 0, 0),
+                          (0, 0, {'view_mode': 'tree', 'view_id': ref('fee_collection_tree')}),
+                          (0, 0, {'view_mode': 'form', 'view_id': ref('fee_collection_form')})]"/>
+            <field name="context">{'default_fee_type': 'student'}</field>
+            <field name="domain">[('is_additional_fee', '=', False), ('fee_type', '=', 'student')]
+            </field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p>
+                <p>
+                    <!-- More details about what a user can do with this object will be OK -->
+                </p>
+            </field>
+        </record>
+
+        <!--    Additional Fee Collection    -->
+
+        <record id="additional_fee_collection_action" model="ir.actions.act_window">
+            <field name="name">Additional Fee Collection</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">fee.collection</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_ids"
+                   eval="[(5, 0, 0),
+                          (0, 0, {'view_mode': 'tree', 'view_id': ref('fee_collection_tree')}),
+                          (0, 0, {'view_mode': 'form', 'view_id': ref('fee_collection_form')})]"/>
+            <field name="domain">[('is_additional_fee', '=', True), ('fee_type', '=', 'student')]</field>
+            <field name="context">{'default_is_additional_fee': True,'default_fee_type': 'student'}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p>
+                <p>
+                    <!-- More details about what a user can do with this object will be OK -->
+                </p>
+            </field>
+        </record>
+
+        <!--  Other Fee Collection    -->
+
+        <record id="other_fee_collection_form" model="ir.ui.view">
+            <field name="name">other.fee.collection.form</field>
+            <field name="model">fee.collection</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                        <button name="cancel_receipt" type="object" string="Cancel" states="paid"
+                                confirm="Are you sure you want to cancel the Fee Receipt ?"/>
+                        <field name="state" widget="statusbar" nolabel="1"/>
+                    </header>
+                    <sheet>
+                        <h1 class="mt0">
+                            <div class="row">
+                                <div class="col-10">
+                                    <span>Receipt Number :</span>
+                                    <!--                                <label for="name" string="Receipt Number" attrs="{'invisible': [('state', 'not in', ('paid','cancelled'))]}"/>-->
+                                    <field name="name" readonly="1" class="oe_inline"
+                                           attrs="{'invisible': [('state', 'not in', ('paid','cancelled'))]}"/>
+                                </div>
+                            </div>
+                        </h1>
+
+                        <group>
+                            <group>
+                                <field name="paid_by"/>
+                                <field name="purpose"/>
+                                <field name="remarks"/>
+                                <field name="fee_type" force_save="1" invisible="1"/>
+                            </group>
+                            <group>
+                                <field name="payment_date"
+                                       attrs="{'readonly': [('state', 'in', ('paid','cancelled'))]}"/>
+                                <!--                                <field name="gov_fee_reference"/>-->
+                                <field name="payment_year" force_save="1" invisible="1"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Fees">
+                                <div class="row">
+                                    <div class="col-2"/>
+                                    <div class="col-8">
+                                        <field name="fee_line"
+                                               attrs="{'readonly': [('state', 'in', ('paid','cancelled'))]}">
+                                            <tree editable="bottom" create="false" delete="false">
+                                                <field name="fee_id" string="Government Fee" class="fieldheight"
+                                                       domain="[('is_other_fee', '=', True)]"
+                                                       options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
+                                                <field name="amount" sum="total" class="fieldheight"/>
+                                            </tree>
+                                        </field>
+                                    </div>
+                                </div>
+                                <field name="is_additional_fee" invisible="1"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="other_fee_collection_tree" model="ir.ui.view">
+            <field name="name">other.fee.collection.tree</field>
+            <field name="model">fee.collection</field>
+            <field name="arch" type="xml">
+                <tree string="" decoration-muted="state == 'cancelled'"
+                      decoration-danger="state not in ('cancelled', 'paid')">
+                    <field name="name"/>
+                    <field name="paid_by"/>
+                    <field name="payment_date"/>
+                    <field name="purpose"/>
+                    <field name="state" invisible="1"/>
+                    <field name="is_refund" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="other_fee_collection_action" model="ir.actions.act_window">
+            <field name="name">Other Fee Collection</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">fee.collection</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_ids"
+                   eval="[(5, 0, 0),
+                          (0, 0, {'view_mode': 'tree', 'view_id': ref('other_fee_collection_tree')}),
+                          (0, 0, {'view_mode': 'form', 'view_id': ref('other_fee_collection_form')})]"/>
+            <field name="context">{'default_fee_type': 'other'}</field>
+            <field name="domain">[('is_additional_fee', '=', False),('fee_type', '=', 'other')]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p>
+                <p>
+                    <!-- More details about what a user can do with this object will be OK -->
+                </p>
+            </field>
+        </record>
+
+        <!--    Fee Refund    -->
+
+        <record id="fee_refund_form" model="ir.ui.view">
+            <field name="name">fee.refund.form</field>
+            <field name="model">fee.refund</field>
+            <field name="arch" type="xml">
+                <form string="Refund" create="false">
+                    <header>
+                        <button name="cancel_receipt" type="object" string="Cancel" states="refund"/>
+                        <button name="refund_receipt" type="object" string="Refund" states="approved"/>
+                        <button name="reject_receipt" type="object" string="Reject" states="draft,to_cancel"
+                                groups="safi_students.group_refund_manager"/>
+                        <button name="approve_receipt" type="object" string="Approve" states="draft,to_cancel"
+                                groups="safi_students.group_refund_manager"/>
+                        <field name="state" widget="statusbar" nolabel="1"/>
+                    </header>
+                    <sheet>
+                        <h1 class="mt0">
+                            <div>
+                                <span>Refund Number :</span>
+                                <field name="name" readonly="1" class="oe_inline"
+                                />
+                            </div>
+                        </h1>
+                        <group col="5">
+                            <field name="student_id" options="{'no_create': True, 'no_open': True, 'no_edit': True}"/>
+                            <field name="fee_collection_id" force_save="1" readonly="0" options="{'no_create': True}"/>
+                            <field name="refund_date" attrs="{'readonly': [('state', 'in', ('refund', 'cancelled'))]}"/>
+                            <field name="refund_year" force_save="1" invisible="1"/>
+                            <field name="admission_number" force_save="1" readonly="1"/>
+                            <field name="batch_id" force_save="1" readonly="1"/>
+                            <field name="payment_mode" force_save="1" readonly="0"/>
+                            <field name="transaction_ref" attrs="{'invisible': [('payment_mode', '!=', 'Bank')], 'required': [('payment_mode', '=', 'Bank')]}"/>
+                            <field name="bank" attrs="{'invisible': [('payment_mode', '!=', 'Bank')], 'required': [('payment_mode', '=', 'Bank')]}"/>
+                            <field name="cheque_no" attrs="{'invisible': [('payment_mode', '!=', 'Cheque')], 'required': [('payment_mode', '=', 'Cheque')]}"/>
+                            <field name="cheque_date" attrs="{'invisible': [('payment_mode', '!=', 'Cheque')], 'required': [('payment_mode', '=', 'Cheque')]}"/>
+                            <field name="cheque_issued_bank" attrs="{'invisible': [('payment_mode', '!=', 'Cheque')], 'required': [('payment_mode', '=', 'Cheque')]}"/>
+                            <field name="cheque_issued_branch" attrs="{'invisible': [('payment_mode', '!=', 'Cheque')], 'required': [('payment_mode', '=', 'Cheque')]}"/>
+                            <field name="card_owner" attrs="{'invisible': [('payment_mode', '!=', 'Card')], 'required': [('payment_mode', '=', 'Card')]}"/>
+                            <field name="card_no" attrs="{'invisible': [('payment_mode', '!=', 'Card')], 'required': [('payment_mode', '=', 'Card')]}"/>                            <!--                            <field name="refunded_by" force_save="1" readonly="1"/>-->
+                            <!--                            <field name="fee_type" force_save="1" readonly="1"/>-->
+                        </group>
+                        <group>
+                            <field name="remarks"/>
+                        </group>
+                        <notebook>
+                            <page string="Refund">
+                                <field name="refund_line"
+                                       attrs="{'readonly': [('state', 'in', ('refund', 'cancelled'))]}">
+                                    <tree editable="bottom" create="false" delete="false">
+                                        <field name="due_id" force_save="1" invisible="1"/>
+                                        <field name="fee_id" force_save="1" readonly="1"/>
+                                        <field name="academic_year" force_save="1" readonly="1"/>
+                                        <field name="semester_id" force_save="1" readonly="1" options="{'no_create': True, 'no_open': True}"/>
+                                        <field name="month_id" force_save="1" readonly="1" invisible="1"/>
+                                        <field name="year" force_save="1" readonly="1" invisible="1"/>
+                                        <field name="collected_amount" sum="total" force_save="1" readonly="1"/>
+                                        <field name="refund_amount" sum="total"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="fee_refund_tree" model="ir.ui.view">
+            <field name="name">fee.refund.tree</field>
+            <field name="model">fee.refund</field>
+            <field name="arch" type="xml">
+                <tree string="Refund" create="true" decoration-muted="state in ('cancelled', 'rejected')"
+                      decoration-danger="state not in ('cancelled', 'refund')">
+                    <field name="name"/>
+                    <field name="fee_collection_id"/>
+                    <!--                    <field name="fee_type"/>-->
+                    <field name="refund_date"/>
+                    <field name="student_id"/>
+                    <field name="admission_number"/>
+                    <field name="batch_id"/>
+                    <field name="state"/>
+                    <field name="total"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="fee_refund_filter" model="ir.ui.view">
+            <field name="name">fee.refund.filter</field>
+            <field name="model">fee.refund</field>
+            <field name="arch" type="xml">
+                <search string="Search Fee">
+                    <field name="student_id" string="Student"/>
+                    <field name="admission_number" string="Admission Number"/>
+                    <field name="name" string="Receipt No"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="fee_refund_action" model="ir.actions.act_window">
+            <field name="name">Refund</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">fee.refund</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p>
+                <p>
+                    <!-- More details about what a user can do with this object will be OK -->
+                </p>
+            </field>
+        </record>
+
+        <!--    Student Fee Dues    -->
+
+        <record id="student_fee_dues_form_view" model="ir.ui.view">
+            <field name="name">student.fee.dues.form</field>
+            <field name="model">student.fee.dues</field>
+            <field name="arch" type="xml">
+                <form string="Fee Dues">
+                    <sheet>
+                        <group>
+                            <field name="academic_year"/>
+                            <field name="student_id" options="{'no_create': True, 'no_open': True, 'no_edit': True}"/>
+                            <field name="admission_number"/>
+                            <field name="batch_id" options="{'no_create': True, 'no_open': True, 'no_edit': True}"/>
+                            <field name="fee_id" options="{'no_create': True, 'no_open': True, 'no_edit': True}"/>
+                            <field name="semester_id" options="{'no_create': True, 'no_open': True, 'no_edit': True}"/>
+                            <field name="installment_id"
+                                   options="{'no_create': True, 'no_open': True, 'no_edit': True}"/>
+                            <field name="gross_payable_amount"/>
+                            <field name="scholarship_amount"/>
+                            <field name="discount_amount"/>
+                            <field name="net_payable_amount"/>
+                            <field name="paid_amount"/>
+                            <field name="refund" sum="total" string="Refund"/>
+                            <field name="adjustment" sum="total" string="Adjustment"/>
+                            <field name="balance"/>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="student_fee_dues_tree_view" model="ir.ui.view">
+            <field name="name">student.fee.dues.tree</field>
+            <field name="model">student.fee.dues</field>
+            <field name="arch" type="xml">
+                <tree string="Fee Dues">
+                    <field name="academic_year"/>
+                    <field name="student_id"/>
+                    <field name="admission_number"/>
+                    <field name="batch_id"/>
+                    <field name="fee_id"/>
+                    <field name="semester_id"/>
+                    <field name="installment_id"/>
+                    <field name="gross_payable_amount" sum="total" string="Gross Payable"/>
+                    <field name="scholarship_amount" sum="total" string="Scholarship"/>
+                    <field name="discount_amount" sum="total" string="Discount"/>
+                    <field name="net_payable_amount" sum="total" string="Net Payable"/>
+                    <field name="paid_amount" sum="total" string="Paid"/>
+                    <field name="refund" sum="total" string="Refund"/>
+                    <field name="adjustment" sum="total" string="Adjustment"/>
+                    <field name="balance" sum="total"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="student_fee_dues_search_view" model="ir.ui.view">
+            <field name="name">student.fee.dues.search</field>
+            <field name="model">student.fee.dues</field>
+            <field name="arch" type="xml">
+                <search string="Search Student">
+                    <field name="student_id" string="Student"/>
+                    <field name="batch_id" string="Batch"/>
+                    <field name="fee_id" string="Fee Item"/>
+                    <field name="semester_id" string="Semester"/>
+                    <field name="academic_year" string="Academic Year"/>
+                    <separator/>
+                    <group expand="0" string="Group By">
+                        <filter name="group_batch_id" string="Batch" context="{'group_by':'batch_id'}"/>
+                        <filter name="academic_year" string="Academic Year" context="{'group_by':'academic_year'}"/>
+                        <filter name="fee_id" string="Fee Items" context="{'group_by':'fee_id'}"/>
+                        <filter name="semester_id" string="Semester" context="{'group_by':'semester_id'}"/>
+                        <filter name="student_id" string="Student" context="{'group_by':'student_id'}"/>
+                        <separator/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="student_fee_dues_act_window" model="ir.actions.act_window">
+            <field name="name">Student Fee Dues</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">student.fee.dues</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click on create button
+                </p>
+            </field>
+        </record>
+
+        <!--   Fee Payment Schedule     -->
+
+        <record id="fee_payment_schedule_view_form" model="ir.ui.view">
+            <field name="name">fee_payment_schedule_view_form</field>
+            <field name="model">fee.payment.schedule</field>
+            <field name="arch" type="xml">
+                <form string="fee_payment_schedule_form">
+                    <header>
+                        <button name="confirm" string="Confirm" class="oe_highlight" states="draft" type="object"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="start_year" required="1" attrs="{'readonly': [('state', '=', 'confirm')]}"/>
+                            <field name="batch_ids" options="{'no_create': True, 'no_open': True, 'no_edit': True}"
+                                   domain="[('start_year', '=', start_year)]" required="1" attrs="{'readonly': [('state', '=', 'confirm')]}"/>
+                            <field name="semester_id" required="1" options="{'no_create': True, 'no_open': True, 'no_edit': True}" attrs="{'readonly': [('state', '=', 'confirm')]}"/>
+                            <field name="due_date" required="1" string="Due Date" attrs="{'readonly': [('state', '=', 'confirm')]}"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="fee_payment_schedule_view_tree" model="ir.ui.view">
+            <field name="name">fee_payment_schedule_view_tree</field>
+            <field name="model">fee.payment.schedule</field>
+            <field name="arch" type="xml">
+                <tree string="fee_payment_schedule_tree">
+                    <field name="batch_ids" widget="many2many_tags"/>
+                    <field name="semester_id"/>
+                    <field name="due_date"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="fee_payment_schedule_action" model="ir.actions.act_window">
+            <field name="name">Fee Payment Schedule</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">fee.payment.schedule</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <menuitem id="fees_root" name="Fee" sequence="6" web_icon="safi_students,static/src/img/fee_odoo.png"
+                  groups="safi_students.group_fee_manager,safi_students.group_fee_user"/>
+        <menuitem id="fees_configuration_menu"
+                  name="Configuration"
+                  parent="fees_root"
+                  sequence="10"
+                  groups="base.group_system,safi_students.group_fee_manager"/>
+        <menuitem id="programme_fee_menu"
+                  name="Programme fee"
+                  parent="fees_root"
+                  sequence="9"
+                  action="programme_fee_action"
+                  groups="base.group_system,safi_students.group_fee_manager"/>
+        <menuitem id="fees_item_menu" name="Fees item" parent="fees_configuration_menu" action="fees_item_action"
+                  sequence="3"/>
+        <menuitem id="fees_group_menu" name="Fees Group" parent="fees_configuration_menu" action="fees_group_action"
+                  sequence="3"/>
+        <menuitem id="fees_schedule_menu" name="Fees Schedule" parent="fees_configuration_menu"
+                  action="fee_schedule_action"
+                  sequence="4"/>
+
+        <menuitem
+                id="fee_collection_menu"
+                name="Fee Collection"
+                parent="fees_root"
+                action="fee_collection_action"
+                groups="base.group_system"
+                sequence="1"/>
+        <menuitem
+                id="aided_fee_collection_menu"
+                name="Fee Collection"
+                parent="fees_root"
+                action="aided_fee_collection_action"
+                groups="safi_students.group_aided_user"
+                sequence="2"/>
+        <menuitem
+                id="self_fee_collection_menu"
+                name="Fee Collection"
+                parent="fees_root"
+                action="self_fee_collection_action"
+                groups="safi_students.group_self_user"
+                sequence="3"/>
+
+        <!--        <menuitem id="other_fee_collection_menu" name="Other Fee" parent="fees_root"-->
+        <!--                  action="other_fee_collection_action"-->
+        <!--                  sequence="4"/>-->
+        <!--        <menuitem id="additional_fee_collection_menu" name="Additional Fee Collection" parent="fees_root"-->
+        <!--                  action="additional_fee_collection_action"-->
+        <!--                  sequence="6"/>-->
+        <menuitem id="fee_refund_menu" name="Fee Refund" parent="fees_root" action="fee_refund_action"
+                  sequence="7" groups="safi_students.group_refund_manager,safi_students.group_refund_user"/>
+
+        <menuitem id="student_fee_dues_menu"
+                  name="Fee Dues"
+                  parent="fees_root"
+                  action="student_fee_dues_act_window"
+                  sequence="11"
+                  groups="base.group_system,safi_students.group_fee_manager"/>
+
+        <menuitem id="fee_payment_schedule_menu"
+                  name="Fee Payment Schedule"
+                  parent="fees_root"
+                  action="fee_payment_schedule_action"
+                  sequence="11"
+                  groups="base.group_system,safi_students.group_fee_manager"/>
+
+        <!--        <record model="ir.ui.menu" id="safi_students.fees_configuration_menu">-->
+        <!--            <field name="groups_id" eval="[(6,0,[ref('safi_students.group_fee_manager')])]"/>-->
+        <!--        </record>-->
+        <!--        <record model="ir.ui.menu" id="safi_students.programme_fee_menu">-->
+        <!--            <field name="groups_id" eval="[(6,0,[ref('safi_students.group_fee_manager')])]"/>-->
+        <!--        </record>-->
+    </data>
+</odoo>

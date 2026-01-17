@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="fee_pending_list_view_form" model="ir.ui.view">
+            <field name="name">fee.pending.list.form</field>
+            <field name="model">fee.pending.list</field>
+            <field name="arch" type="xml">
+                <form string="Fee Dues report">
+                    <group>
+                        <field name="academic_year"/>
+                        <field name="batch_id"/>
+                        <field name="semester_id"/>
+                        <field name="student_id"/>
+                        <field name="fee_id"/>
+                    </group>
+                    <footer>
+                        <button name="return_fee_due_view" string="View Dues" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="fee_pending_list_view_tree" model="ir.ui.view">
+            <field name="name">fee.pending.list.tree</field>
+            <field name="model">fee.pending.list</field>
+            <field name="arch" type="xml">
+                <tree string="fee_pending_list_tree">
+                    <field name="academic_year"/>
+                    <field name="batch_id"/>
+                    <field name="semester_id"/>
+                    <field name="student_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="fee_pending_list_action" model="ir.actions.act_window">
+            <field name="name">fee.pending.list</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">fee.pending.list</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem
+                id="fee_pending_list_menu_id"
+                name="Fee Due"
+                parent="fee_report_menu"
+                sequence="6"
+                action="fee_pending_list_action"
+        />
+
+        <!-- This Menu Item must have a parent and an action -->
+<!--        <menuitem id="fee_pending_list_menu" name="Fee Pending List" parent="fees_root" action="fee_pending_list_action" sequence="10"/>-->
+
+
+    </data>
+</odoo>

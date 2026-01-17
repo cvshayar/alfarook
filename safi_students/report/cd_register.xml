@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="cd_register_report_pdf">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="web.external_layout">
+                        <div class="page" style="page-break-after:always">
+                            <h4 class="text-center">CD Register <span t-esc="doc.year"/></h4>
+                            <table class="table table-bordered table-sm">
+                                <thead>
+                                    <tr style="color:black">
+                                        <th class="text-center" style="vertical-align:middle;border:1px solid black;color:black" >SI No</th>
+                                        <th class="text-center" style="vertical-align:middle;border:1px solid black" width="18%">Name</th>
+                                        <th class="text-center" style="vertical-align:middle;border:1px solid black" >Class to which admitted</th>
+                                        <th class="text-center" style="vertical-align:middle;border:1px solid black" >Admn<br/>No</th>
+                                        <th class="text-center" style="vertical-align:middle;border:1px solid black" >Total<br/>Amount<br/>Collected</th>
+                                        <th class="text-center" style="vertical-align:middle;border:1px solid black" width="8%">Date on which<br/>collected</th>
+                                        <th class="text-center" style="vertical-align:middle;border:1px solid black" >Dues Net amount<br/>if any to be<br/>available for<br/>adjusted<br/>disbursement</th>
+                                        <th class="text-center" style="vertical-align:middle;border:1px solid black" >Amount<br/>Disbursed</th>
+                                        <th class="text-center" style="vertical-align:middle;border:1px solid black" >Date of<br/>Disbursement</th>
+                                        <th class="text-center" style="vertical-align:middle;border:1px solid black" >Dated Signature of<br/>the Student</th>
+                                        <th class="text-center" style="vertical-align:middle;border:1px solid black" >Initials of the<br/>Principal</th>
+                                        <th class="text-center" style="vertical-align:middle;border:1px solid black" >Remarks</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-set="i" t-value="0"/>
+                                    <tr t-foreach="lines" t-as="each" style="height:50px;color:black">
+                                        <t t-set="i" t-value="i+1"/>
+                                        <!-- <t t-set="fee" t-value="doc.env['fee.collection'].search([('student_id', '=', student['id']), ('year', '=', doc.year)])"/> -->
+                                        <td style="vertical-align:middle;border:1px solid black"> <span t-esc="i"/></td>
+                                        <td style="vertical-align:middle;border:1px solid black"> <span t-esc="each['student']['name']"/></td>
+                                        <td style="vertical-align:middle;border:1px solid black"> <span t-esc="each['student']['programme_id']['name']"/></td>
+                                        <td style="vertical-align:middle;border:1px solid black"> <span t-esc="each['student']['admission_number']"/></td>
+                                        <td class="text-right" style="vertical-align:middle;border:1px solid black"><t t-if="sum(each['cd']) &gt; 0"><span t-esc="sum(each['cd'])"/></t></td>
+                                        <td style="vertical-align:middle;border:1px solid black"><span t-esc="'\n'.join(each['date'])"/></td>
+                                        <td class="text-right" style="border:1px solid black"></td>
+                                        <td class="text-right" style="border:1px solid black"></td>
+                                        <td class="text-right" style="border:1px solid black"></td>
+                                        <td style="border:1px solid black"></td>
+                                        <td style="border:1px solid black"></td>
+                                        <td style="border:1px solid black"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

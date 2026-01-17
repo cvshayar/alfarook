@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="scholarship_report_form" model="ir.ui.view">
+            <field name="name">scholarship.report.form</field>
+            <field name="model">scholarship.report</field>
+            <field name="arch" type="xml">
+                <form string="Scholarship">
+                    <group>
+                        <field name="from_date"/>
+                        <field name="to_date"/>
+                        <field name="scholarship_ids" widget="many2many_tags" options="{'no_create': True, 'no_open': True, 'no_edit': True}"/>
+                    </group>
+                    <footer>
+                        <button name="print_excel_report" string="Print" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <record id="scholarship_report_action" model="ir.actions.act_window">
+            <field name="name">Scholarship</field>
+            <field name="res_model">scholarship.report</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="scholarship_report_menu" name="Report" parent="scholarship_details_root" sequence="10"/>
+
+        <menuitem name="Scholarship Details"
+                  action="scholarship_report_action"
+                  id="scholarship_details_report_menu"
+                  parent="scholarship_report_menu"
+                  sequence="1"/>
+        
+    </data>
+</odoo>

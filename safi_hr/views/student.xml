@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <record id="programme_form_inherit" model="ir.ui.view">
+            <field name="name">programme.programme.form.inherit</field>
+            <field name="model">programme.programme</field>
+            <field name="inherit_id" ref="safi_students.programme_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='is_self_finance']" position="after">
+                    <field name="department_id" options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="batch_form_inherit" model="ir.ui.view">
+            <field name="name">batch.batch.form.inherit</field>
+            <field name="model">batch.batch</field>
+            <field name="inherit_id" ref="safi_students.batch_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[last()]" position="after">
+                    <notebook>
+                        <page string="Advisers">
+                            <field name="adviser_ids">
+                                <tree create="false" delete="false" edit="false">
+                                    <field name="employee_id"/>
+                                    <field name="semester_id"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </xpath>
+
+            </field>
+        </record>
+    
+    </data>
+</odoo>

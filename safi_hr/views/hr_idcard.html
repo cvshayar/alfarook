@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ID Card</title>
+</head>
+<html>
+<body align="center">
+<div style="height:15px"/>
+{% for hr in hrs %}
+{% if page in ['front', 'both'] %}
+<div style="position: relative;width: 595px; height: 842px; margin: auto">
+    <img src="/safi_hr/static/src/img/0001.jpg" width="595px" height="960px"/>
+    <div style="position: absolute; top: 180px; left: 0px;width: 595px; height: 842px;">
+        <table style="font-family: FreeSerif" width="90%" align="center" border="0" cellpadding="0" cellspacing="5">
+            <tr>
+                <td height="165" align="center">
+                    {% if hr['pen_number'] != '' %}
+                    <img src="/report/barcode/?type=Code128&amp;value={{ hr['hr']['pen_number'] }}&amp;width=600&amp;height=100"
+                    style="width:300px;height:28px" class="text-center"/>
+                    {% else %}
+                    <img src="/report/barcode/?type=Code128&amp;value={{ hr['hr']['id'] }}&amp;width=600&amp;height=100"
+                    style="width:300px;height:28px" class="text-center"/>
+                    {% endif %}
+                    <br/>
+                    <font style="font-family:Tahoma, Geneva, sans-serif" size="+2">
+                        <strong class="text-center">
+                            {% if hr['hr']['pen_number'] != False %}
+                                {{ hr['hr']['pen_number'] }}
+                            {% else %}
+                                {{ hr['hr']['id'] }}
+                            {% endif %}
+                        </strong>
+                        <br/>
+                        {% if hr['image'] != '' %}
+                        <img src="data:image/png;base64,{{ hr['image'] }}" height="300" style="border-radius: 10px; border: 2px solid black;"/>
+                        {% else %}
+                        <img src="/safi_students/static/src/img/icon_faculty.png" height="300"/>
+                        {% endif %}
+                        <br/>
+                    </font>
+
+                    <font style="font-family:Tahoma, Geneva, sans-serif" size="+3">
+                        <strong>
+                            {{ hr['hr']['name'] }}
+                        </strong>
+                    </font>
+
+                    <font style="font-family:Tahoma, Geneva, sans-serif" size="+2">
+                        <!-- <strong> -->
+                            <br/>
+                            {% if hr['hr']['appointment_nature'] == 'Contract' %}
+                                {{ hr['hr']['job_id'].name }} (on Contract)
+                            {% else %}
+                                {{ hr['hr']['job_id'].name }}
+                            {% endif %}
+                            <br/>
+                            {% if hr['hr']['department_id'].id > 0 and  hr['hr']['department_id'].name not in ['LIBRARY', 'Office'] %}
+                                Department of {{ hr['hr']['department_id']['name'] }}
+                            <br/>
+                            {% endif %}
+                            {% if hr['hr']['department_id'].name == 'LIBRARY' %}
+                                Farook College Library Complex
+                            <br/>
+                            {% endif %}
+                            {% if hr['hr']['department_id'].name == 'Office' %}
+                                Farook College Office
+                            <br/>
+                            {% endif %}
+                            {% if hr['hr']['appointment_nature'] == 'Contract' %}
+                                Valid upto {{ hr['hr']['contract_validity'].strftime('%d/%m/%Y') }}
+                            {% endif %}
+                            <br/>
+                        <!-- </strong> -->
+                    </font>
+                </td>
+            </tr>
+            <!-- <tr style="height:20px"/>            -->
+            <tr>
+                <td height="49" align="center">
+                    <table width="98%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td>&#160;</td>
+                            <td align="right" valign="middle">
+                                <!-- <p> -->
+                                    <img src="/safi_students/static/src/img/princisign1.png" height="40" width="85"/>
+                                <!-- </p> -->
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <font size="+2"></font>
+                            </td>
+                            <td align="right">
+                                <font size="+2">Principal</font>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div style="page-break-before: always;"></div>
+{% endif %}
+{% if page in ['back', 'both'] %}
+<div style="position: relative;width: 595px; height: 842px; margin: auto;">
+    <p style="text-align:center;">
+        <img src='/web/binary/company_logo' style="max-height: 150px;"
+                     alt="Logo"/>
+    </p>
+    <!-- <img src="/safi_hr/static/src/img/0001.jpg" width="595px" height="842px"/> -->
+    <!-- <div style="position: absolute; top: 180px; left: 0px;width: 595px; height: 842px;"> -->
+    <font style="font-family:Tahoma, Geneva, sans-serif" size="+3">
+        <table width=100%" align="left" border="0" cellpadding="5" cellspacing="0">
+            <tr>
+                <td align="left" valign="top">
+                    {% if hr['pen_number']|length > 0 %}
+                        {{ hr['hr']['pen_number'] }}
+                    {% else %}
+                        {{ hr['hr']['id'] }}
+                    {% endif %}
+                </td>
+                <td/>
+            </tr>
+
+                <!-- <strong>Address (Permanent)</strong> -->
+                <!-- <table width="100%" border="0" cellspacing="3" cellpadding="5"> -->
+            <tr>
+                <td align="left">
+                    <strong>Name</strong>
+                </td>
+                <td align="left">
+                    {{ hr['hr']['name'] }}
+                </td>
+            </tr>
+            <tr>
+                <td align="left" style="vertical-align: top;">
+                    <strong>Address</strong>
+                </td>
+                <td align="left">
+                    {% if hr['hr']['address'] %}
+                        {{ hr['hr']['address'] }}
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td align="left">
+                    <strong>Post</strong>
+                </td>
+                <td align="left">
+                    {% if hr['hr']['post'] %}
+                    {{ hr['hr']['post'] }}
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td align="left">
+                    <strong>District</strong>
+                </td>
+                <td align="left">
+                    {% if hr['hr']['district_id']['name'] %}
+                    {{ hr['hr']['district_id']['name'] }}
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td align="left">
+                    <strong>PIN</strong>
+                </td>
+                <td align="left">
+                    {% if hr['hr']['pin'] %}
+                    {{ hr['hr']['pin'] }}
+                    {% endif %}
+                </td>
+            </tr>
+                    <!-- </table> -->
+                <!-- </td> -->
+            <!-- </tr> -->
+            <!-- <tr> -->
+                <!-- <td height="49" align="left" valign="bottom"> -->
+                    <!-- <table width="100%" border="0" cellspacing="3" cellpadding="0"> -->
+            <tr>
+                <td align="left">
+                    <strong>Blood</strong>
+                </td>
+                <td align="left">
+                    {% if hr['hr']['blood_group'] %}
+                    {{ hr['hr']['blood_group'] }}
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td align="left">
+                    <strong>Mob</strong>
+                </td>
+                <td align="left">
+                    {% if hr['hr']['mobile_phone'] %}
+                    {{ hr['hr']['mobile_phone'] }}
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td align="left">
+                    <strong>Email</strong>
+                </td>
+                <td align="left">
+                    {% if hr['hr']['work_email'] %}
+                    {{ hr['hr']['work_email'] }}
+                    {% endif %}
+                </td>
+            </tr>
+            <tr style="height: 120px;"/>
+            <tr>
+                <td colspan="2" align="right">Employee<br/>Signature</td>
+            </tr>
+                    <!-- </table> -->
+                <!-- </td> -->
+            <!-- </tr> -->
+        </table>
+    </font>
+    <!-- </div> -->
+</div>
+<div style="page-break-before: always;"></div>
+{% endif %}
+{% endfor %}
+<h6></h6>
+</body>
+</html>
+</html>

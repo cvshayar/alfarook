@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="nominal_roll_pdf">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="web.external_layout">
+                        <div class="page" style="page-break-after:always;" t-foreach="lines" t-as="each">
+                            <h3 class="text-center">NOMINAL ROLL</h3>
+                            <h3 class="text-center"><span t-esc="each['batch'].programme_id.name"/> (<span t-esc="each['batch'].start_year"/> Admission)</h3>
+                            <table class="table table-bordered table-sm">
+                                <tr>
+                                    <th class="text-center">SI.No</th>
+                                    <th class="text-center">Roll No</th>
+                                    <th class="text-center">Admission No</th>
+                                    <th class="text-center">Name</th>
+                                    <th class="text-center">Gender</th>
+                                    <th class="text-center">Language</th>
+                                </tr>
+                                <t t-set="i" t-value="0"/>
+                                <t t-set="k" t-value="0"/>
+                                <tr t-foreach="each['students']" t-as="student">
+                                    <t t-set="i" t-value="i+1"/>
+                                    <td> <span t-esc="i"/></td>
+                                    <td> <span t-esc="student['roll_no']"/></td>
+                                    <td> <span t-esc="student['admission_number']"/></td>
+                                    <td> <span t-if="student['active'] == True" t-esc="student['name']"/></td>
+                                    <td> <span t-if="student['active'] == True" t-esc="student['gender']"/></td>
+                                    <td> <span t-if="student['active'] == True" t-esc="student['second_language_id']['name']"/></td>
+                                    <t t-set="k" t-value="student['roll_no']"/>
+                                </tr>
+                                <t t-if="len(each['students']) != each['batch']['strength']">
+                                    <t t-set="j" t-value="each['batch']['strength'] - len(each['students'])"/>
+                                    <t t-if="j &gt; 0">
+                                        <t t-set="i" t-value="len(each['students'])"/>
+                                        <tr t-foreach="range(j)" t-as="l">
+                                            <t t-set="i" t-value="i+1"/>
+                                            <t t-set="k" t-value="int(k)+1"/>
+                                            <td><span t-esc="i"/></td>
+                                            <td><span t-esc="k"/></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    </t>
+                                </t>
+                            </table>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

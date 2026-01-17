@@ -1,0 +1,632 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="tc_application_form" model="ir.ui.view">
+            <field name="name">TC Application</field>
+            <field name="model">tc.applications</field>
+            <field name="arch" type="xml">
+                <form string="TC Application">
+                    <header>
+                        <button name="approve_application" type="object" string="Approve" states="draft"/>
+                        <field name="state" widget="statusbar" force_save="1"/>
+                    </header>
+                    <sheet>
+                        <group col="3">
+                            <field name="tc_application_no" force_save="1" readonly="1"/>
+                            <field name="student_name" force_save="1" readonly="1"/>
+                            <field name="admission_year" force_save="1" readonly="1"/>
+                            <field name="date_of_leave" force_save="1" readonly="1"/>
+                            <field name="semester_admitted" force_save="1" readonly="1"/>
+                            <field name="semester" force_save="1" readonly="1"/>
+                            <field name="promotion" force_save="1" readonly="1"/>
+                            <field name="exam_year" force_save="1" readonly="1"/>
+                            <field name="exam_passed" force_save="1" readonly="1"/>
+                            <field name="date_of_application" force_save="1" readonly="1"/>
+                            <field name="is_approved" invisible="1"/>
+                            <field name="admission_number" force_save="1" readonly="1"/>
+                            <field name="dob" force_save="1" readonly="1"/>
+                            <field name="admission_date" force_save="1" readonly="1"/>
+                            <field name="programme_admitted_id" force_save="1" readonly="1"/>
+                            <field name="programme_id" force_save="1" readonly="1"/>
+                            <field name="reason" force_save="1" readonly="1"/>
+                            <field name="exam_semester" force_save="1" readonly="1"/>
+                            <field name="exam_register_number" force_save="1" readonly="1"/>
+                            <field name="tc_clearance_id" force_save="1" invisible="1"/>
+                            <field name="due_status"/>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="tc_application_tree" model="ir.ui.view">
+            <field name="name">TC Application</field>
+            <field name="model">tc.applications</field>
+            <field name="arch" type="xml">
+                <tree string="TC Application" decoration-primary="tc_clearance_id&gt;1"
+                      decoration-success="due_status=='No Dues'">
+                    <field name="tc_clearance_id" invisible="1"/>
+                    <field name="due_status" invisible="1"/>
+                    <field name="tc_application_no"/>
+                    <field name="admission_number"/>
+                    <field name="student_name"/>
+                    <field name="programme_id"/>
+                    <field name="date_of_application"/>
+                    <field name="state"/>
+                    <button name="tc_clearance" type="object" string="TC Clearance" states="approved,issued"/>
+                    <button name="print_application" type="object" icon="fa-print"/>
+                    <button name="approve_application" type="object" string="Approve" states="draft"/>
+                    <button name="unlink" type="object" string="Delete" states="draft"/>
+                    <button name="issue_tc" type="object" string="Issue TC" states="approved"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="tc_application_filter" model="ir.ui.view">
+            <field name="name">TC Application</field>
+            <field name="model">tc.applications</field>
+            <field name="arch" type="xml">
+                <search string="Search TC">
+                    <field name="tc_application_no" string="TC Application Number"/>
+                    <field name="admission_number" string="Admission Number"/>
+                    <field name="student_name" string="Student name as per TC register"/>
+                    <field name="programme_id" string="Programme"/>
+                    <field name="exam_register_number" string="Register No"/>
+                    <separator/>
+                    <group expand="0" string="Group By">
+                        <filter name="group_by_programme_id" string="Programme" context="{'group_by':'programme_id'}"/>
+                        <filter name="status" string="Status" context="{'group_by':'state'}"/>
+                        <separator/>
+                        <filter string="TC Applied Date" name="tcissuedate" context="{'group_by':'date_of_application'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!--    All approved TC Applications    -->
+
+        <record id="tc_application_action" model="ir.actions.act_window">
+            <field name="name">TC Application</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">tc.applications</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('state', '=', 'approved')]</field>
+            <field name="search_view_id" ref="tc_application_filter"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p>
+                <p>
+                    <!-- More details about what a user can do with this object will be OK -->
+                </p>
+            </field>
+        </record>
+
+        <!--    All TC Applications to approve    -->
+
+        <record id="tc_application_action_to_approve" model="ir.actions.act_window">
+            <field name="name">TC Applications to approve</field>
+            <field name="res_model">tc.applications</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="tc_application_filter"/>
+            <field name="domain">[('state', '=', 'draft')]</field>
+        </record>
+
+        <!--   HA TC Applications    -->
+
+        <record id="ha_tc_application_action" model="ir.actions.act_window">
+            <field name="name">TC Application</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">tc.applications</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('state', '=', 'issued')]</field>
+            <field name="search_view_id" ref="tc_application_filter"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p>
+                <p>
+                    <!-- More details about what a user can do with this object will be OK -->
+                </p>
+            </field>
+        </record>
+
+
+        <!--    TC Register Form    -->
+
+        <record id="tc_register_form" model="ir.ui.view">
+            <field name="name">TC Register</field>
+            <field name="model">tc.issued.register</field>
+            <field name="arch" type="xml">
+                <form string="TC Register" create="false" delete="false" edit="false">
+                    <header>
+<!--                        <button name="%(tc_printout_id)d" type="action" string="Print TC" states="issue"/>-->
+                        <button name="update_student" type="object" string="Update all" groups="base.group_system"/>
+                        <button name="tc_applied_status" type="object" string="Get TC Status"
+                                groups="base.group_system"/>
+                        <button name="confirm_tc" type="object" string="Confirm TC" states="draft"/>
+                        <button name="issue_tc" type="object" string="Issue TC" states="confirm"/>
+                        <button name="cancel_tc" type="object" string="Cancel TC" states="issue"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="name" string="TC Number" states="issue"/>
+                        </group>
+                        <group col="3">
+                            <field name="admission_number" attrs="{'readonly': [('state', '=', 'issue')]}"/>
+                            <field name="student_id" force_save="1" invisible="1"
+                                   attrs="{'readonly': [('state', '=', 'issue')]}"/>
+                            <field name="student_name"
+                                   attrs="{'readonly': [('state', '=', 'issue')]}"/>
+                            <field name="dob" attrs="{'readonly': [('state', '=', 'issue')]}"/>
+                            <field name="date_of_admission" attrs="{'readonly': [('state', '=', 'issue')]}"/>
+                            <field name="date_of_leave" attrs="{'readonly': [('state', '=', 'issue')]}"/>
+                            <field name="admission_year" attrs="{'readonly': [('state', '=', 'issue')]}"/>
+                            <field name="programme_id" attrs="{'readonly': [('state', '=', 'issue')]}"
+                                   options="{'no_create': True, 'no_open': True, 'no_edit': True}"/>
+                            <field name="semester_id" attrs="{'readonly': [('state', '=', 'issue')]}"/>
+                            <field name="promotion" attrs="{'readonly': [('state', '=', 'issue')]}"/>
+                            <field name="dues" attrs="{'readonly': [('state', '=', 'issue')]}"/>
+                            <field name="exam_semester_id" attrs="{'readonly': [('state', '=', 'issue')]}"/>
+                            <field name="exam_year" attrs="{'readonly': [('state', '=', 'issue')]}"/>
+                            <field name="exam_reg_no" attrs="{'readonly': [('state', '=', 'issue')]}"/>
+                            <field name="ex_passed" attrs="{'readonly': [('state', '=', 'issue')]}"/>
+                            <field name="tc_applied_date" attrs="{'readonly': [('state', '=', 'issue')]}"/>
+                            <field name="tc_issued_date" attrs="{'readonly': [('state', '=', 'issue')]}"/>
+                            <field name="conduct" attrs="{'readonly': [('state', '=', 'issue')]}"/>
+                            <field name="tc_academic_year" force_save="1" invisible="1"
+                                   attrs="{'readonly': [('state', '=', 'issue')]}"/>
+                            <field name="is_visible" invisible="1"/>
+                            <field name="is_self_finance" force_save="1" invisible="1"
+                                   attrs="{'readonly': [('state', '=', 'issue')]}"/>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="tc_register_tree" model="ir.ui.view">
+            <field name="name">TC Register</field>
+            <field name="model">tc.issued.register</field>
+            <field name="arch" type="xml">
+                <tree string="TC Register" create="false" delete="false">
+                    <field name="name"/>
+                    <field name="admission_number"/>
+                    <field name="student_name" string="Student name as per TC register"/>
+                    <field name="programme_id"/>
+                    <field name="tc_issued_date"/>
+                    <button name="%(tc_printout_id)d" type="action" string="Print"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="tc_issued_register_filter" model="ir.ui.view">
+            <field name="name">TC Register</field>
+            <field name="model">tc.issued.register</field>
+            <field name="arch" type="xml">
+                <search string="Search TC">
+                    <field name="name" string="TC Number"/>
+                    <field name="admission_number" string="Admission Number"/>
+                    <field name="student_id" string="Student name as per admission register"/>
+                    <field name="student_name" string="Student name as per TC register"/>
+                    <field name="programme_id" string="Programme"/>
+                    <separator/>
+                    <group expand="0" string="Group By">
+                        <filter name="group_by_programme" string="Programme" context="{'group_by':'programme_id'}"/>
+                        <filter name="status" string="Status" context="{'group_by':'state'}"/>
+                        <separator/>
+                        <filter string="Qualified for promotion" name="promotion" context="{'group_by':'promotion'}"/>
+                        <filter string="TC Issue Date" name="tcissuedate" context="{'group_by':'tc_issued_date'}"/>
+                        <!--                        <filter string="Due Date" name="duedate" context="{'group_by':'date_due'}"/>-->
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="tc_register_action" model="ir.actions.act_window">
+            <field name="name">TC Register</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">tc.issued.register</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('state', '=', 'issue')]</field>
+            <field name="search_view_id" ref="tc_issued_register_filter"/>
+            <field name="view_ids"
+                   eval="[(5, 0, 0),
+                          (0, 0, {'view_mode': 'tree', 'view_id': ref('tc_register_tree')}),
+                          (0, 0, {'view_mode': 'form', 'view_id': ref('tc_register_form')})]"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p>
+                <p>
+                    <!-- More details about what a user can do with this object will be OK -->
+                </p>
+            </field>
+        </record>
+
+        <!--    TC to Issue    -->
+
+        <record id="tc_to_issue_form" model="ir.ui.view">
+            <field name="name">TC Issue</field>
+            <field name="model">tc.issued.register</field>
+            <field name="arch" type="xml">
+                <form string="TC Register">
+                    <header>
+                        <button name="reset_to_draft" type="object" string="Reset to draft" states="cancelled"/>
+                        <button name="issue_tc" type="object" string="Issue TC" states="confirm"/>
+                        <button name="%(tc_printout_id)d" type="action" string="Print TC" states="issue"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="name" string="TC Number" states="issue"/>
+                        </group>
+                        <group col="3">
+                            <field name="admission_number" attrs="{'readonly': [('state', '=', 'issue')]}"/>
+                            <field name="student_id" force_save="1" invisible="1"
+                                   attrs="{'readonly': [('state', '=', 'issue')]}"/>
+                            <field name="student_name"
+                                   attrs="{'readonly': [('state', '=', 'issue')]}"/>
+                            <field name="dob" attrs="{'readonly': [('state', '=', 'issue')]}"/>
+                            <field name="date_of_admission" attrs="{'readonly': [('state', '=', 'issue')]}"/>
+                            <field name="date_of_leave" attrs="{'readonly': [('state', '=', 'issue')]}"/>
+                            <field name="programme_id" attrs="{'readonly': [('state', '=', 'issue')]}"
+                                   options="{'no_create': True, 'no_open': True, 'no_edit': True}"/>
+                            <field name="semester_id" attrs="{'readonly': [('state', '=', 'issue')]}"/>
+                            <field name="promotion" attrs="{'readonly': [('state', '=', 'issue')]}"/>
+                            <field name="dues" attrs="{'readonly': [('state', '=', 'issue')]}"/>
+                            <field name="exam_semester_id" attrs="{'readonly': [('state', '=', 'issue')]}"/>
+                            <field name="exam_year" attrs="{'readonly': [('state', '=', 'issue')]}"/>
+                            <field name="exam_reg_no" attrs="{'readonly': [('state', '=', 'issue')]}"/>
+                            <field name="ex_passed" attrs="{'readonly': [('state', '=', 'issue')]}"/>
+                            <field name="tc_applied_date" attrs="{'readonly': [('state', '=', 'issue')]}"/>
+                            <field name="tc_issued_date" attrs="{'readonly': [('state', '=', 'issue')]}"/>
+                            <field name="conduct" attrs="{'readonly': [('state', '=', 'issue')]}"/>
+                            <field name="admission_year" attrs="{'readonly': [('state', '=', 'issue')]}" invisible="1"/>
+                            <field name="tc_academic_year" force_save="1"
+                                   attrs="{'readonly': [('state', '=', 'issue')]}"
+                                   invisible="1"/>
+                            <field name="is_visible" force_save="1" invisible="1"/>
+                            <field name="is_self_finance" force_save="1" invisible="1"/>
+                            <field name="app_ref" force_save="1" invisible="1"/>
+                            <field name="is_transfer" force_save="1" invisible="1"/>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="tc_to_issue_tree" model="ir.ui.view">
+            <field name="name">TC Register</field>
+            <field name="model">tc.issued.register</field>
+            <field name="arch" type="xml">
+                <tree string="TC Register">
+                    <field name="name"/>
+                    <field name="admission_number"/>
+                    <field name="student_name" string="Student name as per TC register"/>
+                    <field name="programme_id"/>
+                    <field name="tc_issued_date"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="tc_to_issue_action" model="ir.actions.act_window">
+            <field name="name">Issue TC</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">tc.issued.register</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('state', 'in', ['draft', 'confirm', 'cancelled'])]</field>
+            <field name="search_view_id" ref="tc_issued_register_filter"/>
+            <field name="view_ids"
+                   eval="[(5, 0, 0),
+                          (0, 0, {'view_mode': 'tree', 'view_id': ref('tc_to_issue_tree')}),
+                          (0, 0, {'view_mode': 'form', 'view_id': ref('tc_to_issue_form')})]"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p>
+                <p>
+                    <!-- More details about what a user can do with this object will be OK -->
+                </p>
+            </field>
+        </record>
+
+        <!--    TC Clearance    -->
+
+        <record id="tc_clearance_form" model="ir.ui.view">
+            <field name="name">tc.clearance.form</field>
+            <field name="model">tc.clearance</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <sheet>
+                        <div class="row">
+                            <div class="col-10">
+                            </div>
+                            <div class="col-2">
+                                <field name="image" widget='image' class="oe_avatar"/>
+                            </div>
+                        </div>
+                        <group>
+                            <field name="application_id" force_save="1" invisible="1"/>
+                            <field name="application_number"/>
+                            <field name="student_name"/>
+                            <field name="admission_number"/>
+                            <field name="admission_year"/>
+                            <field name="programme_id" options="{'no_create': True, 'no_open': True, 'no_edit': True}"/>
+                            <field name="section_ids" options="{'no_create': True, 'no_open': True, 'no_edit': True}"
+                                   attrs="{'readonly': [('state', 'in', ['draft','issued'])]}"/>
+                            <field name="state" force_save="1" invisible="1"/>
+                        </group>
+                        <notebook>
+                            <page string="Clearance Status">
+                                <field name="clearance_line">
+                                    <tree ediable="bottom" create="false" delete="false" edit="false">
+                                        <field name="clearance_id" force_save="1" invisible="1"/>
+                                        <field name="section_id"/>
+                                        <field name="dues"/>
+                                        <field name="remarks"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                        <footer>
+                            <button name="send_clearance" type="object" string="Save"
+                                    attrs="{'invisible': [('state', 'in', ['draft','issued'])]}"/>
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="tc_clearance_tree" model="ir.ui.view">
+            <field name="name">tc.clearance.tree</field>
+            <field name="model">tc.clearance</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="application_id"/>
+                    <field name="section_ids" widget="many2many_tags"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="tc_clearance_action" model="ir.actions.act_window">
+            <field name="name">TC Clearance</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">tc.clearance</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p>
+                <p>
+                    <!-- More details about what a user can do with this object will be OK -->
+                </p>
+            </field>
+        </record>
+
+        <!--    TC Clearance Line    -->
+
+        <record id="tc_clearance_line_a4_form" model="ir.ui.view">
+            <field name="name">tc.clearance.line.a4.form</field>
+            <field name="model">tc.clearance.line</field>
+            <field name="arch" type="xml">
+                <form string="" create="false" delete="false">
+                    <header>
+                        <button name="print_application" type="object" icon="fa-print" class="btn btn-info"/>
+                    </header>
+                    <sheet>
+                        <div class="row">
+                            <div class="col-10">
+                            </div>
+                            <div class="col-2">
+                                <field name="image" widget='image' class="oe_avatar"/>
+                            </div>
+                        </div>
+                        <group>
+                            <field name="clearance_id" force_save="1" invisible="1"/>
+                            <field name="application_number"/>
+                            <field name="student_name"/>
+                            <field name="roll_no"/>
+                            <field name="admission_number"/>
+                            <field name="admission_year"/>
+                            <field name="programme_id" options="{'no_create': True, 'no_open': True, 'no_edit': True}"/>
+                            <field name="dues" force_save="1" readonly="1"/>
+                            <field name="remarks" force_save="1" readonly="1"/>
+                            <field name="section_id" force_save="1" invisible="1"/>
+                            <field name="state" force_save="1" invisible="1"/>
+                        </group>
+                        <footer></footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="tc_clearance_line_form" model="ir.ui.view">
+            <field name="name">tc.clearance.line.form</field>
+            <field name="model">tc.clearance.line</field>
+            <field name="arch" type="xml">
+                <form string="" create="false" delete="false">
+                    <header>
+                        <button name="print_application" type="object" icon="fa-print" class="btn btn-info"/>
+                        <button name="get_status" type="object" string="View status" class="btn btn-info"
+                                attrs="{'invisible': [('is_visible', '=', False)]}"/>
+                    </header>
+                    <sheet>
+                        <div class="row">
+                            <div class="col-10">
+                            </div>
+                            <div class="col-2">
+                                <field name="image" widget='image' class="oe_avatar"/>
+                            </div>
+                        </div>
+                        <group>
+                            <field name="clearance_id" force_save="1" invisible="1"/>
+                            <field name="application_number"/>
+                            <field name="student_name"/>
+                            <field name="roll_no"/>
+                            <field name="admission_number"/>
+                            <field name="admission_year"/>
+                            <field name="programme_id" options="{'no_create': True, 'no_open': True, 'no_edit': True}"/>
+                            <field name="dues"/>
+                            <field name="remarks"/>
+                            <field name="section_id" force_save="1" invisible="1"/>
+                            <field name="state" force_save="1" invisible="1"/>
+                            <field name="is_visible" invisible="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="tc_clearance_line_tree" model="ir.ui.view">
+            <field name="name">tc.clearance.line.tree</field>
+            <field name="model">tc.clearance.line</field>
+            <field name="arch" type="xml">
+                <tree string="" create="false" delete="false">
+                    <field name="clearance_id"/>
+                    <field name="student_name"/>
+                    <field name="roll_no"/>
+                    <field name="admission_number"/>
+                    <field name="admission_year"/>
+                    <field name="programme_id" options="{'no_create': True, 'no_open': True, 'no_edit': True}"/>
+                    <field name="dues"/>
+                    <field name="remarks"/>
+                    <field name="state" force_save="1" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="tc_clearance_line_action" model="ir.actions.act_window">
+            <field name="name">TC Clearance Line</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">tc.clearance.line</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_ids"
+                   eval="[(5, 0, 0),
+                          (0, 0, {'view_mode': 'tree', 'view_id': ref('tc_clearance_line_tree')}),
+                          (0, 0, {'view_mode': 'form', 'view_id': ref('tc_clearance_line_form')})]"/>
+            <field name="domain">[('section_id', '=', uid), ('state', '!=', 'issued')]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p>
+                <p>
+                    <!-- More details about what a user can do with this object will be OK -->
+                </p>
+            </field>
+        </record>
+
+        <!--    TC Application Fetch    -->
+
+        <record id="tc_application_wizard_form" model="ir.ui.view">
+           <field name="name">Fetch TC Applications</field>
+           <field name="model">tc.application.wizard</field>
+           <field name="arch" type="xml">
+               <form string="Fetch TC Applications">
+                   <footer>
+                        <button name="fetch_tc_applications" string="Fetch TC Applications" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel" />
+                   </footer>
+               </form>
+           </field>
+       </record>
+
+        <record id="tc_application_wizard_action" model="ir.actions.act_window">
+            <field name="name">Fetch TC Applications</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">tc.application.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="tc_application_wizard_form"/>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="tc_root"
+                  name="Transfer Certificate"
+                  sequence="5"
+                  groups="group_tc_user,group_tc_manager"
+                  web_icon="safi_students,static/src/img/tc.png"/>
+
+        <menuitem id="fetch_tc_application_parent"
+                  name="Fetch TC Applications"
+                  parent="tc_root"/>
+
+        <menuitem id="fetch_tc_application_menu"
+                  name="Fetch TC Applications"
+                  action="tc_application_wizard_action"
+                  parent="fetch_tc_application_parent"/>
+
+        <menuitem id="tc_clearance_root"
+                  name="TC Clearance"
+                  sequence="5"
+                  groups="group_tc_clearance_user"
+                  web_icon="safi_students,static/src/img/fileclearance.png"/>
+
+
+        <menuitem id="tc_clearance_line_menu"
+                  name="TC Clearance"
+                  parent="tc_clearance_root"
+                  action="tc_clearance_line_action"
+                  sequence="2"/>
+
+        <menuitem id="tc_parent"
+                  name="Transfer Certificate"
+                  parent="tc_root"
+                  sequence="0"
+        />
+
+        <menuitem id="tc_action_menu"
+                  name="TC Register"
+                  action="tc_register_action"
+                  parent="tc_parent"
+                  groups="group_tc_manager"
+                  sequence="0"
+        />
+
+        <menuitem id="tc_application_parent"
+                  name="TC Applications"
+                  parent="tc_root"
+                  sequence="2"
+        />
+
+        <menuitem id="tc_application_menu"
+                  name="TC Applications"
+                  action="tc_application_action"
+                  parent="tc_application_parent"
+                  groups="group_tc_manager"
+                  sequence="1"
+        />
+
+        <menuitem name="TC Application Approval"
+                  id="tc_applications_to_approve_menu"
+                  parent="tc_application_parent"
+                  action="tc_application_action_to_approve"
+                  groups="group_tc_manager"
+                  sequence="2"/>
+
+<!--        <menuitem name="TC Issue"-->
+<!--                  id="tc_to_issue_menu"-->
+<!--                  parent="tc_parent"-->
+<!--                  action="tc_to_issue_action"-->
+<!--                  groups="base.group_system"-->
+<!--                  sequence="10"/>-->
+
+    </data>
+</odoo>
